@@ -1,6 +1,9 @@
 <script setup lang="ts">
 
 import {MY_DISCORD_TAG} from "../helpers/constants.ts";
+import {useAuthState} from "../state/auth.ts";
+
+const auth = useAuthState()
 </script>
 
 <template>
@@ -17,5 +20,12 @@ import {MY_DISCORD_TAG} from "../helpers/constants.ts";
   </div>
   <div class="mt-5 flex flex-row justify-center">
     <p class="text-xl text-gray-200 max-w-5xl">Diese Seite hier befindet sich noch im Aufbau, später wird es eventuell ein Dashboard geben :)</p>
+  </div>
+  <!-- create a Login Button with TailwindCss -->
+  <div v-if="auth.userdata.loggedIn" class="mt-5 flex flex-row justify-center">
+    <RouterLink to="/dashboard" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Zum Dashboard [Alpha]</RouterLink>
+  </div>
+  <div v-else class="mt-5 flex flex-row justify-center">
+    <a href="/api/login" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Bei Discord anmelden [Alpha]</a>
   </div>
 </template>
