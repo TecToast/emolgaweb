@@ -1,21 +1,24 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
+import {asyncCallWithTimeout} from "../helpers/loaders.ts";
 
 export const useAuthState = defineStore("auth", () => {
 
-    const loading = ref(true)
+    const loaded = ref(false)
+    const error = ref(false)
     const userdata = ref<{id: number, username: string, global_name: string, avatar: string, loggedIn: boolean}>({id: 0, username: "", global_name: "", avatar: "", loggedIn: false})
-    async function load(): Promise<Boolean> {
-        const res = await fetch("/api/userdata");
-        console.log(res)
-        const data = await res.json();
-        if(data.id) {
-            userdata.value = data
-            userdata.value.loggedIn = true
-        }
-        loading.value = false
-        return !!data.id;
+    async function load() {
+        await asyncCallWithTimeout(fetch("/api/userdata").then(res => res.json()).then(data => {
+            if(data.id) {
+                userdata.value = data
+                userdata.value.loggedIn = true
+            }
+            loaded.value = true
+        }), 5000).catch(() => {
+            loaded.value = true
+            error.value = true
+        })
     }
 
-    return { loading, userdata, load }
+    return { loaded, userdata, error, load }
 });

@@ -4,6 +4,11 @@ import TermsOfService from "./components/TermsOfService.vue";
 import Home from "./components/Home.vue";
 import Dashboard from "./components/Dashboard.vue";
 import {useAuthState} from "./state/auth.ts";
+import DashboardOverview from "./components/dashboard/DashboardOverview.vue";
+import DashboardLeagueOverview from "./components/dashboard/DashboardLeagueOverview.vue";
+import DashboardLeague from "./components/dashboard/DashboardLeague.vue";
+
+
 
 export const CustomRouter =  createRouter({
         history: createWebHistory(),
@@ -31,12 +36,26 @@ export const CustomRouter =  createRouter({
                         return "/"
                     }
                 },
+                children: [
+                    {
+                        path: "",
+                        component: DashboardOverview
+                    },
+                    {
+                        path: "leagues",
+                        component: DashboardLeagueOverview,
+                    },
+                    {
+                        path: "leagues/:leaguename",
+                        component: DashboardLeague,
+                    }
+                ]
             }
         ],
     })
 CustomRouter.beforeEach(async () => {
     const auth = useAuthState()
-    if(auth.loading) {
+    if(!auth.loaded) {
         await auth.load()
     }
 })

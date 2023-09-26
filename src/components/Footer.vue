@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <footer class="bg-gray-800 text-white text-center text-xs p-3 relative bottom-0 w-full">
+  <footer class="bg-gray-800 text-white text-center text-xs p-3 fixed bottom-0 w-full z-10">
     <RouterLink to="/tos" class="border-r pr-4">Terms of Service</RouterLink>
     <RouterLink to="/privacy" class="pl-4">Privacy Policy</RouterLink>
   </footer>

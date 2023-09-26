@@ -60,6 +60,7 @@ const onDisappear = () => {
         <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 
 
+          <div v-if="auth.error">Es konnte keine Verbindung zum Server hergestellt werden, versuche es später noch einmal.</div>
           <!-- Profile dropdown -->
           <div class="ml-3 relative" v-if="auth.userdata.loggedIn">
             <div>
