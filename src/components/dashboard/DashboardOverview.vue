@@ -3,7 +3,7 @@
 </script>
 
 <template>
-<h1>HELLO THERE FROM DASHBOARDOVERVIEW</h1>
+<h1>Hallo Henny :3</h1>
 </template>
 
 <style scoped>

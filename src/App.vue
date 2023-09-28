@@ -15,7 +15,7 @@ onMounted(() => {
 
 <template>
   <div style="min-height: calc(100vh - 2.5rem)">
-    <Header class="h-16"/>
+    <Header class="min-h-16"/>
 
     <RouterView v-if="auth.loaded" />
     <div v-else class="grid place-content-center h-48">
