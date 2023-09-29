@@ -3,14 +3,10 @@ import Header from './components/Header.vue'
 import Footer from "./components/Footer.vue";
 import {RouterView} from "vue-router";
 import {useAuthState} from "./state/auth.ts";
-import {onMounted} from "vue";
-import {initFlowbite} from "flowbite";
 
 const auth = useAuthState()
 
-onMounted(() => {
-  initFlowbite()
-})
+
 </script>
 
 <template>
