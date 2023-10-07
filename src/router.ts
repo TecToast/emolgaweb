@@ -7,6 +7,8 @@ import {useAuthState} from "./state/auth.ts";
 import DashboardOverview from "./components/dashboard/DashboardOverview.vue";
 import DashboardLeagueOverview from "./components/dashboard/DashboardLeagueOverview.vue";
 import DashboardLeague from "./components/dashboard/DashboardLeague.vue";
+import LeagueOptionSelector from "./components/dashboard/league/LeagueOptionSelector.vue";
+import LeagueQueuePicks from "./components/dashboard/league/LeagueQueuePicks.vue";
 
 
 
@@ -48,6 +50,16 @@ export const CustomRouter =  createRouter({
                     {
                         path: "leagues/:leaguename",
                         component: DashboardLeague,
+                        children: [
+                            {
+                                path: "",
+                                component: LeagueOptionSelector
+                            },
+                            {
+                                path: "queuepicks",
+                                component: LeagueQueuePicks
+                            }
+                        ]
                     }
                 ]
             }
