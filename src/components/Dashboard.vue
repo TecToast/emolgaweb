@@ -41,10 +41,8 @@ onMounted(() => {
     </div>
   </aside>
 
-  <div class="p-4 sm:ml-64">
-    <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+  <div class="pt-4 sm:ml-64">
       <RouterView></RouterView>
-    </div>
   </div>
 
 </template>
