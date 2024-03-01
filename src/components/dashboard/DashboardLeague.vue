@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import {useRoute} from "vue-router";
+import {convertLeagueIDToName} from "../../helpers/constants.ts";
 
 const route = useRoute()
-const leaguename = route.params.leaguename
+const leaguename = route.params.leaguename as string
 console.log(route.path)
 console.log(route.name)
 const testroutes: { name: string, url: string, disabled?: boolean }[] = [
@@ -13,7 +14,7 @@ const testroutes: { name: string, url: string, disabled?: boolean }[] = [
 </script>
 
 <template>
-  <h1 class="text-center text-2xl">{{ leaguename }}</h1>
+  <h1 class="text-center text-2xl">{{ convertLeagueIDToName(leaguename) }}</h1>
   <div class="flex flex-col md:flex-row justify-center mb-5 border-y border-gray-700 mt-3">
     <div v-for="rou in testroutes">
       <RouterLink v-if="rou.disabled == undefined" :to="rou.url" active-class="bg-blue-900"

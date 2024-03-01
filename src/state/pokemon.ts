@@ -4,7 +4,7 @@ import {asyncCallWithTimeout} from "../helpers/loaders.ts";
 
 export const useLeagueState = defineStore("league", () => {
     const loaded = ref(false)
-    const leagues = ref<{name: string, picks: {name:string, tier:string}[], isRunning: true }[]>([])
+    const leagues = ref<{name: string, picks: {name:string, tier:string}[], isRunning: true, logoUrl: string }[]>([])
     const error = ref(false)
 
     async function load() {

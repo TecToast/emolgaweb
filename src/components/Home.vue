@@ -15,7 +15,7 @@ const auth = useAuthState()
   </div>-->
 
   <!-- create a centered white text with tailwind css -->
-  <div class="mx-3">
+  <div>
     <div class="mt-5 flex flex-row justify-center">
       <p class="text-xl text-gray-200 max-w-5xl">Hello there, ich bin ein Discord-Bot, der von <code>{{
           MY_DISCORD_TAG
