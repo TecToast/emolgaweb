@@ -1,18 +1,8 @@
 <script setup lang="ts">
-import {computed, ref} from "vue";
-import {useRoute} from "vue-router";
+import {ref} from "vue";
 import {BOT_INVITE_URL} from "~/utils/constants";
 
 const miniNavbar = ref(false)
-
-const route = useRoute()
-const homelook = computed(() => {
-  if (route?.path == "/") {
-    return "bg-primary-700 text-white"
-  } else {
-    return "text-gray-300 hover:bg-gray-700 hover:text-white"
-  }
-})
 </script>
 
 <template>
@@ -39,8 +29,7 @@ const homelook = computed(() => {
           <div class="hidden sm:block sm:ml-6 sm:mt-4">
             <div class="flex space-x-4">
               <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-              <NuxtLink to="/" :class="homelook" class="px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Home</NuxtLink>
-
+              <NuxtLink to="/" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Home</NuxtLink>
               <NuxtLink :to="BOT_INVITE_URL" target="_blank" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Einladungslink</NuxtLink>
             </div>
           </div>
@@ -52,13 +41,16 @@ const homelook = computed(() => {
     <div :class = "miniNavbar ? 'block transform opacity-100 scale-100' : 'hidden transform opacity-0 scale-50'" class="sm:hidden transition ease-in-out duration-500" id="mobile-menu">
       <div class="px-2 pt-2 pb-3 space-y-1">
         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-        <NuxtLink to="/" :class="homelook" class="block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Home</NuxtLink>
+        <NuxtLink to="/" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Home</NuxtLink>
         <NuxtLink :href="BOT_INVITE_URL" target="_blank" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Einladungslink</NuxtLink>
       </div>
     </div>
   </nav>
 </template>
 
+<!--suppress CssUnusedSymbol -->
 <style scoped>
-
+a.router-link-active:not(:has(img)) {
+  @apply bg-primary-700 text-white;
+}
 </style>
