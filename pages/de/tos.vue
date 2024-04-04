@@ -12,7 +12,7 @@
       Der Emolga-Bot und diese Website werden ausschließlich zu meinen eigenen Bildungszwecken entwickelt und gewartet.
       Sie können von jedem kostenlos genutzt werden, aber ich behalte mir das Recht vor, den Zugriff auf diese Dienste jederzeit zu widerrufen.
       <br><br>
-      Bei jeglichen Fragen erreichen sie mich auf Discord (<code>{{ MY_DISCORD_TAG }}</code>) oder per E-Mail: <a href="mailto:flo@tectoast.de">flo@tectoast.de</a><br>
+      Bei jeglichen Fragen erreichen sie mich auf Discord (<code>{{ MY_DISCORD_TAG }}</code>) oder per E-Mail: <NuxtLink to="mailto:flo@tectoast.de" class="underline">flo@tectoast.de</NuxtLink><br>
       Zuletzt geändert: 04.04.2024
     </p>
   </div>

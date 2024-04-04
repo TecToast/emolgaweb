@@ -41,7 +41,7 @@ const homelook = computed(() => {
               <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
               <NuxtLink to="/" :class="homelook" class="px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Home</NuxtLink>
 
-              <a :href="BOT_INVITE_URL" target="_blank" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Einladungslink</a>
+              <NuxtLink :to="BOT_INVITE_URL" target="_blank" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Einladungslink</NuxtLink>
             </div>
           </div>
         </div>
@@ -52,9 +52,8 @@ const homelook = computed(() => {
     <div :class = "miniNavbar ? 'block transform opacity-100 scale-100' : 'hidden transform opacity-0 scale-50'" class="sm:hidden transition ease-in-out duration-500" id="mobile-menu">
       <div class="px-2 pt-2 pb-3 space-y-1">
         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-        <RouterLink to="/" :class="homelook" class="block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Home</RouterLink>
-
-        <a :href="BOT_INVITE_URL" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Einladungslink</a>
+        <NuxtLink to="/" :class="homelook" class="block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Home</NuxtLink>
+        <NuxtLink :href="BOT_INVITE_URL" target="_blank" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Einladungslink</NuxtLink>
       </div>
     </div>
   </nav>
