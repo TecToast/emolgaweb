@@ -5,8 +5,7 @@
 <template>
   <div class="text-left text-gray-400 mx-auto max-w-6xl my-10 text-lg">
     <h6>For the english version, click
-      <NuxtLink to="/en/privacy" class="underline">here</NuxtLink>
-      .
+      <NuxtLink to="/en/privacy" class="underline">here</NuxtLink>.
     </h6>
     <h1 class="font-bold text-gray-200 text-4xl mb-5">
       Datenschutzerklärung
