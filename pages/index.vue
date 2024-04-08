@@ -9,9 +9,9 @@
       }}</code> (Flo | TecToast) programmiert wurde und hauptsächlich auf Pokémon spezialisiert ist. Hauptaufgabe ist
       die automatische Analyse von
       <NuxtLink to="https://play.pokemonshowdown.com/" class="underline">Pokemon Showdown!</NuxtLink>
-      Replays. Der Bot hat einen
+      Replays. Für Fragen und Feedback gibt es einen
       <NuxtLink to="https://discord.gg/WYfKHPCgs9">
-        <UIcon name="i-logos-discord-icon" dynamic/> <span class="underline">Support-Server</span></NuxtLink>, auf welchem Feedback abgegeben werden kann.
+        <UIcon name="i-logos-discord-icon" dynamic/> <span class="underline">Support-Server</span></NuxtLink>.
     </p>
   </div>
 
