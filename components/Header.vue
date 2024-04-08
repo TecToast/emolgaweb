@@ -6,7 +6,7 @@ const miniNavbar = ref(false)
 </script>
 
 <template>
-  <nav class="z-50 border-b-0">
+  <nav class="z-50 border-b-2 border-gray-500 border-opacity-50">
     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
       <div class="relative flex items-center justify-between h-16">
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -23,8 +23,8 @@ const miniNavbar = ref(false)
         </div>
         <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
           <NuxtLink class="flex-shrink-0 flex items-center cursor-pointer" to="/">
-            <img class="block lg:hidden h-16 w-auto" src="/images/587.png" alt="Workflow" />
-            <img class="hidden lg:block h-16 w-auto" src="/images/587withText.png" alt="Workflow" />
+            <img class="block lg:hidden h-16 w-auto" src="/images/587.png" alt="Logo" />
+            <img class="hidden lg:block h-16 w-auto" src="/images/587withText.png" alt="Logo" />
           </NuxtLink>
           <div class="hidden sm:block sm:ml-6 sm:mt-4">
             <div class="flex space-x-4">
@@ -48,9 +48,6 @@ const miniNavbar = ref(false)
   </nav>
 </template>
 
-<!--suppress CssUnusedSymbol -->
+
 <style scoped>
-a.router-link-active:not(:has(img)) {
-  @apply bg-primary-700 text-white;
-}
 </style>
