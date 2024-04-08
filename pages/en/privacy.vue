@@ -5,7 +5,7 @@
 <template>
   <div class="text-left text-gray-400 mx-auto max-w-6xl my-10 text-lg">
     <h6>Für die deutsche Fassung, klicke <NuxtLink to="/de/privacy" class="underline">hier</NuxtLink>.</h6>
-    <h1 class="font-bold text-gray-200 text-4xl mb-5">
+    <h1 class="font-bold text-gray-200 text-4xl mb-5 mt-2">
       Privacy Policy
     </h1>
     <h3 class="text-3xl text-gray-200">The Emolga Bot and this website are storing only the following data (at most):</h3>

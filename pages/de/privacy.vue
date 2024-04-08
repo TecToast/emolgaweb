@@ -7,7 +7,7 @@
     <h6>For the english version, click
       <NuxtLink to="/en/privacy" class="underline">here</NuxtLink>.
     </h6>
-    <h1 class="font-bold text-gray-200 text-4xl mb-5">
+    <h1 class="font-bold text-gray-200 text-3xl sm:text-4xl mb-5 mt-2">
       Datenschutzerklärung
     </h1>
     <h3 class="text-3xl text-gray-200">Der Emolga-Discord-Bot und diese Website können folgende Daten speichern:</h3>
@@ -25,8 +25,7 @@
     <p>Diese Website wird über Cloudflare gehostet, welche eventuell Daten erheben können. Mehr Informationen können
       in deren
       <NuxtLink to="https://www.cloudflare.com/de-de/application/privacypolicy/" class="underline">
-        Datenschutzbedingungen für Anwendungen
-      </NuxtLink>
+        Datenschutzbedingungen für Anwendungen</NuxtLink>
       gefunden werden.
     </p>
     <br>
