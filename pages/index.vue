@@ -15,13 +15,14 @@
     </p>
   </div>
 
-  <div class="mt-5 flex flex-row justify-center">
+  <div class="mt-5 flex flex-col justify-center items-center">
     <p class="text-xl text-gray-300 max-w-5xl">
       <UIcon name="i-mdi-hammer-wrench" dynamic/>
       Diese Seite hier befindet sich noch im Aufbau, später wird es eventuell
       ein Dashboard geben
       <UIcon name="i-mdi-hammer-wrench" dynamic/>
     </p>
+    <UButton to="/dashboard" class="mt-2">Zum Dashboard</UButton>
   </div>
 </template>
 

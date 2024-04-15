@@ -12,10 +12,21 @@ export default defineNuxtConfig({
       enabled: true
     }
   },
-  modules: ["@nuxt/ui", "@nuxt/image", "@pinia/nuxt"],
+  modules: ["@nuxt/ui", "@nuxt/image", "@pinia/nuxt", /*"@nuxtus/nuxt-localtunnel"*/],
   app: {
     head: {
       title: "Emolga"
     }
+  },
+  imports: {
+    presets: [
+      {
+        from: "vuedraggable",
+        imports: ["draggable"]
+      }
+    ]
   }
+  /*localtunnel: {
+    subdomain: "emolga"
+  }*/
 })
