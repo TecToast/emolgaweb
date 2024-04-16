@@ -14,10 +14,6 @@ const options = [{
   href: 'queuepicks',
   label: 'Picks queuen',
   icon: 'ph-queue'
-},{
-  href: 'dragtest',
-  label: 'Dragtest',
-  icon: 'radix-icons-crosshair-2'
 }]
 const selected = ref(leagues[0])
 </script>
