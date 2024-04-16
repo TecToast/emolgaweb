@@ -1,107 +1,71 @@
 <script setup lang="ts">
-import Draggable from 'vuedraggable'
+import draggable from "vuedraggable";
+import type {PokemonData} from "~/utils/types";
 
-const list = ref([{
-  data: "monday",
-  id: 1,
-},
+const list = ref<PokemonData[]>([
   {
-    data: "tuesday",
-    id: 2,
+    displayName: "Emolga",
+    iconUrl: "https://play.pokemonshowdown.com/sprites/gen5/emolga.png",
+    pointsOrTier: "D",
+    types: ["Electric", "Flying"],
   },
   {
-    data: "wednesday",
-    id: 3,
+    displayName: "Laukaps",
+    iconUrl: "https://play.pokemonshowdown.com/sprites/gen5/karrablast.png",
+    pointsOrTier: "D",
+    types: ["Bug"],
   },
   {
-    data: "thursday",
-    id: 4,
+    displayName: "Cavalanzas",
+    iconUrl: "https://play.pokemonshowdown.com/sprites/gen5/escavalier.png",
+    pointsOrTier: "C",
+    types: ["Bug", "Steel"],
   },
-  {
-    data: "friday",
-    id: 5,
-  },
-  {
-    data: "saturday",
-    id: 6,
-  },
-  {
-    data: "sunday",
-    id: 7,
-  }])
-const drag = ref(false)
+]);
+const enabled = ref(true);
+const dragging = ref(false);
+
+function checkMove(e: any) {
+  console.log("TYPE " + (typeof e) + " Future index: " + e.draggedContext.futureIndex);
+}
+function remove(pokemon: PokemonData) {
+  list.value = list.value.filter((p) => p !== pokemon);
+}
 </script>
 
 <template>
   <div>
-  <h1 class="text-center text-2xl">Picks queuen</h1>
-  <!--  <Draggable v-model="arr" item-key="id" :group="{ name: 'people', pull: 'clone', put: false }">-->
-  <!--    <template #item="{element}">-->
-  <!--      <div class="bg-gray-800 p-4 m-2 rounded-lg">-->
-  <!--        {{ element.data }}-->
-  <!--      </div>-->
-  <!--    </template>-->
-  <!--  </Draggable>-->
-  <ClientOnly>
-  <draggable
-      class="list-group"
-      tag="transition-group"
-      :component-data="{
-          tag: 'ul',
-          type: 'transition-group',
-          name: !drag ? 'flip-list' : null
-        }"
-      v-model="list"
-      v-bind="{animation: 200, group: 'description', disabled: false, ghostClass: 'ghost'}"
-      @start="drag = true"
-      @end="drag = false"
-      item-key="id"
-  >
-    <template #item="{ element }">
-      <li class="list-group-item">
-        <i
-            :class="
-                element.fixed ? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'
-              "
-            @click="element.fixed = !element.fixed"
-            aria-hidden="true"
-        ></i>
-        {{ element.name }}
-      </li>
-    </template>
-  </draggable>
-  </ClientOnly>
-  <h2>{{ list }}</h2>
+    <h1 class="text-center text-2xl">Picks queuen</h1>
+    <div class="flex flex-col justify-center items-center">
+      <draggable
+          :list="list"
+          :disabled="!enabled"
+          item-key="displayName"
+          class="min-h-5 text-center mt-2"
+          ghost-class="ghost"
+          :move="checkMove"
+          @start="dragging = true"
+          @end="dragging = false"
+      >
+        <template #item="{ element }">
+          <div class="cursor-grab flex" :class="{ 'not-draggable': !enabled }">
+            <pokemon-row :pokemon="element" @remove="remove(element)"/>
+          </div>
+        </template>
+      </draggable>
+    </div>
+    <!--    <h2>{{ list }}</h2>-->
   </div>
 </template>
 
 <style scoped>
-.button {
-  margin-top: 35px;
-}
 
-.flip-list-move {
-  transition: transform 0.5s;
-}
-
-.no-move {
-  transition: transform 0s;
-}
-
+/* used in the template */
+/*noinspection CssUnusedSymbol*/
 .ghost {
   opacity: 0.5;
   background: #c8ebfb;
+  cursor: grabbing;
 }
 
-.list-group {
-  min-height: 20px;
-}
-
-.list-group-item {
-  cursor: move;
-}
-
-.list-group-item i {
-  cursor: pointer;
-}
 </style>
