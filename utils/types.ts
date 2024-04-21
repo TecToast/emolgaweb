@@ -1,6 +1,6 @@
 export type PokemonData = {
     displayName: string,
-    iconUrl: string,
+    sdName: string,
     types: string[],
     pointsOrTier: string,
 }

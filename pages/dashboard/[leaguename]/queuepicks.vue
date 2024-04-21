@@ -5,19 +5,19 @@ import type {PokemonData} from "~/utils/types";
 const list = ref<PokemonData[]>([
   {
     displayName: "Emolga",
-    iconUrl: "https://play.pokemonshowdown.com/sprites/gen5/emolga.png",
+    sdName: "emolga",
     pointsOrTier: "D",
     types: ["Electric", "Flying"],
   },
   {
     displayName: "Laukaps",
-    iconUrl: "https://play.pokemonshowdown.com/sprites/gen5/karrablast.png",
+    sdName: "karrablast",
     pointsOrTier: "D",
     types: ["Bug"],
   },
   {
     displayName: "Cavalanzas",
-    iconUrl: "https://play.pokemonshowdown.com/sprites/gen5/escavalier.png",
+    sdName: "escavalier",
     pointsOrTier: "C",
     types: ["Bug", "Steel"],
   },
