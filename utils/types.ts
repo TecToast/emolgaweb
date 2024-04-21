@@ -4,3 +4,7 @@ export type PokemonData = {
     types: string[],
     pointsOrTier: string,
 }
+export type UserData = {
+    displayName: string,
+    iconUrl: string
+}
