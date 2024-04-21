@@ -4,8 +4,10 @@ const leaguename = route.params.leaguename
 </script>
 
 <template>
-<h2>Hello from league {{leaguename}}</h2>
-  <NuxtLink :to="'/dashboard/' + Date.now().toString()">heyo</NuxtLink>
+  <div>
+    <h2>Hello from league {{ leaguename }}</h2>
+    <NuxtLink :to="'/dashboard/' + Date.now().toString()">heyo</NuxtLink>
+  </div>
 </template>
 
 <style scoped>
