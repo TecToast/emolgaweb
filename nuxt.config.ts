@@ -8,9 +8,15 @@ const tunnelSettings = {
 export default defineNuxtConfig({
     ssr: true,
     routeRules: {
-        "/api/**": {
-            proxy: "http://localhost:58700/api/**"
-        }
+       "/api/**": {
+           proxy: {
+               to: "http://localhost:58700/api/**",
+               fetchOptions: {
+                   redirect: "manual",
+                   credentials: "include"
+               }
+           }
+       }
     },
     devtools: {
         enabled: true,

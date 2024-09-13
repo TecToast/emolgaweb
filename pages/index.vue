@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+const auth = useDiscordStore()
 </script>
 
 <template>
@@ -12,9 +12,7 @@
         <NuxtLink to="https://play.pokemonshowdown.com/" class="underline">Pokemon Showdown!</NuxtLink>
         Replays. Für Fragen und Feedback gibt es einen
         <NuxtLink to="https://discord.gg/WYfKHPCgs9">
-          <UIcon name="i-logos-discord-icon" dynamic/>
-          <span class="underline">Support-Server</span></NuxtLink>
-        .
+          <UIcon name="i-logos-discord-icon" dynamic/> <span class="underline">Support-Server</span></NuxtLink>.
       </p>
     </div>
 
@@ -25,7 +23,7 @@
         ein Dashboard geben
         <UIcon name="i-mdi-hammer-wrench" dynamic/>
       </p>
-      <UButton to="/dashboard" class="mt-2">Zum Dashboard</UButton>
+<!--      <UButton to="/dashboard" class="mt-2">Zum Dashboard</UButton>-->
     </div>
   </div>
 </template>

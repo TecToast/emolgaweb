@@ -1,21 +1,30 @@
 <script setup lang="ts">
-import type {Avatar} from "#ui/types";
-type League = {
-  id: string
-  label: string
-  avatar: Avatar
+import type {ExtendedLeague, League} from "~/utils/types";
+
+
+
+definePageMeta({
+  middleware: 'auth'
+})
+const discord = useDiscordStore();
+const {leagues: leagueData} = storeToRefs(discord)
+if (leagueData.value == null) {
+  await discord.loadLeagues()
 }
-const leagues = [{
-  id: 'asl',
-  label: 'ASL',
-  avatar: {src: 'https://cdn.discordapp.com/icons/518008523653775366/2f9ba8f68d7b468f5945c54fcb61c46a.png'}
-}]
+
+const leagues = computed<ExtendedLeague[]>(() => {
+  const parsed = leagueData.value ?? []
+  if(parsed.length == 0) {
+    return [{name: 'Keine Liga verfügbar', picks: [], isRunning: false, logoUrl: '', valid: false}]
+  }
+  return parsed.map((league: League) => ({...league, valid: true}))
+})
 const options = [{
   href: 'queuepicks',
   label: 'Picks queuen',
   icon: 'ph-queue'
 }]
-const selected = ref(leagues[0])
+const selected = ref<ExtendedLeague>(leagues.value[0])
 </script>
 
 <template>
@@ -23,13 +32,14 @@ const selected = ref(leagues[0])
     <div class="fixed top-0 min-h-full w-72 bg-[#24303F] z-50">
       <div class="flex flex-col items-center">
         <h1 class="text-3xl text-center mt-5 font-sans">Dashboard</h1>
-        <USelectMenu :options="leagues" v-model="selected" size="xl" class="w-64 mx-2 mt-5">
+        <USelectMenu :options="leagues" v-model="selected" :disabled="!selected.valid" option-attribute="name" size="xl" class="w-64 mx-2 mt-5">
           <template #leading>
-            <UAvatar v-if="selected" v-bind="(selected.avatar as Avatar)" size="xs"/>
+            <UAvatar v-if="selected.valid" v-bind="{src: selected.logoUrl}" size="xs"/>
           </template>
         </USelectMenu>
-        <div class="flex flex-col items-start mt-5 gap-4 text-lg w-52">
-          <ULink active-class="bg-gray-900" class="rounded-md py-1 px-3" v-for="item in options" :to="`/dashboard/${selected.id}/${item.href}`">
+        <div class="flex flex-col items-start mt-5 gap-4 text-lg w-52" v-if="selected.valid">
+          <ULink active-class="bg-gray-900" class="rounded-md py-1 px-3" v-for="item in options"
+                 :to="`/dashboard/${selected.name}/${item.href}`">
             <div class="flex justify-start items-center gap-3">
               <UIcon :name="`i-${item.icon}`" dynamic/>
               <span>{{ item.label }}</span>
@@ -40,7 +50,7 @@ const selected = ref(leagues[0])
     </div>
     <div class="ml-72">
       <div class="ml-2 mt-2">
-        <NuxtPage/>
+        <NuxtPage :selected="selected"/>
       </div>
     </div>
   </div>

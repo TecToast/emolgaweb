@@ -1,34 +1,16 @@
 <script setup lang="ts">
 import draggable from "vuedraggable";
-import type {PokemonData} from "~/utils/types";
+import type {AdvancedPokemonData, ExtendedLeague} from "~/utils/types";
 
-const list = ref<PokemonData[]>([
-  {
-    displayName: "Emolga",
-    sdName: "emolga",
-    pointsOrTier: "D",
-    types: ["Electric", "Flying"],
-  },
-  {
-    displayName: "Laukaps",
-    sdName: "karrablast",
-    pointsOrTier: "D",
-    types: ["Bug"],
-  },
-  {
-    displayName: "Cavalanzas",
-    sdName: "escavalier",
-    pointsOrTier: "C",
-    types: ["Bug", "Steel"],
-  },
-]);
+const selected = useAttrs().selected as ExtendedLeague
+const list = ref<AdvancedPokemonData[]>(selected.picks);
 const enabled = ref(true);
 const dragging = ref(false);
 
 function checkMove(e: any) {
   console.log("TYPE " + (typeof e) + " Future index: " + e.draggedContext.futureIndex);
 }
-function remove(pokemon: PokemonData) {
+function remove(pokemon: AdvancedPokemonData) {
   list.value = list.value.filter((p) => p !== pokemon);
 }
 </script>

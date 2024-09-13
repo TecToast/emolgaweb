@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type {PokemonData} from "~/utils/types";
+import type {AdvancedPokemonData} from "~/utils/types";
 
 const props = defineProps<{
-  pokemon: PokemonData
+  pokemon: AdvancedPokemonData
 }>()
 const emit = defineEmits(['remove'])
 </script>

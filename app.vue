@@ -1,5 +1,6 @@
 <template>
   <div class="flex flex-col" style="min-height: 100vh">
+    <NuxtLoadingIndicator/>
     <Header/>
     <div class="mx-2 xl:mx-0 h-[calc(100vh-6.5rem)] overflow-scroll">
       <NuxtPage/>
