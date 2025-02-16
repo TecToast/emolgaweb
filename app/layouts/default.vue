@@ -19,6 +19,16 @@ const footerLinks = [
     to: "/de/privacy",
   },
 ];
+const dropdownItems = [
+  {
+    label: "Logout",
+    icon: "i-lucide-log-out",
+    to: "/api/logout",
+    external: true,
+  },
+];
+
+const { user } = useUserSession();
 </script>
 
 <template>
@@ -37,6 +47,26 @@ const footerLinks = [
         :items="headerLinks"
         orientation="vertical"
         class="-mx-2.5"
+      />
+    </template>
+    <template #right>
+      <UDropdownMenu v-if="user" :items="dropdownItems" class="cursor-pointer">
+        <UButton
+          :avatar="{ src: buildAvatarURLFromUser(user) }"
+          :label="user.name"
+          variant="subtle"
+          color="neutral"
+        ></UButton>
+      </UDropdownMenu>
+      <UButton
+        v-else
+        label="Login"
+        icon="i-simple-icons-discord"
+        color="neutral"
+        variant="subtle"
+        to="/api/login"
+        :external="true"
+        aria-label="Einladungslink"
       />
     </template>
   </UHeader>

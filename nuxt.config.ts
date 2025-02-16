@@ -4,12 +4,18 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  modules: ["@nuxt/ui-pro", "@nuxt/image", "@pinia/nuxt"],
+  modules: ["@nuxt/ui-pro", "@nuxt/image", "@pinia/nuxt", "nuxt-auth-utils"],
   css: ["~/assets/css/main.css"],
   devtools: {
     enabled: true,
     timeline: {
       enabled: true,
+    },
+  },
+  runtimeConfig: {
+    session: {
+      maxAge: 60 * 60 * 24 * 28,
+      password: "",
     },
   },
   app: {

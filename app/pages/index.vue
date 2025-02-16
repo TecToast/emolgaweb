@@ -4,7 +4,7 @@ const links = [
     label: "Dashboard",
     icon: "i-lucide-arrow-right",
     trailing: true,
-    to: "/",
+    to: "/dashboard",
     size: "xl" as "xl",
   },
 ];

@@ -15,7 +15,8 @@
     "@iconify-json/mdi": "^1.2.3",
     "@nuxt/devtools": "latest",
     "@nuxt/image": "^1.9.0",
-    "nuxt": "^3.15.4"
+    "nuxt": "^3.15.4",
+    "nuxt-auth-utils": "0.5.15"
   },
   "dependencies": {
     "@nuxt/ui-pro": "3.0.0-alpha.12",
