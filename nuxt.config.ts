@@ -21,4 +21,5 @@ export default defineNuxtConfig({
       title: "Emolga",
     },
   },
+  compatibilityDate: "2025-02-16",
 });
