@@ -4,22 +4,21 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  routeRules: {
-    "/api/**": {
-      proxy: "http://localhost:58700/api/**",
-    },
-  },
+  modules: ["@nuxt/ui-pro", "@nuxt/image", "@pinia/nuxt"],
+  css: ["~/assets/css/main.css"],
   devtools: {
     enabled: true,
     timeline: {
       enabled: true,
     },
   },
-  modules: ["@nuxt/ui", "@nuxt/image", "@pinia/nuxt"],
   app: {
     head: {
       title: "Emolga",
     },
+  },
+  experimental: {
+    buildCache: false,
   },
   compatibilityDate: "2025-02-16",
 });

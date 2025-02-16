@@ -1,0 +1,7 @@
+@import "tailwindcss";
+@import "@nuxt/ui-pro";
+
+:root {
+  --ui-header-height: --spacing(16);
+  --ui-footer-height: --spacing(22);
+}
