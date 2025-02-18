@@ -43,6 +43,19 @@ const options = computed(() => {
           </template>
         </UPageCard>
       </UPageList>
+      <UAlert
+        color="info"
+        variant="subtle"
+        title="Server nicht dabei?"
+        icon="i-lucide-info"
+      >
+        <template #description>
+          Aus Datenschutzgründen fragt Emolga bei der Anmeldung nicht nach allen
+          Servern, denen du beigetreten bist. Wenn du einen Server vermisst,
+          kannst du ihn über <code>/dashboard</code> auf dem jeweiligen Server
+          hinzufügen.
+        </template>
+      </UAlert>
     </template>
   </UDashboardPanel>
 </template>
