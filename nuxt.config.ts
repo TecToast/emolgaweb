@@ -17,6 +17,7 @@ export default defineNuxtConfig({
       maxAge: 60 * 60 * 24 * 28,
       password: "",
     },
+    emolgaBackendUrl: "",
   },
   app: {
     head: {
@@ -25,6 +26,11 @@ export default defineNuxtConfig({
   },
   experimental: {
     buildCache: false,
+  },
+  vite: {
+    server: {
+      allowedHosts: [".trycloudflare.com"],
+    },
   },
   compatibilityDate: "2025-02-16",
 });

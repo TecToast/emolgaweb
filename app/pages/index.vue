@@ -1,13 +1,26 @@
 <script setup lang="ts">
-const links = [
-  {
-    label: "Dashboard",
-    icon: "i-lucide-arrow-right",
-    trailing: true,
-    to: "/dashboard",
-    size: "xl" as "xl",
-  },
-];
+import type { ButtonProps } from "@nuxt/ui";
+const { user } = useUserSession();
+const links: Ref<ButtonProps[]> = computed(() => [
+  user.value
+    ? {
+        label: "Dashboard",
+        icon: "i-lucide-arrow-right",
+        trailing: true,
+        to: "/dashboard",
+        size: "xl" as "xl",
+      }
+    : {
+        label: "Login",
+        icon: "i-simple-icons-discord",
+        trailing: true,
+        to: "/api/login",
+        size: "xl" as "xl",
+        color: "neutral",
+        variant: "subtle",
+        external: true,
+      },
+]);
 const features = {
   title: "Features",
   description:

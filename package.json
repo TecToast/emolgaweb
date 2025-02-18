@@ -19,7 +19,7 @@
     "nuxt-auth-utils": "0.5.15"
   },
   "dependencies": {
-    "@nuxt/ui-pro": "3.0.0-alpha.12",
+    "@nuxt/ui-pro": "https://pkg.pr.new/@nuxt/ui-pro@b6a2b5b",
     "@pinia/nuxt": "^0.10.1",
     "pinia": "^3.0.1"
   },

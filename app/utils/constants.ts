@@ -11,3 +11,5 @@ export function convertLeagueIDToName(leagueid: string) {
 export function buildAvatarURLFromUser(user: User) {
   return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.webp?size=256`;
 }
+
+export type GuildMeta = { name: string; icon: string; id: string };

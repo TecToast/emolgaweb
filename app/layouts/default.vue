@@ -96,7 +96,7 @@ const { user } = useUserSession();
         icon="i-simple-icons-github"
         color="neutral"
         variant="ghost"
-        to="https://github.com/TecToast/emolga"
+        to="https://github.com/TecToast/Emolga"
         target="_blank"
         aria-label="GitHub"
       />
