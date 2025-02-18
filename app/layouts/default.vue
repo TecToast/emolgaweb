@@ -32,7 +32,7 @@ const { user } = useUserSession();
 </script>
 
 <template>
-  <UHeader>
+  <UHeader mode="drawer" :menu="{ direction: 'top' }">
     <template #title>
       <!-- <NuxtLink to="/"> -->
       <div class="flex items-center gap-2">
@@ -46,7 +46,7 @@ const { user } = useUserSession();
       <UNavigationMenu
         :items="headerLinks"
         orientation="vertical"
-        class="-mx-2.5"
+        :ui="{ linkLabel: 'text-md', item: 'mt-1' }"
       />
     </template>
     <template #right>
