@@ -50,7 +50,7 @@ const { user } = useUserSession();
       />
     </template>
     <template #right>
-      <UDropdownMenu v-if="user" :items="dropdownItems" class="cursor-pointer">
+      <UDropdownMenu v-if="user" :items="dropdownItems">
         <UButton
           :avatar="{ src: buildAvatarURLFromUser(user) }"
           :label="user.name"
