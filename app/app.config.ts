@@ -7,7 +7,7 @@ export default defineAppConfig({
   },
   uiPro: {
     main: {
-      base: "min-h-[calc(100vh-var(--ui-header-height)-var(--ui-footer-height))]",
+      base: "min-h-0 flex-grow",
     },
   },
 });
