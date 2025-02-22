@@ -26,7 +26,7 @@ const options = computed(() => {
 
     <template #body>
       <h1>Bitte wähle einen Server aus:</h1>
-      <UPageList>
+      <UPageList class="gap-4">
         <UPageCard
           v-for="option in options"
           :key="option.id"
