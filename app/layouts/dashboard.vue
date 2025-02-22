@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type { NavigationMenuItem } from "#ui/types";
 const route = useRoute();
-const toast = useToast();
 
 const {
   data: guilds,
@@ -15,7 +15,7 @@ const selectedGuild: Ref<GuildMeta | null> = computed(
 provide("guilds", guilds);
 provide("selectedGuild", selectedGuild);
 
-const links = [
+const generalLinks = [
   [
     {
       label: "Startseite",
@@ -27,79 +27,43 @@ const links = [
       icon: "i-simple-icons-discord",
       to: "/dashboard",
     },
-    /* {
-      label: "Inbox",
-      icon: "i-lucide-inbox",
-      to: "/inbox",
-      badge: "4",
-    },
-    {
-      label: "Customers",
-      icon: "i-lucide-users",
-      to: "/customers",
-    },
-    {
-      label: "Settings",
-      to: "/settings",
-      icon: "i-lucide-settings",
-      defaultOpen: true,
-      children: [
-        {
-          label: "General",
-          to: "/settings",
-          exact: true,
-        },
-        {
-          label: "Members",
-          to: "/settings/members",
-        },
-        {
-          label: "Notifications",
-          to: "/settings/notifications",
-        },
-      ],
-    },*/
   ],
   [
     {
-      label: "Feedback",
+      label: "Support-Server",
       icon: "i-lucide-message-circle",
-      to: "https://github.com/nuxt-ui-pro/dashboard",
-      target: "_blank",
-    },
-    {
-      label: "Help & Support",
-      icon: "i-lucide-info",
-      to: "https://github.com/nuxt/ui-pro",
+      to: DISCORD_SERVER_INVITE_URL,
       target: "_blank",
     },
   ],
 ];
-const linksInServer = computed(() => {
+const linksInServer: Ref<NavigationMenuItem[]> = computed(() => {
   const guild = selectedGuild.value;
   if (!guild) return [];
-  return [
+  const links: NavigationMenuItem[] = [
+    {
+      label: guild.name,
+      avatar: { src: guild.icon },
+      to: `/dashboard/${guild.id}`,
+    },
     {
       label: "Anmeldung",
       icon: "i-lucide-user-plus",
-      to: `/dashboard/${guild.id}/signup`,
-    },
-    {
-      label: "Draft",
-      icon: "i-lucide-clipboard",
-      to: `/dashboard/${guild.id}/draft`,
-    },
-    {
-      label: "Tippspiel",
-      icon: "i-lucide-trophy",
-      to: `/dashboard/${guild.id}/tipgame`,
-    },
-    {
-      label: "Einstellungen",
-      icon: "i-lucide-settings",
-      to: `/dashboard/${guild.id}/einstellungen`,
+      children: [
+        {
+          label: "Konfiguration",
+          to: `/dashboard/${guild.id}/signup/config`,
+          icon: "i-lucide-settings",
+        },
+        {
+          label: "Teilnehmereinteilung",
+          to: `/dashboard/${guild.id}/signup/participants`,
+          icon: "i-lucide-users",
+        },
+      ],
     },
   ];
+  return links;
 });
 </script>
 
@@ -114,7 +78,7 @@ const linksInServer = computed(() => {
       <template #default="{ collapsed }">
         <UNavigationMenu
           :collapsed="collapsed"
-          :items="links[0]"
+          :items="generalLinks[0]"
           orientation="vertical"
         />
         <USeparator />
@@ -126,7 +90,7 @@ const linksInServer = computed(() => {
 
         <UNavigationMenu
           :collapsed="collapsed"
-          :items="links[1]"
+          :items="generalLinks[1]"
           orientation="vertical"
           class="mt-auto"
         />
