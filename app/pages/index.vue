@@ -8,7 +8,7 @@ const links: Ref<ButtonProps[]> = computed(() => {
       icon: "i-simple-icons-discord",
       to: DISCORD_SERVER_INVITE_URL,
       external: true,
-      size: "xl" as "xl",
+      size: "xl" as const,
       color: "info",
     },
   ];
@@ -18,7 +18,7 @@ const links: Ref<ButtonProps[]> = computed(() => {
       icon: "i-lucide-arrow-right",
       trailing: true,
       to: "/dashboard",
-      size: "xl" as "xl",
+      size: "xl" as const,
     });
   } else if (!ALPHA) {
     result.push({
@@ -26,7 +26,7 @@ const links: Ref<ButtonProps[]> = computed(() => {
       icon: "i-simple-icons-discord",
       trailing: true,
       to: "/api/login",
-      size: "xl" as "xl",
+      size: "xl" as const,
       color: "neutral",
       variant: "subtle",
       external: true,

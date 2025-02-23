@@ -2,4 +2,6 @@
 await navigateTo(`/dashboard/${useRoute().params.guild}`);
 </script>
 
-<template></template>
+<template>
+  <div></div>
+</template>

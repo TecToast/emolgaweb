@@ -2,7 +2,6 @@
 definePageMeta({
   layout: "dashboard",
 });
-const guilds: Ref<GuildMeta[]> = inject("guilds", ref([]));
 const selectedGuild: Ref<GuildMeta | null> = inject("selectedGuild", ref(null));
 </script>
 

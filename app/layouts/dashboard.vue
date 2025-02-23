@@ -2,11 +2,7 @@
 import type { NavigationMenuItem } from "#ui/types";
 const route = useRoute();
 
-const {
-  data: guilds,
-  status,
-  error,
-} = await useFetch<GuildMeta[]>("/api/emolga/guilds");
+const { data: guilds } = await useFetch<GuildMeta[]>("/api/emolga/guilds");
 const selectedGuild: Ref<GuildMeta | null> = computed(
   () =>
     guilds.value?.find((g) => g.id === route.params.guild) as GuildMeta | null

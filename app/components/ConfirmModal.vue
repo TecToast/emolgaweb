@@ -4,14 +4,14 @@ const props = defineProps<{
   description?: string;
   confirmLabel?: string;
   cancelLabel?: string;
-  btnColor: any;
+  btnColor: "primary" | "secondary" | "error";
   btnIcon?: string;
   onConfirm: () => void;
 }>();
 const open = ref(false);
 </script>
 <template>
-  <UModal :title v-bind:open="open">
+  <UModal :title :open="open">
     <UButton
       :color="props.btnColor"
       :icon="props.btnIcon"

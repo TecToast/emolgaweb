@@ -4,7 +4,14 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  modules: ["@nuxt/ui-pro", "@nuxt/image", "@pinia/nuxt", "nuxt-auth-utils"],
+  modules: [
+    "@nuxt/ui-pro",
+    "@nuxt/image",
+    "@pinia/nuxt",
+    "nuxt-auth-utils",
+    "nuxt-security",
+    "@nuxt/eslint",
+  ],
   css: ["~/assets/css/main.css"],
   devtools: {
     enabled: true,
@@ -26,6 +33,13 @@ export default defineNuxtConfig({
   },
   experimental: {
     buildCache: false,
+  },
+  security: {
+    headers: {
+      contentSecurityPolicy: {
+        "img-src": ["'self'", "cdn.discordapp.com"],
+      },
+    },
   },
   vite: {
     server: {

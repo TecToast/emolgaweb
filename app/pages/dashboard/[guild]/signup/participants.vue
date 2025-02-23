@@ -12,6 +12,7 @@ const uncategorized = ref<ParticipantData[]>([]);
 const conferences = ref<{ [conf: string]: ParticipantData[] }>({});
 function deleteConference(conf: string) {
   conferences.value[conf]?.forEach((p) => uncategorized.value.push(p));
+  // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
   delete conferences.value[conf];
 }
 watch(
@@ -64,10 +65,10 @@ async function saveToServer() {
 
 <template>
   <UDashboardPanel
+    id="participants1"
     :default-size="25"
     :min-size="20"
     :max-size="30"
-    id="participants1"
     resizable
   >
     <template #header>
@@ -80,23 +81,24 @@ async function saveToServer() {
 
     <template #body>
       <UPageList class="gap-2">
-        <div
-          v-if="Object.keys(conferences).length !== 0"
-          v-for="conf of Object.keys(conferences)"
-          :key="conf"
-          class="flex justify-between items-center rounded-2xl bg-neutral-800 p-4"
-        >
-          <div>{{ conf }}</div>
-          <ConfirmModal
-            :title="`Conference '${conf}' löschen`"
-            description="Möchtest du diese Conference wirklich löschen? Dieser Vorgang kann nicht rückgängig gemacht werden."
-            confirm-label="Ja"
-            cancel-label="Nein"
-            btn-color="error"
-            btn-icon="i-lucide-trash"
-            @confirm="deleteConference(conf)"
-          />
-        </div>
+        <template v-if="Object.keys(conferences).length !== 0">
+          <div
+            v-for="conf of Object.keys(conferences)"
+            :key="conf"
+            class="flex justify-between items-center rounded-2xl bg-neutral-800 p-4"
+          >
+            <div>{{ conf }}</div>
+            <ConfirmModal
+              :title="`Conference '${conf}' löschen`"
+              description="Möchtest du diese Conference wirklich löschen? Dieser Vorgang kann nicht rückgängig gemacht werden."
+              confirm-label="Ja"
+              cancel-label="Nein"
+              btn-color="error"
+              btn-icon="i-lucide-trash"
+              @confirm="deleteConference(conf)"
+            />
+          </div>
+        </template>
         <UAlert v-else title="Keine Conferences vorhanden" variant="subtle" />
       </UPageList>
       <SignupConferenceModal @new="(name) => (conferences[name] = [])" />
@@ -104,16 +106,16 @@ async function saveToServer() {
         label="Verteilung speichern"
         icon="i-lucide-save"
         color="success"
-        @click="saveToServer"
         :disabled="participantsStored === undefined"
+        @click="saveToServer"
       />
     </template>
   </UDashboardPanel>
   <UDashboardPanel
+    id="participants2"
     :default-size="10"
     :min-size="5"
     :max-size="15"
-    id="participants2"
     resizable
   >
     <UAlert
