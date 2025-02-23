@@ -10,7 +10,7 @@
       <UPageBody>
         <h6>
           Für die deutsche Fassung, klicke
-          <NuxtLink to="/en/tos" class="underline">hier</NuxtLink>.
+          <NuxtLink to="/de/tos" class="underline">hier</NuxtLink>.
         </h6>
         The Emolga Bot and this website are developed and maintained solely for
         my own educational purposes. It can be used for free by anyone, but I
