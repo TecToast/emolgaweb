@@ -80,7 +80,7 @@ async function saveToServer() {
     </template>
 
     <template #body>
-      <UPageList class="gap-2">
+      <UPageList class="gap-2 hidden lg:block">
         <template v-if="Object.keys(conferences).length !== 0">
           <div
             v-for="conf of Object.keys(conferences)"
@@ -101,13 +101,23 @@ async function saveToServer() {
         </template>
         <UAlert v-else title="Keine Conferences vorhanden" variant="subtle" />
       </UPageList>
-      <SignupConferenceModal @new="(name) => (conferences[name] = [])" />
+      <SignupConferenceModal
+        class="hidden lg:inline-flex"
+        @new="(name) => (conferences[name] = [])"
+      />
       <UButton
+        class="hidden lg:inline-flex"
         label="Verteilung speichern"
         icon="i-lucide-save"
         color="success"
         :disabled="participantsStored === undefined"
         @click="saveToServer"
+      />
+      <UAlert
+        color="error"
+        variant="subtle"
+        title="Diese Seite ist aufgrund ihrer benötigten Größe nur für große Bildschirme verfügbar."
+        class="block lg:hidden"
       />
     </template>
   </UDashboardPanel>
