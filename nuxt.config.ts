@@ -31,8 +31,13 @@ export default defineNuxtConfig({
       title: "Emolga",
     },
   },
-  experimental: {
-    buildCache: false,
+  routeRules: {
+    "/privacy": {
+      redirect: "/de/privacy",
+    },
+    "/tos": {
+      redirect: "/de/tos",
+    },
   },
   security: {
     headers: {
