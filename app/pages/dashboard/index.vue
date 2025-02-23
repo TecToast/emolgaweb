@@ -53,7 +53,7 @@ const options = computed(() => {
           Aus Datenschutzgründen fragt Emolga bei der Anmeldung nicht nach allen
           Servern, denen du beigetreten bist. Wenn du einen Server vermisst,
           kannst du ihn über <code>/dashboard</code> auf dem jeweiligen Server
-          hinzufügen.
+          hinzufügen. [Work in Progress]
         </template>
       </UAlert>
     </template>
