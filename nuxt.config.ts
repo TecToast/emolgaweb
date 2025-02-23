@@ -36,9 +36,7 @@ export default defineNuxtConfig({
   },
   security: {
     headers: {
-      contentSecurityPolicy: {
-        "img-src": ["'self'", "cdn.discordapp.com"],
-      },
+      contentSecurityPolicy: false,
     },
   },
   vite: {
