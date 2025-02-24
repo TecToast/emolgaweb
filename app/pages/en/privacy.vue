@@ -4,8 +4,8 @@
   <UContainer>
     <UPage>
       <UPageHeader
-        title="Datenschutzerklärung"
-        description="Die Datenschutzerklärung von Emolga und dieser Website."
+        title="Privacy Policy"
+        description="The Privacy Policy of Emolga and this website."
       />
       <UPageBody class="space-y-1">
         <h6>
