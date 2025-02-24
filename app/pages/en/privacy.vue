@@ -17,7 +17,7 @@
           The Emolga Bot and this website are storing only the following data
           (at most):
         </h3>
-        <ul class="list-disc">
+        <ul class="ml-6 list-disc">
           <li>Server IDs</li>
           <li>Channel IDs</li>
           <li>Member IDs</li>
