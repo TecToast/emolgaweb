@@ -40,31 +40,37 @@ const features = {
     "Emolga besitzt eine Vielzahl an Features, die dir helfen, deine Pokémon-Liga zu organisieren. Viele davon sind noch nicht öffentlich verfügbar.",
   features: [
     {
+      icon: "i-lucide-search-code",
       title: "Analyse von Pokémon Showdown! Replays",
       description:
         "Emolga kann Replays analysieren und Statistiken dazu ausgeben.",
     },
     {
+      icon: "i-simple-icons-googlesheets",
       title: "Doc-Management [noch nicht öffentlich verfügbar]",
       description:
         "Emolga kann die Ergebnisse von Kämpfen in einem Dokument automatisiert speichern.",
     },
     {
+      icon: "i-lucide-notebook-pen",
       title: "Draft [noch nicht öffentlich verfügbar]",
       description:
         "Emolga kann vollständig die Organisation eines Drafts übernehmen. Dabei werden die Picks automatisch in das Dokument eingetragen, der nächste Spieler gepingt und vieles mehr.",
     },
     {
+      icon: "i-lucide-trophy",
       title: "Tippspiele [noch nicht öffentlich verfügbar]",
       description:
         "Emolga kann vollautomatisiert Tippspiele posten und die Ergebnisse davon auswerten.",
     },
     {
+      icon: "i-simple-icons-youtube",
       title: "YouTube-Feed [noch nicht öffentlich verfügbar]",
       description:
         "Emolga kann pünktlich zum Upload-Termin die Videos der Liga-Teilnehmer posten.",
     },
     {
+      icon: "i-lucide-star",
       title: "Und noch vieles mehr!",
       description:
         "Bisher sind die allermeisten Features von Emolga noch nicht öffentlich, dies wird sich in der Zukunft allerdings ändern.",
