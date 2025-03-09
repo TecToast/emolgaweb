@@ -9,3 +9,30 @@ export type UserData = {
   name: string;
   avatar: string;
 };
+
+type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
+type XOR<T, U> = T | U extends object
+  ? (Without<T, U> & U) | (Without<U, T> & T)
+  : T | U;
+
+export type ConfigValue = XOR<
+  { noconfig: boolean },
+  { name: string; desc: string }
+> &
+  (
+    | { type: PrimitiveConfigType }
+    | { type: "LIST"; value: { "0": ConfigValue } }
+    | { type: "ENUM"; value: Record<string, ConfigValue & { type: "OBJECT" }> }
+    | { type: "CLASS"; value: ConfigObject }
+    | { type: "MAP"; value: { "0": ConfigValue; "1": ConfigValue } }
+    | { type: "SEALED"; value: { value: { value: ConfigObject } } }
+  );
+export type ConfigObject = Record<string, ConfigValue>;
+
+type PrimitiveConfigType =
+  | "INT"
+  | "STRING"
+  | "LONG"
+  | "BOOLEAN"
+  | "DOUBLE"
+  | "OBJECT";

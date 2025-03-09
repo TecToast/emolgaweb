@@ -2,6 +2,10 @@
 definePageMeta({
   layout: "dashboard",
 });
+const configState = useConfigState();
+await callOnce("configFetch", async () => {
+  await configState.signupFetch();
+});
 </script>
 
 <template>
@@ -15,7 +19,10 @@ definePageMeta({
     </template>
 
     <template #body>
-      <UnderConstruction />
+      <EmolgaConfig
+        :structure="configState.signupData!.structure"
+        :initial-content="configState.signupData!.content"
+      />
     </template>
   </UDashboardPanel>
 </template>
