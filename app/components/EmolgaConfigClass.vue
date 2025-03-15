@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { SelectMenuItem } from "#ui/types";
+type ItemWithID = SelectMenuItem & { id?: string };
 const { data } = defineProps<{
   data: { type: "CLASS" } & ConfigValue;
 }>();
@@ -10,6 +12,26 @@ const resolvedPath = (
 )!;
 const resolvedPathBase =
   resolvedPath.join("/") + (resolvedPath.length ? "/" : "");
+const configState = useConfigState();
+await callOnce("channelFetch" + guild, async () => {
+  await configState.getChannels(guild as string);
+});
+const channelOptions: Ref<ItemWithID[]> = computed(() => {
+  const cache = configState.channelCache[guild as string]!;
+  const entries: ItemWithID[] = Object.entries(cache).flatMap(
+    ([key, value]) => {
+      return [
+        { type: "label", label: key },
+        ...Object.entries(value).map(([id, name]) => ({
+          id: id,
+          label: "#" + name,
+        })),
+        { type: "separator" },
+      ];
+    }
+  );
+  return entries;
+});
 </script>
 
 <template>
@@ -33,6 +55,12 @@ const resolvedPathBase =
           autoresize
           :rows="1"
           :ui="{ base: 'resize-none' }"
+        />
+        <USelectMenu
+          v-else-if="value.longType === 'CHANNEL'"
+          value-key="id"
+          v-model="content[key]"
+          :items="channelOptions"
         />
         <UInput
           v-else-if="['INT', 'LONG', 'DOUBLE'].includes(value.type)"
