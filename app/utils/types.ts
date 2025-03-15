@@ -37,7 +37,7 @@ type XOR<T, U> = T | U extends object
 
 export type ConfigValue = XOR<
   { noconfig: boolean },
-  { name: string; desc: string }
+  { name: string; desc: string; longType?: "CHANNEL" | "MEMBER" }
 > &
   (
     | { type: PrimitiveConfigType }
@@ -55,4 +55,5 @@ type PrimitiveConfigType =
   | "LONG"
   | "BOOLEAN"
   | "DOUBLE"
-  | "OBJECT";
+  | "OBJECT"
+  | "CONTEXTUAL";
