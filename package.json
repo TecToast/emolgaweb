@@ -27,7 +27,7 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
-    "@nuxt/ui-pro": "https://pkg.pr.new/@nuxt/ui-pro@fe0f15d",
+    "@nuxt/ui-pro": "^3.0.0",
     "@pinia/nuxt": "^0.10.1",
     "pinia": "^3.0.1",
     "vuedraggable": "^4.1.0",
