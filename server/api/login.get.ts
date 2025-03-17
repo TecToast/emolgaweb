@@ -1,6 +1,10 @@
+import type { H3Event } from "h3";
 export default defineOAuthDiscordEventHandler({
   config: {},
-  async onSuccess(event, { user }) {
+  async onSuccess(
+    event: H3Event,
+    { user }: { user: { id: string; global_name: string; avatar: string } }
+  ) {
     const isAlphaTester = await $fetch<boolean>(
       `${useRuntimeConfig(event).emolgaBackendUrl}/api/emolga/validateuser`,
       {
