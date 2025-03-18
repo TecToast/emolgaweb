@@ -54,6 +54,9 @@ importers:
       '@nuxt/kit':
         specifier: ^3.16.0
         version: 3.16.0(magicast@0.3.5)
+      '@vueuse/nuxt':
+        specifier: 13.0.0
+        version: 13.0.0(magicast@0.3.5)(nuxt@3.16.0(@parcel/watcher@2.5.1)(@types/node@22.13.4)(db0@0.3.1)(eslint@9.21.0(jiti@2.4.2))(ioredis@5.5.0)(lightningcss@1.29.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.35.0)(terser@5.39.0)(typescript@5.7.3)(vite@6.2.1(@types/node@22.13.4)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.39.0)(yaml@2.7.0))(yaml@2.7.0))(vue@3.5.13(typescript@5.7.3))
       eslint:
         specifier: ^9.0.0
         version: 9.21.0(jiti@2.4.2)
@@ -69,6 +72,9 @@ importers:
       typescript:
         specifier: ^5.7.3
         version: 5.7.3
+      vue:
+        specifier: ^3.5.0
+        version: 3.5.13(typescript@5.7.3)
 
 packages:
 
@@ -1592,6 +1598,12 @@ packages:
 
   '@vueuse/metadata@13.0.0':
     resolution: {integrity: sha512-TRNksqmvtvqsuHf7bbgH9OSXEV2b6+M3BSN4LR5oxWKykOFT9gV78+C2/0++Pq9KCp9KQ1OQDPvGlWNQpOb2Mw==}
+
+  '@vueuse/nuxt@13.0.0':
+    resolution: {integrity: sha512-tVb57PW0aUGMHwvzp4uH2mo8ut3D/3c7DA936E4ValhQq2VMZMCMxaKGz1nE8etFC7p18fVypyzpe8o6CBAYFw==}
+    peerDependencies:
+      nuxt: ^3.0.0 || ^4.0.0-0
+      vue: ^3.5.0
 
   '@vueuse/shared@10.11.1':
     resolution: {integrity: sha512-LHpC8711VFZlDaYUXEBbFBCQ7GS3dVU9mjOhhMhXP6txTV4EhYQg/KGnQuvt/sPAtoUKq7VVUnL6mVtFoL42sA==}
@@ -6541,6 +6553,17 @@ snapshots:
   '@vueuse/metadata@12.8.2': {}
 
   '@vueuse/metadata@13.0.0': {}
+
+  '@vueuse/nuxt@13.0.0(magicast@0.3.5)(nuxt@3.16.0(@parcel/watcher@2.5.1)(@types/node@22.13.4)(db0@0.3.1)(eslint@9.21.0(jiti@2.4.2))(ioredis@5.5.0)(lightningcss@1.29.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.35.0)(terser@5.39.0)(typescript@5.7.3)(vite@6.2.1(@types/node@22.13.4)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.39.0)(yaml@2.7.0))(yaml@2.7.0))(vue@3.5.13(typescript@5.7.3))':
+    dependencies:
+      '@nuxt/kit': 3.16.0(magicast@0.3.5)
+      '@vueuse/core': 13.0.0(vue@3.5.13(typescript@5.7.3))
+      '@vueuse/metadata': 13.0.0
+      local-pkg: 1.1.1
+      nuxt: 3.16.0(@parcel/watcher@2.5.1)(@types/node@22.13.4)(db0@0.3.1)(eslint@9.21.0(jiti@2.4.2))(ioredis@5.5.0)(lightningcss@1.29.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.35.0)(terser@5.39.0)(typescript@5.7.3)(vite@6.2.1(@types/node@22.13.4)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.39.0)(yaml@2.7.0))(yaml@2.7.0)
+      vue: 3.5.13(typescript@5.7.3)
+    transitivePeerDependencies:
+      - magicast
 
   '@vueuse/shared@10.11.1(vue@3.5.13(typescript@5.7.3))':
     dependencies:

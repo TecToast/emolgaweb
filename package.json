@@ -19,12 +19,14 @@
     "@nuxt/devtools": "latest",
     "@nuxt/eslint": "1.1.0",
     "@nuxt/image": "^1.9.0",
+    "@nuxt/kit": "^3.16.0",
+    "@vueuse/nuxt": "13.0.0",
     "eslint": "^9.0.0",
     "nuxt": "^3.16.0",
-    "@nuxt/kit": "^3.16.0",
     "nuxt-auth-utils": "0.5.15",
     "nuxt-security": "2.1.5",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "vue": "^3.5.0"
   },
   "dependencies": {
     "@nuxt/ui-pro": "^3.0.0",
