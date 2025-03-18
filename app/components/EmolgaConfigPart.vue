@@ -2,7 +2,7 @@
 const { data } = defineProps<{
   data: ConfigValue;
 }>();
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 const content = defineModel<any>();
 </script>
 
@@ -10,5 +10,11 @@ const content = defineModel<any>();
   <div>
     <h2 class="mb-4 text-(--ui-text-muted)">{{ data.desc }}</h2>
     <EmolgaConfigClass v-if="data.type === 'CLASS'" v-model="content" :data />
+    <EmolgaConfigList
+      v-else-if="data.type === 'LIST'"
+      v-model="content"
+      :data
+    />
+    <EmolgaConfigMap v-else-if="data.type === 'MAP'" v-model="content" :data />
   </div>
 </template>

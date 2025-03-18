@@ -3,24 +3,22 @@ export const useConfigState = defineStore("configState", () => {
     "/api/emolga/teststruct",
     "/api/emolga/testcontent"
   );
-  const channelCache = ref<
-    Record<string, Record<string, Record<string, string>>>
-  >({});
-  async function getChannels(guildId: string) {
-    const existing = channelCache.value[guildId];
-    if (existing) {
-      return existing;
+
+  const defaultDataCache = ref<Record<string, any>>({});
+  async function getDefaultData(path: string) {
+    const currentValue = defaultDataCache.value[path];
+    if (currentValue) {
+      return currentValue;
     }
     const fetcher = useRequestFetch();
-    const fetched = await fetcher(`/api/emolga/${guildId}/channels`);
-    channelCache.value[guildId] = fetched;
-    return fetched;
+    const value = await fetcher("/api/emolga/defaultdata", { query: { path } });
+    defaultDataCache.value[path] = value;
+    return value;
   }
-  return { signupData, signupFetch, channelCache, getChannels };
+  return { signupData, signupFetch, getDefaultData };
 });
 
 function useConfig(structPath: string, contentPath: string) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const data: Ref<{ structure: ConfigValue; content: any } | undefined> =
     ref(undefined);
   async function fetch() {
@@ -28,7 +26,7 @@ function useConfig(structPath: string, contentPath: string) {
       return;
     }
     const fetcher = useRequestFetch();
-    const structure: ConfigValue = await fetcher(structPath);
+    const structure = await fetcher<ConfigValue>(structPath);
     const content = await fetcher(contentPath);
     data.value = { structure, content };
   }
