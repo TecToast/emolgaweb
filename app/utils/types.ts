@@ -35,16 +35,20 @@ type XOR<T, U> = T | U extends object
   ? (Without<T, U> & U) | (Without<U, T> & T)
   : T | U;
 
-export type ConfigValue = XOR<
+export type ConfigValue = { nullable?: string } & XOR<
   { noconfig: boolean },
   { name: string; desc: string; longType?: "CHANNEL" | "MEMBER" }
 > &
   (
     | { type: PrimitiveConfigType }
-    | { type: "LIST"; value: { "0": ConfigValue } }
+    | { type: "LIST"; value: { "0": ConfigValue }; listtype?: string }
     | { type: "ENUM"; value: Record<string, ConfigValue & { type: "OBJECT" }> }
     | { type: "CLASS"; value: ConfigObject }
-    | { type: "MAP"; value: { "0": ConfigValue; "1": ConfigValue } }
+    | {
+        type: "MAP";
+        value: { "0": ConfigValue; "1": ConfigValue };
+        maptype?: string;
+      }
     | { type: "SEALED"; value: { value: { value: ConfigObject } } }
   );
 export type ConfigObject = Record<string, ConfigValue>;
