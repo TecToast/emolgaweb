@@ -2,7 +2,7 @@
 import type { BreadcrumbItem } from "#ui/types";
 const { structure, initialContent } = defineProps<{
   structure: ConfigValue;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   initialContent: any;
 }>();
 const content = reactive(initialContent);
@@ -32,6 +32,13 @@ for (const p of resolvedPath) {
     currStructure = nextStructure;
   } else if (currStructure.type === "LIST") {
     const nextData = currStructure.value[0];
+    if (!nextData) {
+      break;
+    }
+    currContent = currContent[p];
+    currStructure = nextData;
+  } else if (currStructure.type === "MAP") {
+    const nextData = currStructure.value[1];
     if (!nextData) {
       break;
     }

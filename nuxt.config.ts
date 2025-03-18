@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     "nuxt-auth-utils",
     "nuxt-security",
     "@nuxt/eslint",
+    "@vueuse/nuxt",
   ],
   css: ["~/assets/css/main.css"],
   devtools: {
