@@ -14,6 +14,7 @@ const channelOptions = await useGuildChannels(
   guild as string,
   value.longType === "CHANNEL"
 );
+// WATCHER :D
 </script>
 
 <template>
