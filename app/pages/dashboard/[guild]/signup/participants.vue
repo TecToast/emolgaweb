@@ -10,6 +10,44 @@ const { data: participantsStored } = await useFetch(
 );
 const uncategorized = ref<ParticipantData[]>([]);
 const conferences = ref<{ [conf: string]: ParticipantData[] }>({});
+function resetParticipants() {
+  conferences.value = Object.fromEntries(
+    Object.keys(conferences.value).map((conf) => [conf, []])
+  );
+  uncategorized.value = participantsStored.value?.data ?? [];
+}
+function randomize(all: boolean) {
+  if (all) {
+    resetParticipants();
+  }
+  const participants = [...uncategorized.value];
+  const conferenceKeys = Object.keys(conferences.value);
+  if (participants.length === 0 || conferenceKeys.length === 0) {
+    toast.add({
+      title: "Keine Teilnehmer oder keine Conferences vorhanden!",
+      color: "error",
+    });
+    return;
+  }
+  shuffleArray(participants);
+  const participantsPerConference = Math.floor(
+    (participantsStored.value?.data?.length ?? 0) / conferenceKeys.length
+  );
+  for (const conf of conferenceKeys) {
+    const conference = conferences.value[conf]!;
+    while (conference.length < participantsPerConference) {
+      const participant = participants.pop();
+      if (!participant) break;
+      conference.push(participant);
+    }
+  }
+  uncategorized.value = [];
+
+  toast.add({
+    title: "Teilnehmer randomisiert!",
+    color: "success",
+  });
+}
 function deleteConference(conf: string) {
   conferences.value[conf]?.forEach((p) => uncategorized.value.push(p));
   // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
@@ -80,7 +118,7 @@ async function saveToServer() {
     </template>
 
     <template #body>
-      <UPageList class="gap-2 hidden lg:block">
+      <UPageList class="gap-2 hidden lg:flex">
         <template v-if="Object.keys(conferences).length !== 0">
           <div
             v-for="conf of Object.keys(conferences)"
@@ -105,6 +143,32 @@ async function saveToServer() {
         class="hidden lg:inline-flex"
         @new="(name) => (conferences[name] = [])"
       />
+      <UAccordion
+        :items="[{ label: 'Zusätzliche Optionen für die Einteilung' }]"
+      >
+        <template #body>
+          <div class="flex flex-col gap-2">
+            <UButton
+              icon="i-lucide-dices"
+              label="Verbleibende Teilnehmer randomizen"
+              :disabled="uncategorized.length === 0"
+              @click="randomize(false)"
+            />
+            <UButton
+              icon="i-lucide-dices"
+              color="error"
+              label="ALLE Teilnehmer randomizen"
+              @click="randomize(true)"
+            />
+            <UButton
+              icon="i-lucide-undo"
+              color="error"
+              label="ALLE Teilnehmer zurücksetzen"
+              @click="resetParticipants"
+            />
+          </div>
+        </template>
+      </UAccordion>
       <UButton
         class="hidden lg:inline-flex"
         label="Verteilung speichern"
