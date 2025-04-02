@@ -25,37 +25,39 @@ const options = computed(() => {
     </template>
 
     <template #body>
-      <h1>Bitte wähle einen Server aus:</h1>
-      <UPageList class="gap-4">
-        <UPageCard
-          v-for="option in options"
-          :key="option.id"
+      <div class="flex flex-col gap-4">
+        <h1>Bitte wähle einen Server aus:</h1>
+        <UPageList class="gap-4">
+          <UPageCard
+            v-for="option in options"
+            :key="option.id"
+            variant="subtle"
+            :to="option.to"
+          >
+            <template #body>
+              <UUser
+                :name="option.label"
+                :avatar="option.avatar"
+                size="xl"
+                class="relative"
+              />
+            </template>
+          </UPageCard>
+        </UPageList>
+        <UAlert
+          color="info"
           variant="subtle"
-          :to="option.to"
+          title="Server nicht dabei?"
+          icon="i-lucide-info"
         >
-          <template #body>
-            <UUser
-              :name="option.label"
-              :avatar="option.avatar"
-              size="xl"
-              class="relative"
-            />
+          <template #description>
+            Aus Datenschutzgründen fragt Emolga bei der Anmeldung nicht nach
+            allen Servern, denen du beigetreten bist. Wenn du einen Server
+            vermisst, kannst du ihn über <code>/dashboard</code> auf dem
+            jeweiligen Server hinzufügen. [Work in Progress]
           </template>
-        </UPageCard>
-      </UPageList>
-      <UAlert
-        color="info"
-        variant="subtle"
-        title="Server nicht dabei?"
-        icon="i-lucide-info"
-      >
-        <template #description>
-          Aus Datenschutzgründen fragt Emolga bei der Anmeldung nicht nach allen
-          Servern, denen du beigetreten bist. Wenn du einen Server vermisst,
-          kannst du ihn über <code>/dashboard</code> auf dem jeweiligen Server
-          hinzufügen. [Work in Progress]
-        </template>
-      </UAlert>
+        </UAlert>
+      </div>
     </template>
   </UDashboardPanel>
 </template>
