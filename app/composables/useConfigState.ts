@@ -19,8 +19,10 @@ export const useConfigState = defineStore("configState", () => {
 });
 
 function useConfig(structPath: string, contentPath: string) {
-  const data: Ref<{ structure: ConfigValue; content: any } | undefined> =
-    ref(undefined);
+  const data: Ref<
+    | { structure: ConfigValue; initialContent: any; modifiableContent: any }
+    | undefined
+  > = ref(undefined);
   async function fetch() {
     if (data.value !== undefined) {
       return;
@@ -28,7 +30,11 @@ function useConfig(structPath: string, contentPath: string) {
     const fetcher = useRequestFetch();
     const structure = await fetcher<ConfigValue>(structPath);
     const content = await fetcher(contentPath);
-    data.value = { structure, content };
+    data.value = {
+      structure,
+      initialContent: content,
+      modifiableContent: JSON.parse(JSON.stringify(content)),
+    };
   }
   return { data, fetch };
 }
