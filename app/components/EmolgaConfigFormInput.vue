@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { value } = defineProps<{
+const { keyParam, value } = defineProps<{
   keyParam: string;
   value: ConfigValue;
 }>();
@@ -14,7 +14,20 @@ const channelOptions = await useGuildChannels(
   guild as string,
   value.longType === "CHANNEL"
 );
-// WATCHER :D
+const changeDetection: (path: string, value: any) => void =
+  inject("changeDetection")!;
+function changeDetect() {
+  changeDetection(resolvedPathBase + keyParam, content.value);
+}
+// TODO: maybe add a visual indication for changed paths
+/*const changedPaths: Ref<string[]> = inject("changedPaths")!;
+const changedClasses = computed(() => {
+  const completePath = resolvedPathBase + keyParam;
+  console.log("COMPLETE: " + completePath);
+  return changedPaths.value.includes(completePath)
+    ? "border-2 border-secondary-300"
+    : "";
+});*/
 </script>
 
 <template>
@@ -25,6 +38,7 @@ const channelOptions = await useGuildChannels(
     autoresize
     :rows="1"
     :ui="{ base: 'resize-none' }"
+    @change="changeDetect"
   />
   <USelectMenu
     v-else-if="value.longType === 'CHANNEL'"
@@ -32,13 +46,19 @@ const channelOptions = await useGuildChannels(
     value-key="id"
     :items="channelOptions"
     class="w-48"
+    @change="changeDetect"
   />
   <UInput
     v-else-if="['INT', 'LONG', 'DOUBLE'].includes(value.type)"
     v-model="content"
     type="number"
+    @change="changeDetect"
   />
-  <USwitch v-else-if="value.type === 'BOOLEAN'" v-model="content" />
+  <USwitch
+    v-else-if="value.type === 'BOOLEAN'"
+    v-model="content"
+    @change="changeDetect"
+  />
   <USelect
     v-else-if="value.type === 'ENUM'"
     v-model="content"
@@ -51,6 +71,7 @@ const channelOptions = await useGuildChannels(
     "
     value-key="id"
     class="w-48"
+    @change="changeDetect"
   >
     <template #item="{ item }">
       <div>
