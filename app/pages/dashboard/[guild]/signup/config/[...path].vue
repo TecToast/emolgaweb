@@ -21,7 +21,8 @@ await callOnce("configFetch", async () => {
     <template #body>
       <EmolgaConfig
         :structure="configState.signupData!.structure"
-        :initial-content="configState.signupData!.content"
+        :initial-content="configState.signupData!.initialContent"
+        :modifiable-content="configState.signupData!.modifiableContent"
       />
     </template>
   </UDashboardPanel>
