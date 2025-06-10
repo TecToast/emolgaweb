@@ -38,6 +38,18 @@ export default defineNuxtConfig({
     "/tos": {
       redirect: "/de/tos",
     },
+    "/de/privacy": {
+      prerender: true,
+    },
+    "/de/tos": {
+      prerender: true,
+    },
+    "/en/privacy": {
+      prerender: true,
+    },
+    "/en/tos": {
+      prerender: true,
+    },
   },
   security: {
     headers: {
