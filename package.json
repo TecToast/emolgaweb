@@ -20,7 +20,7 @@
     "@nuxt/eslint": "1.4.1",
     "@nuxt/image": "^1.10.0",
     "eslint": "^9.28.0",
-    "nuxt": "^3.17.5",
+    "nuxt": "^4.0.0",
     "nuxt-auth-utils": "0.5.20",
     "nuxt-security": "2.2.0",
     "typescript": "^5.8.3"
