@@ -9,3 +9,16 @@ export type UserData = {
   name: string;
   avatar: string;
 };
+export type ResultCodeResponse = {
+  guildName: string;
+  logoUrl: string | null;
+  gameday: number;
+  data: {
+    name: string;
+    avatarUrl: string;
+    picks: {
+      german: string;
+      english: string;
+    }[];
+  }[];
+};
