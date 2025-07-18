@@ -110,13 +110,15 @@ function sendResult() {
         :disabled="!validResult"
         :on-confirm="sendResult"
       />
-      <p>
+      <p class="px-2 xl:px-0">
         Klicke alle Pokémon an, die in diesem Kampf verwendet wurden, und stelle
         dann jeweils die Kills und Deaths ein. Wenn du fertig bist, klicke auf
         den Bestätigen-Button.
       </p>
     </div>
-    <div class="flex w-full justify-around">
+    <div
+      class="flex w-full flex-col xl:flex-row justify-around gap-16 xl:gap-0"
+    >
       <div
         v-for="pdata of data.data"
         :key="pdata.name"
@@ -133,11 +135,11 @@ function sendResult() {
         <div class="flex gap-8">
           <div class="flex gap-2 flex-col">
             <h2 class="text-lg font-semibold text-center">Kader</h2>
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-col gap-2 px-2 xl:px-0">
               <template v-for="mon of pdata.picks" :key="mon.german">
                 <div class="w-full flex items-center gap-4">
                   <div
-                    class="flex items-center gap-2"
+                    class="flex flex-col xl:flex-row items-center gap-2"
                     :class="
                       resultData[pdata.name]?.[mon.german]
                         ? 'visible'
@@ -156,7 +158,7 @@ function sendResult() {
                     />
                   </div>
                   <div
-                    class="rounded-lg ring ring-default p-2 flex gap-2 items-center cursor-pointer w-full"
+                    class="rounded-lg ring ring-default p-2 flex flex-col xl:flex-row gap-2 items-center cursor-pointer w-full"
                     :class="{
                       'bg-primary-900': resultData[pdata.name]?.[mon.german],
                     }"
