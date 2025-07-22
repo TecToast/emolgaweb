@@ -22,3 +22,9 @@ export type ResultCodeResponse = {
     }[];
   }[];
 };
+export type UsageDataTotal = {
+  total: number;
+  maxGameday: number;
+  allLeagues: string[];
+  data: { mon: string; count: number }[];
+};
