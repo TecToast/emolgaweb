@@ -3,18 +3,14 @@ import type { UsageDataTotal } from "~/utils/types";
 
 const league = useRoute().params.league as string;
 const router = useRouter();
-const gameday = ref(0);
+const gameday = ref<number | undefined>(undefined);
 const { data, error } = await useFetch<UsageDataTotal>(
-  () => `/api/emolga/usage/${league}/${gameday.value}`
-);
-watch(
-  data,
-  (newData) => {
-    if (newData && gameday.value === 0) {
-      gameday.value = newData.maxGameday;
-    }
-  },
-  { immediate: true }
+  () => `/api/emolga/usage/${league}`,
+  {
+    query: {
+      gameday,
+    },
+  }
 );
 
 function switchToLeague(newLeague: string) {
@@ -22,6 +18,10 @@ function switchToLeague(newLeague: string) {
     router.replace(`/usage/${newLeague}`);
   }
 }
+
+const currentGameday = computed(() => {
+  return gameday.value ?? data.value?.maxGameday ?? 1;
+});
 </script>
 
 <template>
@@ -37,26 +37,29 @@ function switchToLeague(newLeague: string) {
     <div v-if="data" class="flex flex-col items-center mt-4">
       <div class="flex justify-between w-full">
         <div class="w-1/3">
-          <ClientOnly>
-            <UTabs
-              :items="
-                data.allLeagues.map((l) => ({
-                  label: l,
-                  value: l,
-                }))
-              "
-              class="w-full ml-4"
-              :model-value="league"
-              @update:model-value="itm => switchToLeague(itm as string)"
-            />
-          </ClientOnly>
+          <UTabs
+            :items="
+              data.allLeagues.map((l) => ({
+                label: l,
+                value: l,
+              }))
+            "
+            class="w-full ml-4"
+            :model-value="league"
+            @update:model-value="itm => switchToLeague(itm as string)"
+          />
         </div>
         <h1 class="text-2xl font-bold">
           Usage Data für {{ league }} ({{ data.total }} Kämpfe)
         </h1>
         <div class="flex flex-col gap-2 items-center w-1/3">
           <span class="text-sm">Bis Spieltag:</span>
-          <UInputNumber v-model="gameday" :min="1" :max="data.maxGameday" />
+          <UInputNumber
+            :model-value="currentGameday"
+            :min="1"
+            :max="data.maxGameday"
+            @update:model-value="(value) => (gameday = value)"
+          />
         </div>
       </div>
       <div class="my-4 flex flex-col items-center gap-2">
