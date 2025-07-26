@@ -12,10 +12,6 @@
     "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
-    "@iconify-json/logos": "^1.2.4",
-    "@iconify-json/lucide": "^1.2.57",
-    "@iconify-json/mdi": "^1.2.3",
-    "@iconify-json/simple-icons": "^1.2.43",
     "@nuxt/devtools": "^2.6.2",
     "@nuxt/eslint": "1.4.1",
     "@nuxt/image": "^1.10.0",
@@ -26,6 +22,10 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@iconify-json/logos": "^1.2.4",
+    "@iconify-json/lucide": "^1.2.57",
+    "@iconify-json/mdi": "^1.2.3",
+    "@iconify-json/simple-icons": "^1.2.43",
     "@nuxt/ui-pro": "^3.2.0",
     "@pinia/nuxt": "^0.11.1",
     "pinia": "^3.0.3",
