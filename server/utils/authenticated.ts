@@ -1,4 +1,5 @@
 import type { EventHandler, EventHandlerRequest } from "h3";
+import type { ConfigValue } from "~/utils/types";
 
 export const defineEmolgaRoute = <D>(): EventHandler<EventHandlerRequest, D> =>
   defineEventHandler<EventHandlerRequest>(async (event) => {
@@ -32,3 +33,7 @@ export const defineUnprotectedEmolgaRoute = <D>(): EventHandler<
     });
     return result;
   });
+
+export const defineEmolgaConfigStruct = () => defineEmolgaRoute<ConfigValue>();
+export const defineEmolgaConfigContent = () => defineEmolgaRoute<any>();
+export const defineEmolgaConfigSave = () => defineEmolgaRoute<any>();

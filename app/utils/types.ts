@@ -35,9 +35,14 @@ type XOR<T, U> = T | U extends object
   ? (Without<T, U> & U) | (Without<U, T> & T)
   : T | U;
 
-export type ConfigValue = { nullable?: string } & XOR<
+export type ConfigValue = { nullable?: string; saveTotal?: boolean } & XOR<
   { noconfig: boolean },
-  { name: string; desc: string; longType?: "CHANNEL" | "MEMBER" }
+  {
+    name: string;
+    desc: string;
+    longType?: "CHANNEL" | "MEMBER" | "ROLE";
+    prio?: number;
+  }
 > &
   (
     | { type: PrimitiveConfigType }
@@ -49,7 +54,7 @@ export type ConfigValue = { nullable?: string } & XOR<
         value: { "0": ConfigValue; "1": ConfigValue };
         maptype?: string;
       }
-    | { type: "SEALED"; value: { value: { value: ConfigObject } } }
+    | { type: "SEALED"; sealed: string; value: ConfigObject }
   );
 export type ConfigObject = Record<string, ConfigValue>;
 

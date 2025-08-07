@@ -5,14 +5,14 @@ export default async function (guild: string, shouldFetch: boolean) {
   if (!shouldFetch) {
     return ref([]);
   }
-  const configState = useChannelCache();
+  const channelCache = useChannelCache();
 
   await callOnce("channelFetch" + guild, async () => {
-    await configState.getChannels(guild as string);
+    await channelCache.getChannels(guild as string);
   });
 
   const channelOptions: Ref<ItemWithID[]> = computed(() => {
-    const cache = configState.channelCache.value[guild as string];
+    const cache = channelCache.channelCache[guild as string];
     if (!cache) return [];
     const entries: ItemWithID[] = Object.entries(cache).flatMap(
       ([key, value]) => {
@@ -32,9 +32,9 @@ export default async function (guild: string, shouldFetch: boolean) {
   return channelOptions;
 }
 
-function _useChannelCache() {
+const useChannelCache = defineStore("channelCache", () => {
   const channelCache = ref<
-    Record<string, Record<string, Record<string, string>>>
+      Record<string, Record<string, Record<string, string>>>
   >({});
   async function getChannels(guildId: string) {
     const existing = channelCache.value[guildId];
@@ -47,6 +47,4 @@ function _useChannelCache() {
   }
 
   return { channelCache, getChannels };
-}
-
-const useChannelCache = createSharedComposable(_useChannelCache);
+})
