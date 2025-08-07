@@ -3,6 +3,11 @@ const { data } = defineProps<{
   data: { type: "MAP" } & ConfigValue;
 }>();
 const content = defineModel<any>();
+const changeDetection: (path: string) => void = inject("changeDetection")!;
+function handleAdd(name: string) {
+  handleConfigMapAdd(data, content.value, name);
+  changeDetection(useResolvedPath(""));
+}
 </script>
 
 <template>
@@ -35,10 +40,5 @@ const content = defineModel<any>();
       </div>
     </div>
   </UPageCard>
-  <UButton
-    icon="i-lucide-plus"
-    label="Eintrag hinzufügen"
-    class="w-full mt-4"
-    @click="handleConfigMapAdd(data, content)"
-  />
+  <EmolgaConfigMapModal class="w-full mt-4" @new="(name) => handleAdd(name)" />
 </template>

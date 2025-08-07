@@ -1,10 +1,8 @@
 <script lang="ts" setup>
 import type { BreadcrumbItem } from "#ui/types";
-const { structure, initialContent, modifiableContent } = defineProps<{
-  structure: ConfigValue;
-  initialContent: any;
-  modifiableContent: any;
-}>();
+const props = defineProps<{ data: FullConfigData }>();
+const { structure, initialContent, modifiableContent, changedPaths, savePath } =
+  props.data;
 const content = reactive(modifiableContent);
 const route = useRoute();
 const path = route.params.path;
@@ -37,42 +35,57 @@ function setObjectProperty(obj: any, path: string, value: any) {
   }
   current[keys[keys.length - 1]!] = value;
 }
-const changedPaths: Ref<Set<string>> = ref(new Set());
-function changeDetection(path: string, value: any) {
-  console.log("changeDetection", path, value);
+function changeDetection(path: string) {
+  console.log("changeDetection", path);
   const currentValue = getObjectProperty(content, path); // Access value property
   const initialValue = getObjectProperty(initialContent, path);
 
   if (currentValue !== initialValue) {
-    changedPaths.value.add(path);
+    changedPaths.add(path);
   } else {
-    changedPaths.value.delete(path);
+    changedPaths.delete(path);
   }
 }
 function generateChangedContent(): any {
   const changesObject = {};
-  changedPaths.value.forEach((path) => {
+  changedPaths.forEach((path) => {
     setObjectProperty(changesObject, path, getObjectProperty(content, path)); // Access value property
   });
   return changesObject;
 }
 function save() {
   const changes = generateChangedContent();
-  console.log("Changes to save:", changes);
+  console.log("Changes to save:", JSON.stringify(changes));
+  $fetch(savePath, {
+    method: "POST",
+    body: changes,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(() => {
+      changedPaths.clear();
+      console.log("Changes saved successfully");
+    })
+    .catch((error) => {
+      console.error("Error saving changes:", error);
+    });
 }
 provide("changeDetection", changeDetection);
 provide("changedPaths", changedPaths);
-const finishedPath: BreadcrumbItem[] = [structure.name, ...resolvedPath].map(
-  (item, index) => ({
-    label: item,
+
+let currContent = content;
+let currStructure: ConfigValue = structure;
+function breadcrumb(label: string, index: number) {
+  return {
+    label,
     to: `/dashboard/${route.params.guild}/signup/config${resolvedPath
       .slice(0, index)
       .map((p) => "/" + p)
       .join("")}`,
-  })
-);
-let currContent = content;
-let currStructure: ConfigValue = structure;
+  };
+}
+const finishedPath: BreadcrumbItem[] = [breadcrumb(structure.name!, 0)];
 for (const p of resolvedPath) {
   const nextData: ConfigValue | undefined =
     currStructure.type === "CLASS"
@@ -85,6 +98,16 @@ for (const p of resolvedPath) {
   if (!nextData) {
     break;
   }
+  finishedPath.push(
+    breadcrumb(
+      currStructure.type === "LIST"
+        ? (Number.parseInt(p) + 1).toString()
+        : currStructure.type === "MAP"
+        ? p
+        : nextData.name ?? p,
+      finishedPath.length
+    )
+  );
   currContent = currContent[p];
   currStructure = nextData;
 }
@@ -104,7 +127,6 @@ for (const p of resolvedPath) {
           />
         </ClientOnly>
       </div>
-      {{ changedPaths }}
       <EmolgaConfigPart v-model="currContent" :data="currStructure" />
     </div>
   </div>

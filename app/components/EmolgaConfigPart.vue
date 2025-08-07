@@ -16,5 +16,10 @@ const content = defineModel<any>();
       :data
     />
     <EmolgaConfigMap v-else-if="data.type === 'MAP'" v-model="content" :data />
+    <EmolgaConfigSealed
+      v-else-if="data.type === 'SEALED'"
+      v-model="content"
+      :data
+    />
   </div>
 </template>

@@ -6,6 +6,16 @@ const { data } = defineProps<{
 
 const content = defineModel<any>();
 const listConfig = data.value[0];
+const changeDetection: (path: string) => void = inject("changeDetection")!;
+function handleAdd() {
+  handleConfigListAdd(listConfig, data, content.value);
+  changeDetection(useResolvedPath(""));
+}
+
+function handleDelete(index: number) {
+  content.value.splice(index, 1);
+  changeDetection(useResolvedPath(""));
+}
 </script>
 
 <template>
@@ -39,7 +49,7 @@ const listConfig = data.value[0];
             :ui="{ base: 'shrink-0' }"
             size="lg"
             color="error"
-            @click="content.splice(index, 1)"
+            @click="handleDelete(index)"
           >
             <UIcon name="i-lucide-trash" />
           </UButton>
@@ -51,6 +61,6 @@ const listConfig = data.value[0];
     icon="i-lucide-plus"
     label="Eintrag hinzufügen"
     class="w-full mt-4"
-    @click="handleConfigListAdd(listConfig, data, content)"
+    @click="handleAdd"
   />
 </template>

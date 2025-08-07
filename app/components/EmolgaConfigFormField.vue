@@ -5,8 +5,20 @@ const { keyParam, value } = defineProps<{
   value: ConfigValue;
 }>();
 const content = defineModel<any>();
+const changeDetection: (path: string) => void = inject("changeDetection")!;
+
 async function handleNullableAddLocal() {
   await handleNullableAdd(value, content);
+  triggerChangeDetection();
+}
+
+function handleNullableDelete() {
+  content.value = null;
+  triggerChangeDetection();
+}
+
+function triggerChangeDetection() {
+  changeDetection(useResolvedPath(keyParam));
 }
 </script>
 
@@ -24,7 +36,7 @@ async function handleNullableAddLocal() {
         v-if="content === null"
         label="Hinzufügen"
         icon="i-lucide-plus"
-        @click="handleNullableAddLocal()"
+        @click="handleNullableAddLocal"
       />
       <template v-else>
         <EmolgaConfigFormInput
@@ -37,7 +49,7 @@ async function handleNullableAddLocal() {
           :ui="{ base: 'shrink-0' }"
           size="lg"
           color="error"
-          @click="content = null"
+          @click="handleNullableDelete"
         >
           <UIcon name="i-lucide-trash" />
         </UButton>

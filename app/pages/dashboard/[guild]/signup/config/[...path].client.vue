@@ -3,8 +3,13 @@ definePageMeta({
   layout: "dashboard",
 });
 const configState = useConfigState();
+const { guild } = useRoute().params;
+const { data, fetch } = configState.getConfig(
+  `/api/emolga/${guild}/signup/config`
+);
 await callOnce("configFetch", async () => {
-  await configState.signupFetch();
+  await fetch();
+  console.log("data", data.value);
 });
 </script>
 
@@ -19,11 +24,7 @@ await callOnce("configFetch", async () => {
     </template>
 
     <template #body>
-      <EmolgaConfig
-        :structure="configState.signupData!.structure"
-        :initial-content="configState.signupData!.initialContent"
-        :modifiable-content="configState.signupData!.modifiableContent"
-      />
+      <EmolgaConfig v-if="data" :data="data" />
     </template>
   </UDashboardPanel>
 </template>

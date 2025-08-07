@@ -26,10 +26,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 <template>
   <UModal
     v-model:open="open"
-    title="Neue Conference"
-    description="Füge eine neue Conference hinzu"
+    title="Neuer Eintrag"
+    description="Füge einen neuen Eintrag hinzu"
   >
-    <UButton label="Neue Conference" icon="i-lucide-plus" />
+    <UButton label="Eintrag hinzufügen" icon="i-lucide-plus" />
 
     <template #body>
       <UForm

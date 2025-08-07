@@ -17,17 +17,18 @@ export async function handleNullableAdd(
 
 export async function handleConfigMapAdd(
   data: { type: "MAP" } & ConfigValue,
-  content: any
+  content: any,
+  name: string
 ) {
-  const key = await getToAdd(data.value["0"]);
   const value = await getToAdd(data.value["1"], data.maptype);
-  content[key] = value;
+  content[name] = value;
 }
 
 async function getToAdd(
   innerConfig: ConfigValue,
   genericType?: string
 ): Promise<any> {
+  console.log(innerConfig, genericType);
   const type = innerConfig.type;
   const configState = useConfigState();
   let toadd;
@@ -35,8 +36,10 @@ async function getToAdd(
     toadd = [];
   } else if (type === "ENUM") {
     toadd = Object.keys(innerConfig.value)[0];
-  } else if (type === "CLASS" || type === "SEALED") {
+  } else if (type === "CLASS") {
     toadd = await configState.getDefaultData(genericType!);
+  } else if (type === "SEALED") {
+    toadd = await configState.getDefaultData(genericType! + "#");
   } else if (type === "MAP") {
     toadd = {};
   } else if (type === "STRING") {
@@ -45,6 +48,8 @@ async function getToAdd(
     toadd = 0;
   } else if (type === "BOOLEAN") {
     toadd = false;
+  } else if (type === "CONTEXTUAL") {
+    toadd = 0;
   } else {
     throw new Error("Unknown type: " + type);
   }
