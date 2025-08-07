@@ -4,20 +4,19 @@ const { keyParam, value } = defineProps<{
   value: ConfigValue;
 }>();
 const content = defineModel<any>();
-const { guild, path } = useRoute().params;
-const resolvedPath = (
-  typeof path === "string" ? (path === "" ? [] : [path]) : path
-)!;
-const resolvedPathBase =
-  resolvedPath.join("/") + (resolvedPath.length ? "/" : "");
+const { guild } = useRoute().params;
 const channelOptions = await useGuildChannels(
   guild as string,
   value.longType === "CHANNEL"
 );
-const changeDetection: (path: string, value: any) => void =
-  inject("changeDetection")!;
+const roleOptions = await useGuildRoles(
+  guild as string,
+  value.longType === "ROLE"
+);
+
+const changeDetection: (path: string) => void = inject("changeDetection")!;
 function changeDetect() {
-  changeDetection(resolvedPathBase + keyParam, content.value);
+  changeDetection(useResolvedPath(keyParam));
 }
 // TODO: maybe add a visual indication for changed paths
 /*const changedPaths: Ref<string[]> = inject("changedPaths")!;
@@ -45,6 +44,14 @@ const changedClasses = computed(() => {
     v-model="content"
     value-key="id"
     :items="channelOptions"
+    class="w-48"
+    @change="changeDetect"
+  />
+  <USelectMenu
+    v-else-if="value.longType === 'ROLE'"
+    v-model="content"
+    value-key="id"
+    :items="roleOptions"
     class="w-48"
     @change="changeDetect"
   />
@@ -82,9 +89,22 @@ const changedClasses = computed(() => {
       </div>
     </template>
   </USelect>
+  <div v-else-if="value.type === 'SEALED'" class="flex items-center gap-2">
+    <UBadge
+      :label="'Typ: ' + value.value[content.type]?.name"
+      color="neutral"
+      variant="soft"
+    />
+    <UButton
+      :to="`/dashboard/${guild}/signup/config/${useResolvedPath(keyParam)}`"
+      variant="soft"
+      icon="i-lucide-pencil"
+      >Bearbeiten</UButton
+    >
+  </div>
   <UButton
     v-else
-    :to="`/dashboard/${guild}/signup/config/${resolvedPathBase}${keyParam}`"
+    :to="`/dashboard/${guild}/signup/config/${useResolvedPath(keyParam)}`"
     variant="soft"
     icon="i-lucide-pencil"
     >Bearbeiten</UButton
