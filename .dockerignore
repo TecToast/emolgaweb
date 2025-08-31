@@ -6,3 +6,5 @@ node_modules
 README.md
 .env
 .nuxt
+deploy.sh
+build.sh
