@@ -1,65 +1,69 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  ssr: true,
-  future: {
-    compatibilityVersion: 4,
-  },
-  modules: [
-    "@nuxt/ui-pro",
-    "@nuxt/image",
-    "@pinia/nuxt",
-    "nuxt-auth-utils",
-    "nuxt-security",
-    "@nuxt/eslint",
-  ],
-  css: ["~/assets/css/main.css"],
-  devtools: {
-    enabled: true,
-    timeline: {
-      enabled: true,
+    ssr: true,
+    future: {
+        compatibilityVersion: 4,
     },
-  },
-  runtimeConfig: {
-    session: {
-      maxAge: 60 * 60 * 24 * 28,
-      password: "",
+    modules: [
+        "@nuxt/ui-pro",
+        "@nuxt/image",
+        "@pinia/nuxt",
+        "nuxt-auth-utils",
+        "nuxt-security",
+        "@nuxt/eslint",
+    ],
+    css: ["~/assets/css/main.css"],
+    devtools: {
+        enabled: true,
+        timeline: {
+            enabled: true,
+        },
     },
-    emolgaBackendUrl: "",
-  },
-  app: {
-    head: {
-      title: "Emolga",
+    runtimeConfig: {
+        session: {
+            maxAge: 60 * 60 * 24 * 28,
+            password: "",
+        },
+        emolgaBackendUrl: "",
     },
-  },
-  routeRules: {
-    "/privacy": {
-      redirect: "/de/privacy",
+    app: {
+        head: {
+            title: "Emolga",
+            link: [{
+                rel: "me",
+                href: "https://mastodon.social/@tectoast",
+            }]
+        },
     },
-    "/tos": {
-      redirect: "/de/tos",
+    routeRules: {
+        "/privacy": {
+            redirect: "/de/privacy",
+        },
+        "/tos": {
+            redirect: "/de/tos",
+        },
+        "/de/privacy": {
+            prerender: true,
+        },
+        "/de/tos": {
+            prerender: true,
+        },
+        "/en/privacy": {
+            prerender: true,
+        },
+        "/en/tos": {
+            prerender: true,
+        },
     },
-    "/de/privacy": {
-      prerender: true,
+    security: {
+        headers: {
+            contentSecurityPolicy: false,
+        },
     },
-    "/de/tos": {
-      prerender: true,
+    vite: {
+        server: {
+            allowedHosts: [".trycloudflare.com"],
+        },
     },
-    "/en/privacy": {
-      prerender: true,
-    },
-    "/en/tos": {
-      prerender: true,
-    },
-  },
-  security: {
-    headers: {
-      contentSecurityPolicy: false,
-    },
-  },
-  vite: {
-    server: {
-      allowedHosts: [".trycloudflare.com"],
-    },
-  },
-  compatibilityDate: "2025-02-16",
+    compatibilityDate: "2025-02-16",
 });
