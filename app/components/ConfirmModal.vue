@@ -8,19 +8,22 @@ const props = defineProps<{
   btnIcon?: string;
   btnLabel?: string;
   disabled?: boolean;
+  errorMsg?: string | null;
   onConfirm: () => void;
 }>();
 const open = ref(false);
 </script>
 <template>
   <UModal :title :open="open">
-    <UButton
-      :color="props.btnColor"
-      :icon="props.btnIcon"
-      :label="props.btnLabel"
-      :disabled="props.disabled"
-      @click="open = true"
-    />
+    <UTooltip :disabled="!errorMsg" :text="errorMsg ?? ''">
+      <UButton
+          :color="props.btnColor"
+          :icon="props.btnIcon"
+          :label="props.btnLabel"
+          :disabled="props.disabled"
+          @click="open = true"
+      />
+    </UTooltip>
     <template #body>
       <div class="space-y-4">
         <div v-if="props.description" class="whitespace-pre-line">
@@ -28,16 +31,16 @@ const open = ref(false);
         </div>
         <div class="flex justify-end gap-2">
           <UButton
-            :label="props.cancelLabel ?? 'Abbrechen'"
-            color="neutral"
-            variant="subtle"
-            @click="open = false"
+              :label="props.cancelLabel ?? 'Abbrechen'"
+              color="neutral"
+              variant="subtle"
+              @click="open = false"
           />
           <UButton
-            :label="props.confirmLabel ?? 'Bestätigen'"
-            :color="props.btnColor"
-            variant="solid"
-            @click="props.onConfirm"
+              :label="props.confirmLabel ?? 'Bestätigen'"
+              :color="props.btnColor"
+              variant="solid"
+              @click="props.onConfirm"
           />
         </div>
       </div>

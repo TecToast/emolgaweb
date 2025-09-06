@@ -13,12 +13,13 @@ export type ResultCodeResponse = {
   guildName: string;
   logoUrl: string | null;
   gameday: number;
+  bo3: boolean;
   data: {
     name: string;
     avatarUrl: string;
     picks: {
-      german: string;
-      english: string;
+      tlName: string;
+      spriteName: string;
     }[];
   }[];
 };
