@@ -13,6 +13,7 @@ type ResultData = Record<string, PlayerData>;
 const allResultDatas = ref<ResultData[]>([{}, {}, {}]);
 const selectedGame = ref(1);
 const resultData = computed(() => allResultDatas.value[selectedGame.value - 1]!)
+const submitting = ref(false);
 
 function togglePokemonSelection(playerName: string, pokemon: string) {
   if (!resultData.value[playerName]) {
@@ -33,11 +34,11 @@ function togglePokemonSelection(playerName: string, pokemon: string) {
 
 const invalidIndexes = computed(() => {
   const invalidIndexes = []
-  for (const [index, data] of Object.entries(allResultDatas.value)) {
-    const keys = Object.keys(data);
+  for (const [index, rsData] of Object.entries(allResultDatas.value)) {
+    const keys = Object.keys(rsData);
     if (!(index == "2" && keys.length == 0) && (keys.length != 2 || ![0, 1].every((i) => {
-      const playerData: PlayerData = data[keys[i] as string]!;
-      const opponentData: PlayerData = data[keys[1 - i] as string]!;
+      const playerData: PlayerData = rsData[keys[i] as string]!;
+      const opponentData: PlayerData = rsData[keys[1 - i] as string]!;
       return (
           Object.values(playerData).reduce((sum, mon) => sum + mon.k, 0) ==
           Object.values(opponentData).reduce((sum, mon) => sum + (mon.d ? 1 : 0), 0)
@@ -45,7 +46,7 @@ const invalidIndexes = computed(() => {
     }))) {
       invalidIndexes.push(index);
     }
-    if(!data?.bo3) break;
+    if(!data.value?.bo3) break;
   }
   return invalidIndexes;
 });
@@ -86,6 +87,7 @@ function sendResult() {
     const payload = fetchedData.data.map((itm) => resData[itm.name]!);
     payloads.push(payload);
   }
+  submitting.value = true;
   $fetch(`/api/emolga/result/${resultid}`, {
     method: "POST",
     body: JSON.stringify(payloads),
@@ -95,6 +97,7 @@ function sendResult() {
           title: "Ergebnisse erfolgreich eingereicht!",
           color: "success",
         });
+        submitting.value = false;
         router.push("/");
       })
       .catch((error) => {
@@ -103,6 +106,7 @@ function sendResult() {
           description: error.message || "Unbekannter Fehler",
           color: "error",
         });
+        submitting.value = false;
       });
 }
 </script>
@@ -136,6 +140,7 @@ function sendResult() {
           :disabled="!!invalidIndexes.length"
           :error-msg="errorMsg"
           :on-confirm="sendResult"
+          :loading-confirm="submitting"
       />
       <div v-if="data.bo3" class="my-4">
         <p class="px-2 xl:px-0 py-4">Wähle hier nacheinander die Kämpfe aus und trage die entsprechenden Daten ein. Lass

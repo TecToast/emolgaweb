@@ -10,6 +10,7 @@ const props = defineProps<{
   disabled?: boolean;
   errorMsg?: string | null;
   onConfirm: () => void;
+  loadingConfirm?: boolean;
 }>();
 const open = ref(false);
 </script>
@@ -40,6 +41,7 @@ const open = ref(false);
               :label="props.confirmLabel ?? 'Bestätigen'"
               :color="props.btnColor"
               variant="solid"
+              :loading="props.loadingConfirm"
               @click="props.onConfirm"
           />
         </div>
