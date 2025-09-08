@@ -65,5 +65,10 @@ export default defineNuxtConfig({
             allowedHosts: [".trycloudflare.com"],
         },
     },
+    icon: {
+        clientBundle: {
+            scan: true
+        }
+    },
     compatibilityDate: "2025-02-16",
 });
