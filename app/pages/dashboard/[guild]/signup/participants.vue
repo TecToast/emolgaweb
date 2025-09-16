@@ -214,7 +214,7 @@ async function saveToServer() {
         <template #item="{ element }">
           <div class="mx-2">
             <UUser
-              :name="element.users[0].name"
+              :name="element.users.map((u: UserData) => u.name).join(' / ')"
               :description="dataToDescription(element)"
               :avatar="{ src: element.users[0].avatar }"
             />
@@ -248,7 +248,7 @@ async function saveToServer() {
           <template #item="{ element }">
             <div>
               <UUser
-                :name="element.users[0].name"
+                :name="element.users.map((u: UserData) => u.name).join(' / ')"
                 :description="dataToDescription(element)"
                 :avatar="{ src: element.users[0].avatar }"
               />
