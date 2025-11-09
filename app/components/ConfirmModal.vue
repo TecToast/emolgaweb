@@ -22,6 +22,9 @@ const open = ref(false);
           :icon="props.btnIcon"
           :label="props.btnLabel"
           :disabled="props.disabled"
+          :ui="{
+            'base': 'disabled:opacity-10'
+          }"
           @click="open = true"
       />
     </UTooltip>
