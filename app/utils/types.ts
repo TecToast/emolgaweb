@@ -35,7 +35,7 @@ type XOR<T, U> = T | U extends object
   ? (Without<T, U> & U) | (Without<U, T> & T)
   : T | U;
 
-export type ConfigValue = { nullable?: string; saveTotal?: boolean } & XOR<
+export type ConfigValue = { nullable?: string; delta?: boolean } & XOR<
   { noconfig: boolean },
   {
     name: string;

@@ -54,7 +54,9 @@ function generateChangedContent(): any {
   return changesObject;
 }
 function save() {
-  const changesToSend = structure.saveTotal ? modifiableContent : generateChangedContent();
+  const changesToSend = structure.delta
+    ? generateChangedContent()
+    : modifiableContent;
   console.log("Changes to save:", JSON.stringify(changesToSend));
   $fetch(savePath, {
     method: "POST",
