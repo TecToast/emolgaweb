@@ -12,23 +12,23 @@
     "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
-    "@nuxt/devtools": "^2.6.2",
+    "@nuxt/devtools": "^3.1.0",
     "@nuxt/eslint": "1.4.1",
-    "@nuxt/image": "^1.10.0",
-    "eslint": "^9.31.0",
-    "nuxt": "^4.0.0",
-    "nuxt-auth-utils": "0.5.20",
+    "eslint": "^9.39.1",
+    "nuxt": "^4.2.1",
+    "nuxt-auth-utils": "^0.5.25",
     "nuxt-security": "2.2.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@iconify-json/logos": "^1.2.4",
-    "@iconify-json/lucide": "^1.2.57",
+    "@iconify-json/logos": "^1.2.10",
+    "@iconify-json/lucide": "^1.2.73",
     "@iconify-json/mdi": "^1.2.3",
-    "@iconify-json/simple-icons": "^1.2.43",
-    "@nuxt/ui-pro": "^3.2.0",
-    "@pinia/nuxt": "^0.11.1",
-    "pinia": "^3.0.3",
+    "@iconify-json/simple-icons": "^1.2.58",
+    "@nuxt/image": "^2.0.0",
+    "@nuxt/ui": "^4.1.0",
+    "@pinia/nuxt": "^0.11.3",
+    "pinia": "^3.0.4",
     "vuedraggable": "^4.1.0",
     "zod": "^3.25.76"
   },
