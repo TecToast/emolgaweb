@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { BreadcrumbItem } from "#ui/types";
-const props = defineProps<{ data: FullConfigData }>();
+const props = defineProps<{ data: FullConfigData; onSubmit: () => void }>();
 const { structure, initialContent, modifiableContent, changedPaths, savePath } =
   props.data;
 const content = reactive(modifiableContent);
@@ -68,6 +68,7 @@ function save() {
     .then(() => {
       changedPaths.clear();
       console.log("Changes saved successfully");
+      props.onSubmit();
     })
     .catch((error) => {
       console.error("Error saving changes:", error);
@@ -79,9 +80,11 @@ provide("changedPaths", changedPaths);
 let currContent = content;
 let currStructure: ConfigValue = structure;
 function breadcrumb(label: string, index: number) {
+  const path = route.params.path;
+  const basePath = Array.isArray(path) ? path : path ? [path] : [];
   return {
     label,
-    to: `/dashboard/${route.params.guild}/signup/config${resolvedPath
+    to: `${route.fullPath.replace("/" + basePath.join("/"), "")}${resolvedPath
       .slice(0, index)
       .map((p) => "/" + p)
       .join("")}`,
@@ -122,8 +125,10 @@ for (const p of resolvedPath) {
         <UBreadcrumb :items="finishedPath" class="mb-4" />
         <ClientOnly>
           <UButton
-            label="Speichern"
-            icon="i-lucide-save"
+            :label="structure.submit ?? 'Speichern'"
+            :icon="
+              structure.submit ? 'i-lucide-arrow-big-right' : 'i-lucide-save'
+            "
             :disabled="!changedPaths.size"
             @click="save"
           />

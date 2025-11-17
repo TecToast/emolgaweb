@@ -4,7 +4,8 @@ const { keyParam, value } = defineProps<{
   value: ConfigValue;
 }>();
 const content = defineModel<any>();
-const { guild } = useRoute().params;
+const route = useRoute();
+const { guild } = route.params;
 const channelOptions = await useGuildChannels(
   guild as string,
   value.longType === "CHANNEL"
@@ -18,6 +19,11 @@ const changeDetection: (path: string) => void = inject("changeDetection")!;
 function changeDetect() {
   changeDetection(useResolvedPath(keyParam));
 }
+const resolvedLink = computed(() => {
+  const path = route.params.path;
+  const basePath = Array.isArray(path) ? path : path ? [path] : [];
+  return `${route.fullPath.replace(basePath.join("/"), "")}${useResolvedPath(keyParam)}`;
+});
 // TODO: maybe add a visual indication for changed paths
 /*const changedPaths: Ref<string[]> = inject("changedPaths")!;
 const changedClasses = computed(() => {
@@ -30,8 +36,9 @@ const changedClasses = computed(() => {
 </script>
 
 <template>
+  <DraftPokemon v-if="value.name === 'DraftPokemon'" v-model:pokemon="content.name" v-model:tier="content.tier" />
   <UTextarea
-    v-if="value.type === 'STRING'"
+    v-else-if="value.type === 'STRING'"
     v-model="content"
     autocomplete="off"
     autoresize
@@ -96,7 +103,7 @@ const changedClasses = computed(() => {
       variant="soft"
     />
     <UButton
-      :to="`/dashboard/${guild}/signup/config/${useResolvedPath(keyParam)}`"
+      :to="resolvedLink"
       variant="soft"
       icon="i-lucide-pencil"
       >Bearbeiten</UButton
@@ -104,7 +111,7 @@ const changedClasses = computed(() => {
   </div>
   <UButton
     v-else
-    :to="`/dashboard/${guild}/signup/config/${useResolvedPath(keyParam)}`"
+    :to="resolvedLink"
     variant="soft"
     icon="i-lucide-pencil"
     >Bearbeiten</UButton

@@ -11,6 +11,7 @@ await callOnce("configFetch", async () => {
   await fetch();
   console.log("data", data.value);
 });
+const router = useRouter();
 </script>
 
 <template>
@@ -24,7 +25,11 @@ await callOnce("configFetch", async () => {
     </template>
 
     <template #body>
-      <EmolgaConfig v-if="data" :data="data" />
+      <EmolgaConfig
+        v-if="data"
+        :data="data"
+        :on-submit="() => router.push('/dashboard/' + guild)"
+      />
     </template>
   </UDashboardPanel>
 </template>
