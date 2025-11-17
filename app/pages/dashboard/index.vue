@@ -25,8 +25,15 @@ const options = computed(() => {
     </template>
 
     <template #body>
-      <div class="flex flex-col gap-4">
-        <h1>Bitte wähle einen Server aus:</h1>
+      <UAlert
+        v-if="guilds === undefined"
+        color="error"
+        title="Fehler beim Laden der Serverliste"
+        description="Bitte versuche es später noch einmal. Wenn das Problem bestehen bleibt, melde dich bitte auf dem Support-Server."
+        icon="i-lucide-alert-circle"
+      />
+      <div v-else class="flex flex-col gap-4">
+        <h1>Bitte wähle einen Server aus</h1>
         <UPageList class="gap-4">
           <UPageCard
             v-for="option in options"

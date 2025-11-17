@@ -58,6 +58,11 @@ const linksInServer: Ref<NavigationMenuItem[]> = computed(() => {
         },
       ],
     },
+    {
+      label: "Ligen",
+      icon: "i-lucide-trophy",
+      to: `/dashboard/${guild.id}/league`,
+    },
   ];
   return links;
 });
