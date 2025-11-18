@@ -9,8 +9,8 @@ const { data, fetch } = configState.getConfig(
 );
 await callOnce("configFetch", async () => {
   await fetch();
-  console.log("data", data.value);
 });
+const toast = useToast();
 </script>
 
 <template>
@@ -24,7 +24,14 @@ await callOnce("configFetch", async () => {
     </template>
 
     <template #body>
-      <EmolgaConfig v-if="data" :data="data" :on-submit="() => {}" />
+      <EmolgaConfig
+        v-if="data"
+        :data="data"
+        :on-submit="
+          () =>
+            toast.add({ title: 'Änderungen gespeichert!', color: 'success' })
+        "
+      />
     </template>
   </UDashboardPanel>
 </template>

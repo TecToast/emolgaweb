@@ -17,7 +17,6 @@ function subclassChanged() {
     .getDefaultData(data.sealed + "#" + chosenSubclass.value)
     .then((res) => {
       Object.keys(content.value).forEach((k) => delete content.value[k]);
-      console.log("res", res);
       Object.keys(res).forEach((k) => (content.value[k] = res[k]));
       changeDetection(useResolvedPath(null));
     });

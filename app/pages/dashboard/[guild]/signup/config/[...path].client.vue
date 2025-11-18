@@ -9,7 +9,6 @@ const { data, fetch } = configState.getConfig(
 );
 await callOnce("configFetch", async () => {
   await fetch();
-  console.log("data", data.value);
 });
 const router = useRouter();
 </script>
