@@ -9,6 +9,7 @@ const path = route.params.path;
 const resolvedPath = (
   typeof path === "string" ? (path === "" ? [] : [path]) : path
 )!;
+const isSaving = ref(false);
 
 function getObjectProperty(obj: any, path: string) {
   const keys = path.split("/");
@@ -36,7 +37,6 @@ function setObjectProperty(obj: any, path: string, value: any) {
   current[keys[keys.length - 1]!] = value;
 }
 function changeDetection(path: string) {
-  console.log("changeDetection", path);
   const currentValue = getObjectProperty(content, path); // Access value property
   const initialValue = getObjectProperty(initialContent, path);
 
@@ -57,7 +57,7 @@ function save() {
   const changesToSend = structure.delta
     ? generateChangedContent()
     : modifiableContent;
-  console.log("Changes to save:", JSON.stringify(changesToSend));
+  isSaving.value = true;
   $fetch(savePath, {
     method: "POST",
     body: changesToSend,
@@ -66,12 +66,19 @@ function save() {
     },
   })
     .then(() => {
+      isSaving.value = false;
       changedPaths.clear();
-      console.log("Changes saved successfully");
       props.onSubmit();
     })
     .catch((error) => {
+      isSaving.value = false;
       console.error("Error saving changes:", error);
+      useToast().add({
+        title:
+          "Fehler beim Speichern der Änderungen. Melde dich auf dem Support-Server, falls der Fehler weiterhin besteht.",
+        description: error?.message ?? "Unbekannter Fehler",
+        color: "error",
+      });
     });
 }
 provide("changeDetection", changeDetection);
@@ -82,12 +89,16 @@ let currStructure: ConfigValue = structure;
 function breadcrumb(label: string, index: number) {
   const path = route.params.path;
   const basePath = Array.isArray(path) ? path : path ? [path] : [];
+  const to = `${route.fullPath.replace(
+    "/" + basePath.join("/"),
+    ""
+  )}${resolvedPath
+    .slice(0, index)
+    .map((p) => "/" + p)
+    .join("")}`;
   return {
     label,
-    to: `${route.fullPath.replace("/" + basePath.join("/"), "")}${resolvedPath
-      .slice(0, index)
-      .map((p) => "/" + p)
-      .join("")}`,
+    to: to.startsWith("/") ? to : "/" + to,
   };
 }
 const finishedPath: BreadcrumbItem[] = [breadcrumb(structure.name!, 0)];
@@ -103,12 +114,17 @@ for (const p of resolvedPath) {
   if (!nextData) {
     break;
   }
+  const userDatas = currStructure.keyIsDiscordUser
+    ? await useDiscordUser().getUserDatas(route.params.leaguename as string)
+    : undefined;
   finishedPath.push(
     breadcrumb(
       currStructure.type === "LIST"
         ? (Number.parseInt(p) + 1).toString()
         : currStructure.type === "MAP"
-        ? p
+        ? userDatas
+          ? userDatas[Number.parseInt(p)]?.name ?? p
+          : p
         : nextData.name ?? p,
       finishedPath.length
     )
@@ -129,7 +145,8 @@ for (const p of resolvedPath) {
             :icon="
               structure.submit ? 'i-lucide-arrow-big-right' : 'i-lucide-save'
             "
-            :disabled="!changedPaths.size"
+            :disabled="!changedPaths.size || isSaving"
+            :loading="isSaving"
             @click="save"
           />
         </ClientOnly>

@@ -39,6 +39,7 @@ export type ConfigValue = {
   nullable?: string;
   delta?: boolean;
   submit?: string;
+  keyIsDiscordUser?: boolean;
 } & XOR<
   { noconfig: boolean },
   {

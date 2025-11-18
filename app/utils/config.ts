@@ -28,7 +28,6 @@ async function getToAdd(
   innerConfig: ConfigValue,
   genericType?: string
 ): Promise<any> {
-  console.log(innerConfig, genericType);
   const type = innerConfig.type;
   const configState = useConfigState();
   let toadd;

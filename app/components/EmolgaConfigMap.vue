@@ -8,6 +8,10 @@ function handleAdd(name: string) {
   handleConfigMapAdd(data, content.value, name);
   changeDetection(useResolvedPath(""));
 }
+const isDiscordUserMap = data.keyIsDiscordUser === true;
+const discordUserTable = isDiscordUserMap
+  ? await useDiscordUser().getUserDatas(useRoute().params.leaguename as string)
+  : null;
 </script>
 
 <template>
@@ -17,13 +21,17 @@ function handleAdd(name: string) {
       variant="subtle"
       title="Keine Einträge verfügbar."
     />
-    <div v-else class="divide-y divide-(--ui-border)">
+    <div v-else class="divide-y divide-default">
       <div
-        v-for="key in Object.keys(content)"
+        v-for="(key, index) in Object.keys(content)"
         :key="key"
         class="flex items-center justify-between not-last:pb-4 not-first:pt-4 gap-2"
       >
-        {{ key }}
+        <EmolgaConfigMapKey
+          :key-val="key"
+          :index="index"
+          :user-table="discordUserTable"
+        />
         <EmolgaConfigFormInput
           v-model="content[key]"
           :key-param="key"

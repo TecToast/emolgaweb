@@ -22,7 +22,11 @@ function changeDetect() {
 const resolvedLink = computed(() => {
   const path = route.params.path;
   const basePath = Array.isArray(path) ? path : path ? [path] : [];
-  return `${route.fullPath.replace(basePath.join("/"), "")}${useResolvedPath(keyParam)}`;
+  const to = `${route.fullPath.replace(
+    "/" + basePath.join("/"),
+    ""
+  )}/${useResolvedPath(keyParam)}`;
+  return to.startsWith("/") ? to : "/" + to;
 });
 // TODO: maybe add a visual indication for changed paths
 /*const changedPaths: Ref<string[]> = inject("changedPaths")!;
@@ -36,7 +40,13 @@ const changedClasses = computed(() => {
 </script>
 
 <template>
-  <DraftPokemon v-if="value.name === 'DraftPokemon'" v-model:pokemon="content.name" v-model:tier="content.tier" />
+  <DraftPokemon
+    v-if="value.name === 'DraftPokemon'"
+    v-model:pokemon="content.name"
+    v-model:tier="content.tier"
+    @monchange="changeDetection(useResolvedPath(keyParam) + '/name')"
+    @tierchange="changeDetection(useResolvedPath(keyParam) + '/tier')"
+  />
   <UTextarea
     v-else-if="value.type === 'STRING'"
     v-model="content"
@@ -102,18 +112,11 @@ const changedClasses = computed(() => {
       color="neutral"
       variant="soft"
     />
-    <UButton
-      :to="resolvedLink"
-      variant="soft"
-      icon="i-lucide-pencil"
+    <UButton :to="resolvedLink" variant="soft" icon="i-lucide-pencil"
       >Bearbeiten</UButton
     >
   </div>
-  <UButton
-    v-else
-    :to="resolvedLink"
-    variant="soft"
-    icon="i-lucide-pencil"
+  <UButton v-else :to="resolvedLink" variant="soft" icon="i-lucide-pencil"
     >Bearbeiten</UButton
   >
 </template>
