@@ -89,7 +89,7 @@ const { user } = useUserSession();
           icon="i-simple-icons-discord"
           color="neutral"
           variant="ghost"
-          to="https://discord.gg/WYfKHPCgs9"
+          :to="DISCORD_SERVER_INVITE_URL"
           target="_blank"
           aria-label="Discord"
         />
