@@ -16,6 +16,20 @@ function handleDelete(index: number) {
   content.value.splice(index, 1);
   changeDetection(useResolvedPath(null));
 }
+const draftPokemonEnabledSwitches = (() => {
+  if (listConfig.name !== "DraftPokemon") return [];
+  const features = new Set<string>();
+
+  content.value.forEach((mon: any) => {
+    Object.entries(mon).forEach(([key, value]) => {
+      if (value) {
+        features.add(key);
+      }
+    });
+  });
+  return features;
+})();
+provide("draftPokemonEnabledSwitches", draftPokemonEnabledSwitches);
 </script>
 
 <template>

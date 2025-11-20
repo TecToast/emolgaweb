@@ -42,10 +42,10 @@ const changedClasses = computed(() => {
 <template>
   <DraftPokemon
     v-if="value.name === 'DraftPokemon'"
-    v-model:pokemon="content.name"
-    v-model:tier="content.tier"
-    @monchange="changeDetection(useResolvedPath(keyParam) + '/name')"
-    @tierchange="changeDetection(useResolvedPath(keyParam) + '/tier')"
+    v-model="content"
+    @datachange="
+      (part) => changeDetection(useResolvedPath(keyParam) + `/${part}`)
+    "
   />
   <UTextarea
     v-else-if="value.type === 'STRING'"
