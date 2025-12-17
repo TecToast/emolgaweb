@@ -15,6 +15,9 @@
     </template>
 
     <template #body>
+      <h1 class="text-3xl text-center font-bold">
+        {{ currentMon?.tlName ?? "" }}
+      </h1>
       <div class="h-3/4">
         <Cropper
           :src="imageSrc"
