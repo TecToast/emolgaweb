@@ -8,6 +8,8 @@ const selectedGuild: Ref<GuildMeta | null> = computed(
     guilds.value?.find((g) => g.id === route.params.guild) as GuildMeta | null
 );
 
+const { user } = useUserSession();
+
 provide("guilds", guilds);
 provide("selectedGuild", selectedGuild);
 
@@ -43,26 +45,35 @@ const linksInServer: Ref<NavigationMenuItem[]> = computed(() => {
       to: `/dashboard/${guild.id}`,
     },
     {
-      label: "Anmeldung",
-      icon: "i-lucide-user-plus",
-      children: [
-        {
-          label: "Konfiguration",
-          to: `/dashboard/${guild.id}/signup/config`,
-          icon: "i-lucide-settings",
-        },
-        {
-          label: "Teilnehmereinteilung",
-          to: `/dashboard/${guild.id}/signup/participants`,
-          icon: "i-lucide-users",
-        },
-      ],
+      label: "Kadergrafik",
+      icon: "i-lucide-image",
+      to: `/dashboard/${guild.id}/teamgraphics`,
     },
-    {
-      label: "Ligen",
-      icon: "i-lucide-trophy",
-      to: `/dashboard/${guild.id}/league`,
-    },
+    ...(user.value?.id === "175910318608744448"
+      ? [
+          {
+            label: "Anmeldung",
+            icon: "i-lucide-user-plus",
+            children: [
+              {
+                label: "Erstellung",
+                to: `/dashboard/${guild.id}/signup/config`,
+                icon: "i-lucide-settings",
+              },
+              {
+                label: "Teilnehmereinteilung",
+                to: `/dashboard/${guild.id}/signup/participants`,
+                icon: "i-lucide-users",
+              },
+            ],
+          },
+          {
+            label: "Ligen",
+            icon: "i-lucide-trophy",
+            to: `/dashboard/${guild.id}/league`,
+          },
+        ]
+      : []),
   ];
   return links;
 });

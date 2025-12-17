@@ -31,6 +31,7 @@
     "@nuxt/ui": "^4.1.0",
     "@pinia/nuxt": "^0.11.3",
     "pinia": "^3.0.4",
+    "vue-advanced-cropper": "^2.8.9",
     "vuedraggable": "^4.1.0",
     "zod": "^3.25.76"
   },

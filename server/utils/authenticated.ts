@@ -37,3 +37,24 @@ export const defineUnprotectedEmolgaRoute = <D>(): EventHandler<
 export const defineEmolgaConfigStruct = () => defineEmolgaRoute<ConfigValue>();
 export const defineEmolgaConfigContent = () => defineEmolgaRoute<any>();
 export const defineEmolgaConfigSave = () => defineEmolgaRoute<any>();
+
+export const defineStaticContentRoute = <D>(): EventHandler<
+  EventHandlerRequest,
+  D
+> =>
+  defineEventHandler<EventHandlerRequest>(async (event) => {
+    const { user } = await requireUserSession(event);
+    const path = `${useRuntimeConfig(event).emolgaBackendUrl}${event.path}`;
+    if (event.method !== "GET") {
+      throw createError({
+        statusCode: 405,
+        statusMessage: "Method Not Allowed",
+      });
+    }
+    const result = await $fetch(path, {
+      headers: {
+        UserID: user.id,
+      },
+    });
+    return result;
+  });
