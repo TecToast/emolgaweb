@@ -29,8 +29,8 @@
           <li>Benutzeravatarurls (um das Profilbild hier anzuzeigen)</li>
           <li>Rollen-IDs</li>
           <li>
-            Den "Pokémon Showdown!" Account-Namen (nur wenn man ihn explizit
-            angibt)
+            Sämtliche vom Nutzer freiwillig eingegebe Daten im Rahmen der
+            Funktionalität (bspw. Anmeldedaten/Logos für Turniere)
           </li>
         </ul>
         <br />
@@ -60,7 +60,7 @@
           >flo@tectoast.de
         </NuxtLink>
         <br />
-        Zuletzt bearbeitet: 16.02.2025 (inhaltlich 04.04.2024)
+        Zuletzt bearbeitet: 17.12.2025
       </UPageBody>
     </UPage>
   </UContainer>

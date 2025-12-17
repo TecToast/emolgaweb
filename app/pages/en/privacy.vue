@@ -31,8 +31,8 @@
           </li>
           <li>Role IDs</li>
           <li>
-            The "Pokémon Showdown!" account name (but only if you are
-            specifically providing it to the bot)
+            Any data the user voluntarily provides in the scope of the
+            functionality (e.g. signup data/logos for tournaments)
           </li>
         </ul>
         <br />
@@ -58,7 +58,7 @@
         <NuxtLink to="mailto:flo@tectoast.de" class="underline"
           >flo@tectoast.de</NuxtLink
         ><br />
-        Last Modified: February 16th 2025 (content-wise April 4th 2024)
+        Last Modified: December 17th 2025
       </UPageBody>
     </UPage>
   </UContainer>
