@@ -29,7 +29,7 @@
           <li>Benutzeravatarurls (um das Profilbild hier anzuzeigen)</li>
           <li>Rollen-IDs</li>
           <li>
-            Sämtliche vom Nutzer freiwillig eingegebe Daten im Rahmen der
+            Sämtliche vom Nutzer freiwillig eingegebene Daten im Rahmen der
             Funktionalität (bspw. Anmeldedaten/Logos für Turniere)
           </li>
         </ul>
