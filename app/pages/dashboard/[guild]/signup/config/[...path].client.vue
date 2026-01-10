@@ -11,6 +11,12 @@ await callOnce("configFetch", async () => {
   await fetch();
 });
 const router = useRouter();
+const toast = useToast();
+
+function onSubmit() {
+  toast.add({title: "Anmeldung eröffnet!", color: 'success'});
+  router.push("/dashboard/" + guild);
+}
 </script>
 
 <template>
@@ -27,7 +33,7 @@ const router = useRouter();
       <EmolgaConfig
         v-if="data"
         :data="data"
-        :on-submit="() => router.push('/dashboard/' + guild)"
+        :on-submit="onSubmit"
       />
     </template>
   </UDashboardPanel>
