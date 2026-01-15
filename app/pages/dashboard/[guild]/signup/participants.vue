@@ -50,7 +50,6 @@ function randomize(all: boolean) {
 }
 function deleteConference(conf: string) {
   conferences.value[conf]?.forEach((p) => uncategorized.value.push(p));
-  // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
   delete conferences.value[conf];
 }
 watch(

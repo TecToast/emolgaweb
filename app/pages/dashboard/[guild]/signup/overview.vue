@@ -72,7 +72,6 @@ const columns: Ref<TableColumn<TableParticipant>[]> = computed(() => {
       </UDashboardNavbar>
     </template>
     <template #body>
-
       <UAlert
           v-if="participantsStored === undefined"
           class="m-8 w-auto"

@@ -23,10 +23,8 @@ function togglePokemonSelection(playerName: string, pokemon: string) {
   }
   const playerData = resultData.value[playerName];
   if (playerData[pokemon]) {
-    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
     delete playerData[pokemon];
     if (Object.keys(playerData).length === 0) {
-      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
       delete resultData.value[playerName];
     }
   } else {
@@ -233,6 +231,7 @@ function sendResult() {
                   >
                     <img
                       :src="`https://play.pokemonshowdown.com/sprites/gen5/${mon.spriteName}.png`"
+                      :alt="mon.spriteName"
                     />
                     <p>{{ mon.tlName }}</p>
                   </div>
