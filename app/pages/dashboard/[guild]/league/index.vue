@@ -25,7 +25,13 @@ const { data: options } = await useFetch<string[]>(
     </template>
 
     <template #body>
-      <UPageList class="gap-4">
+      <UAlert
+          v-if="!options?.length"
+          color="info"
+          variant="subtle"
+          title="Aktuell gibt es auf diesem Server keine Emolga-Ligen."
+      />
+      <UPageList v-else class="gap-4">
         <UPageCard
           v-for="option in options"
           :key="option"
