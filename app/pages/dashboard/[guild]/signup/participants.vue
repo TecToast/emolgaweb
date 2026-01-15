@@ -110,7 +110,7 @@ async function saveToServer() {
     resizable
   >
     <template #header>
-      <UDashboardNavbar :title="`Teilnehmer`" :ui="{ right: 'gap-3' }">
+      <UDashboardNavbar :title="`Teilnehmereinteilung`" :ui="{ right: 'gap-3' }">
         <template #leading>
           <UDashboardSidebarCollapse />
         </template>

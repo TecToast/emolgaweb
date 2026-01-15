@@ -1,7 +1,8 @@
-export type GuildMeta = { id: string; name: string; icon: string };
+export type GuildMeta = { id: string; name: string; icon: string; runningSignup: boolean };
 export type ParticipantData = {
   users: UserData[];
   data: Record<string, string>;
+  hasLogo: boolean;
   conference?: string;
 };
 export type UserData = {

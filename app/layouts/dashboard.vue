@@ -59,6 +59,12 @@ const linksInServer: Ref<NavigationMenuItem[]> = computed(() => {
                 label: "Erstellung",
                 to: `/dashboard/${guild.id}/signup/config`,
                 icon: "i-lucide-settings",
+                disabled: guild.runningSignup
+              },
+              {
+                label: "Übersicht",
+                to: `/dashboard/${guild.id}/signup/overview`,
+                icon: "i-lucide-eye",
               },
               {
                 label: "Teilnehmereinteilung",
