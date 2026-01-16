@@ -21,7 +21,7 @@ function randomize(all: boolean) {
     resetParticipants();
   }
   const participants = [...uncategorized.value];
-  const conferenceKeys = Object.keys(conferences.value);
+  const conferenceKeys = [...Object.keys(conferences.value)];
   if (participants.length === 0 || conferenceKeys.length === 0) {
     toast.add({
       title: "Keine Teilnehmer oder keine Conferences vorhanden!",
@@ -30,6 +30,7 @@ function randomize(all: boolean) {
     return;
   }
   shuffleArray(participants);
+  shuffleArray(conferenceKeys);
   const participantsPerConference = Math.max(Math.floor(
     (participantsStored.value?.data?.length ?? 0) / conferenceKeys.length
   ), 1);
