@@ -30,9 +30,9 @@ function randomize(all: boolean) {
     return;
   }
   shuffleArray(participants);
-  const participantsPerConference = Math.floor(
+  const participantsPerConference = Math.max(Math.floor(
     (participantsStored.value?.data?.length ?? 0) / conferenceKeys.length
-  );
+  ), 1);
   for (const conf of conferenceKeys) {
     const conference = conferences.value[conf]!;
     while (conference.length < participantsPerConference) {
