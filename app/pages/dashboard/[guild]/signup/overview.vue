@@ -6,7 +6,7 @@ definePageMeta({
   layout: "dashboard",
 });
 const route = useRoute();
-const {data: participantsStored} = await useFetch(
+const {data: participantsStored, refresh, status } = await useFetch(
     `/api/emolga/${route.params.guild}/signup/participants`
 );
 type TableParticipant = {
@@ -79,11 +79,14 @@ const columns: Ref<TableColumn<TableParticipant>[]> = computed(() => {
           variant="subtle"
       />
       <template v-else>
-        <UAlert
-            :title="`Anzahl: ${participantsStored.data.length}`"
-            color="neutral"
-            variant="subtle"
-        />
+        <div class="flex gap-2">
+          <UAlert
+              :title="`Anzahl: ${participantsStored.data.length}`"
+              color="neutral"
+              variant="subtle"
+          />
+          <UButton icon="i-lucide-refresh-cw" class="w-8" :loading="status === 'pending'" @click="refresh()"/>
+        </div>
         <UTable :data="participants" :columns="columns" class="flex-1"/>
       </template>
     </template>
