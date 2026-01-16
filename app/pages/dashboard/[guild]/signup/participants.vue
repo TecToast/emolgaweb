@@ -140,7 +140,13 @@ async function saveToServer() {
       </UPageList>
       <SignupConferenceModal
         class="hidden lg:inline-flex"
-        @new="(name) => (conferences[name] = [])"
+        @new="(name) => {
+          if(conferences[name]) {
+            toast.add({ title: 'Diese Conference existiert bereits!', color: 'error' });
+            return;
+          }
+          conferences[name] = []
+        }"
       />
       <UAccordion
         :items="[{ label: 'Zusätzliche Optionen für die Einteilung' }]"
