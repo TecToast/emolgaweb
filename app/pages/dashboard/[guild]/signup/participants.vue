@@ -229,7 +229,7 @@ async function saveToServer() {
       </draggable>
     </template>
   </UDashboardPanel>
-  <UDashboardPanel>
+  <UDashboardPanel class="overflow-auto">
     <UAlert
       v-if="Object.keys(conferences).length === 0"
       variant="subtle"
@@ -249,7 +249,7 @@ async function saveToServer() {
           group="participants"
           :list="cdata[1]"
           :item-key="(item: any) => item.users[0].id"
-          class="flex flex-col gap-1 overflow-auto"
+          class="flex flex-col gap-1"
         >
           <template #item="{ element }">
             <div>
