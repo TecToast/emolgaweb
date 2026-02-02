@@ -21,12 +21,12 @@
       <div class="h-3/4">
         <Cropper
           :src="imageSrc"
-          :stencil-component="CircleStencil"
+          :stencil-component="PentagonStencil"
           :stencil-props="{
             handlers: {},
             movable: false,
             resizable: false,
-            aspectRatio: 1,
+            aspectRatio: 1.12,
           }"
           :resize-image="{ adjustStencil: false }"
           image-class="opacity-20"
@@ -49,6 +49,7 @@
 <script setup lang="ts">
 import { Cropper, CircleStencil } from "vue-advanced-cropper";
 import "vue-advanced-cropper/dist/style.css";
+import {PentagonStencil} from "#components";
 
 definePageMeta({
   layout: "dashboard",
