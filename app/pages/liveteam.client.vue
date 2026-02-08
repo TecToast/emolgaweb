@@ -7,15 +7,20 @@ const curNum = ref(0)
 function createPath(num: number) {
   return `/api/emolga/liveteam?token=${token}&num=${num}`
 }
+const backgroundPath = createPath(-1)
 
 const path = computed(() => {
   return createPath(curNum.value)
 })
 const cache: { [num: number]: HTMLImageElement } = {}
-watch(curNum, (newVal) => {
+const transitionMode = ref<"default" | "in-out">("in-out")
+watch(curNum, (newVal, oldVal) => {
   if (newVal < 0) {
     curNum.value = 0
   }
+  const modulo = newVal % 2
+  const result = newVal < (oldVal ?? 0) ? 1 - modulo : modulo
+  transitionMode.value = result === 0 ? "default" : "in-out"
   const nextNum = newVal + 1
   if (!cache[nextNum]) {
     const img = new Image()
@@ -25,17 +30,22 @@ watch(curNum, (newVal) => {
   if (newVal > 10) {
     delete cache[newVal - 10]
   }
-}, { immediate: true })
+}, { immediate: true, flush: "sync" })
 </script>
 
 <template>
-  <Transition name="stack" mode="in-out">
-    <img :key="curNum" :src="path" alt="Teamgraphic" @click.left="curNum++" @contextmenu.prevent="curNum--"/>
+  <img :src="backgroundPath" alt="Background" class="base">
+  <Transition name="stack" :mode="transitionMode">
+    <img :key="curNum" :src="path" alt="Teamgraphic" class="team" @click.left="curNum++" @contextmenu.prevent="curNum--"/>
   </Transition>
 </template>
 
 <style scoped>
-img {
+img.base {
+  position: absolute;
+  z-index: 0;
+}
+img.team {
   position: absolute;
   z-index: 1;
 }
