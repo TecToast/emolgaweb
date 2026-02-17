@@ -1,1 +1,0 @@
-docker build --secret id=nuxt-ui-pro-license,src=$HOME/.nuxt/uiprolicense -t tectoast/emolgaweb --push .
