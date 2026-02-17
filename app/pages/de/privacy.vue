@@ -34,18 +34,6 @@
           </li>
         </ul>
         <br />
-        <p>
-          Diese Website wird über Cloudflare gehostet, welche eventuell Daten
-          erheben können. Mehr Informationen können in deren
-          <NuxtLink
-            to="https://www.cloudflare.com/de-de/application/privacypolicy/"
-            class="underline"
-          >
-            Datenschutzbedingungen für Anwendungen</NuxtLink
-          >
-          gefunden werden.
-        </p>
-        <br />
         <h3 class="text-3xl text-gray-200 mt-4 mb-2">
           Wie werden die Daten verwendet?
         </h3>
@@ -60,7 +48,7 @@
           >flo@tectoast.de
         </NuxtLink>
         <br />
-        Zuletzt bearbeitet: 17.12.2025
+        Zuletzt bearbeitet: 17.02.2026
       </UPageBody>
     </UPage>
   </UContainer>

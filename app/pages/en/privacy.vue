@@ -36,16 +36,6 @@
           </li>
         </ul>
         <br />
-        <p>
-          This website is hosted by Cloudflare, which may collect information.
-          More information can be found in their
-          <NuxtLink
-            to="https://www.cloudflare.com/application/privacypolicy/"
-            class="underline"
-            >Application Privacy Policy</NuxtLink
-          >.
-        </p>
-        <br />
         <h3 class="text-3xl text-gray-200 mt-4 mb-2">
           How is this data being used?
         </h3>
@@ -58,7 +48,7 @@
         <NuxtLink to="mailto:flo@tectoast.de" class="underline"
           >flo@tectoast.de</NuxtLink
         ><br />
-        Last Modified: December 17th 2025
+        Last Modified: Feburary 17th 2026
       </UPageBody>
     </UPage>
   </UContainer>
