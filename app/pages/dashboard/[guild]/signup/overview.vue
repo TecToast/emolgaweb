@@ -21,7 +21,9 @@ type TableParticipant = {
 const participants: Ref<TableParticipant[]> = computed(() => {
   const data = participantsStored.value?.data;
   if (!data) return [];
+  let num = 1;
   return data.map((u) => ({
+    num: num++,
     user: {
       avatar: u.users[0]!.avatar,
       name: u.users[0]!.name,
@@ -33,6 +35,10 @@ const participants: Ref<TableParticipant[]> = computed(() => {
 const columns: Ref<TableColumn<TableParticipant>[]> = computed(() => {
   const firstParticipant = participants.value[0];
   return ([
+    {
+      accessorKey: 'num',
+      header: '#',
+    },
     {
       accessorKey: 'user',
       header: 'User',
