@@ -23,7 +23,7 @@ RUN pnpm install --shamefully-hoist
 COPY . ./
 
 # Build the application
-RUN --mount=type=secret,id=nuxt-ui-pro-license,env=NUXT_UI_PRO_LICENSE pnpm run build
+RUN pnpm run build
 
 # Create a new stage for the production image
 FROM --platform=${PLATFORM} node:${NODE_VERSION}-slim
