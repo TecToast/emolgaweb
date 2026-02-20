@@ -72,3 +72,7 @@ type PrimitiveConfigType =
   | "DOUBLE"
   | "OBJECT"
   | "CONTEXTUAL";
+
+export type SixVsPokeworldConfig = {
+    todo: true
+}
