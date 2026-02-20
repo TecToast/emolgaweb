@@ -42,6 +42,7 @@ const invalidIndexes = computed(() => {
         ![0, 1].every((i) => {
           const playerData: PlayerData = rsData[keys[i] as string]!;
           const opponentData: PlayerData = rsData[keys[1 - i] as string]!;
+          if(Object.keys(playerData).length > 6) return false;
           return (
             Object.values(playerData).reduce((sum, mon) => sum + mon.k, 0) ==
             Object.values(opponentData).reduce(
