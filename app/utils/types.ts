@@ -74,5 +74,18 @@ type PrimitiveConfigType =
   | "CONTEXTUAL";
 
 export type SixVsPokeworldConfig = {
-    todo: true
+    challenges: {
+        title: string,
+        info: string,
+        infoReward: string,
+        easy: ExerciseData,
+        medium: ExerciseData,
+        hard: ExerciseData,
+    }[]
+}
+type ExerciseData = {
+    title: string,
+    text: string,
+    fileKey: string,
+    reward: string,
 }
