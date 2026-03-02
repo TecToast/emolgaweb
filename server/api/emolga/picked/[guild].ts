@@ -1,0 +1,1 @@
+export default defineUnprotectedEmolgaRoute<{ name: string; spriteName: string; amount: number }[]>();
