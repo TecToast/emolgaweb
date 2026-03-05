@@ -89,3 +89,26 @@ type ExerciseData = {
     fileKey: string,
     reward: string,
 }
+
+export type Pokemon = {
+  name: string;
+  tier: string;
+  tera: boolean;
+  teraTier?: string;
+};
+
+export type TransactionData = {
+  picked: Pokemon[];
+  available: (Pokemon & { picked?: boolean })[];
+  teraCount: number;
+  teraMaxPoints?: number;
+  monMaxPoints?: number;
+  transactionPoints: number;
+  maxTransactionPoints: number;
+};
+
+export type TransactionSubmission = {
+  drops: string[];
+  picks: string[];
+  teraUsers: string[];
+};

@@ -83,9 +83,9 @@ const features = {
   <div class="relative">
     <UPageHero
       :title="'Emolga'"
-      :description="`Ein Discord-Bot für die Organisation von Pokémon-Ligen. Diese Seite befindet sich noch im Aufbau. Entwickelt von ${MY_DISCORD_TAG}.`"
+      :description="`Ein Discord-Bot für die Organisation von Pokémon-Ligen. Diese Seite befindet sich noch im Aufbau. Entwickelt von ${MY_DISCORD_TAG}.\n\nThis content here is in German, because me and the main target audience are German. In the future, this website will also be fully available in English.`"
       :links="links"
-      class="relative"
+      class="relative whitespace-pre-line"
     >
     </UPageHero>
 
