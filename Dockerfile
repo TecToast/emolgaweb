@@ -27,16 +27,14 @@ RUN pnpm run build
 
 # Create a new stage for the production image
 FROM --platform=${PLATFORM} node:${NODE_VERSION}-slim
-
+USER 1000:1000
 # Set the working directory inside the container
 WORKDIR /app
 
 # Copy the output from the build stage to the working directory
-COPY --from=build /app/.output ./
-
+COPY --from=build --chown=1000:1000 /app/.output ./
 # Define environment variables
 ENV HOST=0.0.0.0 NODE_ENV=production
-ENV NODE_ENV=production
 
 # Expose the port the application will run on
 EXPOSE 3000
