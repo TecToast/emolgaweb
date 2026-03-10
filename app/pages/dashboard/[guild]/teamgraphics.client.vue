@@ -18,16 +18,16 @@
       <h1 class="text-3xl text-center font-bold">
         {{ currentMon?.tlName ?? "" }}
       </h1>
-      <div class="h-3/4">
+      <div v-if="shape" class="h-3/4">
         <Cropper
             ref="cropper"
             :src="imageSrc"
-            :stencil-component="PentagonStencil"
+            :stencil-component="shape === 'PENTAGON' ? PentagonStencil : CircleStencil"
             :stencil-props="{
             handlers: {},
             movable: false,
             resizable: false,
-            aspectRatio: 1.12,
+            aspectRatio: shape === 'PENTAGON' ? 1.12 : 1.0,
           }"
             :resize-image="{ adjustStencil: false }"
             image-class="opacity-20"
@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import {Cropper} from "vue-advanced-cropper";
+import {CircleStencil, Cropper} from "vue-advanced-cropper";
 import "vue-advanced-cropper/dist/style.css";
 import {PentagonStencil} from "#components";
 import {useTemplateRef} from "vue";
@@ -67,6 +67,7 @@ const flip = () => {
 }
 
 const selectedGuild: Ref<GuildMeta | null> = inject("selectedGuild", ref(null));
+const shape = computed(() => selectedGuild.value?.teamgraphicsShape);
 const finished = ref(false);
 const loading = ref(true);
 

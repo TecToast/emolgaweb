@@ -1,4 +1,4 @@
-export type GuildMeta = { id: string; name: string; icon: string; runningSignup: boolean };
+export type GuildMeta = { id: string; name: string; icon: string; runningSignup: boolean; teamgraphicsShape?: "CIRCLE" | "PENTAGON" };
 export type ParticipantData = {
   users: UserData[];
   data: Record<string, string>;
