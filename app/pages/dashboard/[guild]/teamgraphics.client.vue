@@ -44,6 +44,13 @@
           @click="onClick"
       />
       <UButton label="Flip" color="secondary" @click="flip()"/>
+
+      <div class="flex items-center gap-3">
+        <UProgress v-model="done" :max="total" color="success" class="flex-1" />
+        <span class="text-sm font-medium text-gray-500 dark:text-gray-400 whitespace-nowrap">
+          {{ done }} / {{ total }}
+        </span>
+      </div>
     </template>
   </UDashboardPanel>
 </template>
@@ -70,9 +77,11 @@ const selectedGuild: Ref<GuildMeta | null> = inject("selectedGuild", ref(null));
 const shape = computed(() => selectedGuild.value?.teamgraphicsShape);
 const finished = ref(false);
 const loading = ref(true);
+const done = ref(0);
+const total = ref(0);
 
 const currentMon = ref<
-    { tlName: string; official: string; path: string } | undefined
+    { tlName: string; official: string; path: string; done: number; total: number } | undefined
 >(undefined);
 watch(
     currentMon,
@@ -82,6 +91,8 @@ watch(
         imageSrc.value = newVal.path;
         flipped.value = false;
         loading.value = false;
+        done.value = newVal.done;
+        total.value = newVal.total;
       } else {
         loading.value = true;
         $fetch(`/api/emolga/${selectedGuild.value?.id}/teamgraphics/new`)
