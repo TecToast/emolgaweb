@@ -2,7 +2,7 @@
 
 const guild = useRoute().params.guild as string;
 const { data, error } = await useFetch<{ name: string; spriteName: string; amount: number }[]>(
-  `/api/emolga/picked/${guild}`
+  `/api/emolga/picked/${guild}?v=1`
 );
 
 const maxAmount = computed(() => {
