@@ -4,6 +4,7 @@ const model = defineModel<{
   tier: string;
   quit: boolean;
   free: boolean;
+  tera: boolean;
   noCost: boolean;
 }>({ required: true });
 const emit = defineEmits(["datachange"]);
@@ -37,6 +38,12 @@ const enabledSwitches =
       v-model="model.free"
       label="Free"
       @change="emit('datachange', 'free')"
+    />
+    <UCheckbox
+        v-if="enabledSwitches.has('tera')"
+        v-model="model.tera"
+        label="Tera"
+        @change="emit('datachange', 'tera')"
     />
     <UCheckbox
       v-if="enabledSwitches.has('noCost')"
