@@ -1,8 +1,8 @@
 <script setup lang="ts">
 
 const guild = useRoute().params.guild as string;
-const { data, error } = await useFetch<{ name: string; spriteName: string; amount: number }[]>(
-  `/api/emolga/picked/${guild}?v=1`
+const { data, error } = await useFetch<{ name: string; tier: string; divs: {name: string; tera: boolean}[]; spriteName: string; amount: number }[]>(
+  `/api/emolga/picked/${guild}?v=2`
 );
 
 const maxAmount = computed(() => {
@@ -36,43 +36,58 @@ const maxAmount = computed(() => {
       </div>
 
       <div v-else-if="data" class="flex flex-col gap-3">
-        <UCard
+        <UTooltip
           v-for="(pokemon, index) in data"
           :key="pokemon.name"
+          :popper="{ placement: 'left' }"
         >
-          <div class="flex items-center gap-4">
-            <UBadge
-              :label="`#${index + 1}`"
-              variant="subtle"
-              color="neutral"
-              size="lg"
-              class="font-mono min-w-10 justify-center"
-            />
-            <img
-              :src="`https://play.pokemonshowdown.com/sprites/gen5/${pokemon.spriteName}.png`"
-              :alt="pokemon.name"
-              class="size-12 object-contain"
-            />
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center justify-between mb-1">
-                <span class="font-semibold text-lg truncate">{{ pokemon.name }}</span>
-                <UBadge
-                  :label="`${pokemon.amount}×`"
+          <template #content>
+            <span>Picked in: </span>
+            <span
+              v-for="(div, i) in pokemon.divs"
+              :key="div.name"
+              :class="{ 'text-primary': div.tera }"
+            >
+              {{ div.name }}{{ i < pokemon.divs.length - 1 ? ', ' : '' }}
+            </span>
+          </template>
+          <UCard>
+            <div class="flex items-center gap-4">
+              <UBadge
+                :label="`#${index + 1}`"
+                variant="subtle"
+                color="neutral"
+                size="lg"
+                class="font-mono min-w-10 justify-center"
+              />
+              <img
+                :src="`https://play.pokemonshowdown.com/sprites/gen5/${pokemon.spriteName}.png`"
+                :alt="pokemon.name"
+                class="size-12 object-contain"
+              />
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between mb-1">
+                  <div class="flex items-baseline gap-2">
+                    <span class="font-semibold text-lg truncate">{{ pokemon.name }}</span>
+                    <span class="text-sm text-dimmed">{{ pokemon.tier }}</span>
+                  </div>
+                  <UBadge
+                    :label="`${pokemon.amount}×`"
+                    color="primary"
+                    variant="subtle"
+                    size="md"
+                  />
+                </div>
+                <UProgress
+                  :model-value="(pokemon.amount / maxAmount) * 100"
                   color="primary"
-                  variant="subtle"
-                  size="md"
+                  size="sm"
                 />
               </div>
-              <UProgress
-                :model-value="(pokemon.amount / maxAmount) * 100"
-                color="primary"
-                size="sm"
-              />
             </div>
-          </div>
-        </UCard>
+          </UCard>
+        </UTooltip>
       </div>
     </div>
   </div>
 </template>
-
