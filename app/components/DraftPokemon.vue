@@ -20,12 +20,12 @@ const enabledSwitches =
       autoresize
       :rows="1"
       :ui="{ base: 'resize-none' }"
-      @input="emit('datachange', 'name')"
+      @change="emit('datachange', 'name')"
     />
     <UInput
       v-model="model.tier"
       class="w-32"
-      @input="emit('datachange', 'tier')"
+      @change="emit('datachange', 'tier')"
     />
     <UCheckbox
       v-if="enabledSwitches.has('quit')"
