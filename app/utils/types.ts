@@ -87,6 +87,7 @@ type ExerciseData = {
     title: string,
     text: string,
     fileKey: string,
+    fileKeyEn: string,
     reward: string,
 }
 

@@ -1,14 +1,14 @@
 <script setup lang="ts">
 const toast = useToast();
-const { data } = await useFetch<SixVsPokeworldConfig>("/api/emolga/sixvspokeworld/data");
+const {data} = await useFetch<SixVsPokeworldConfig>("/api/emolga/sixvspokeworld/data");
 
 const challenges = ref<SixVsPokeworldConfig["challenges"]>([]);
 watch(
-  data,
-  (d) => {
-    if (d) challenges.value = structuredClone(toRaw(d)).challenges;
-  },
-  { immediate: true }
+    data,
+    (d) => {
+      if (d) challenges.value = structuredClone(toRaw(d)).challenges;
+    },
+    {immediate: true}
 );
 
 const selectedIndex = ref(0);
@@ -19,9 +19,9 @@ function addMilestone() {
     title: "",
     info: "",
     infoReward: "",
-    easy: { title: "", text: "", fileKey: "", reward: "" },
-    medium: { title: "", text: "", fileKey: "", reward: "" },
-    hard: { title: "", text: "", fileKey: "", reward: "" },
+    easy: {title: "", text: "", fileKey: "", fileKeyEn: "", reward: ""},
+    medium: {title: "", text: "", fileKey: "", fileKeyEn: "", reward: ""},
+    hard: {title: "", text: "", fileKey: "", fileKeyEn: "", reward: ""},
   });
   selectedIndex.value = challenges.value.length - 1;
 }
@@ -39,12 +39,18 @@ function imageUrl(fileKey: string) {
 
 const uploadingFiles = ref<Record<string, boolean>>({});
 
-async function handleFileUpload(exercise: { title: string; text: string; fileKey: string; reward: string }, difficulty: string, event: Event) {
+async function handleFileUpload(exercise: {
+  title: string;
+  text: string;
+  fileKey: string;
+  fileKeyEn: string;
+  reward: string
+}, difficulty: string, lang: 'de' | 'en', event: Event) {
   const input = event.target as HTMLInputElement;
   const file = input.files?.[0];
   if (!file) return;
 
-  const uploadKey = `${selectedIndex.value}-${difficulty}`;
+  const uploadKey = `${selectedIndex.value}-${difficulty}-${lang}`;
   uploadingFiles.value[uploadKey] = true;
 
   try {
@@ -54,8 +60,12 @@ async function handleFileUpload(exercise: { title: string; text: string; fileKey
       method: "POST",
       body: formData,
     });
-    exercise.fileKey = result.key;
-    toast.add({ title: "Bild hochgeladen!", color: "success" });
+    if (lang === 'de') {
+      exercise.fileKey = result.key;
+    } else {
+      exercise.fileKeyEn = result.key;
+    }
+    toast.add({title: "Bild hochgeladen!", color: "success"});
   } catch (e: any) {
     toast.add({
       title: "Fehler beim Hochladen",
@@ -72,19 +82,20 @@ function clearFile(exercise: { title: string; text: string; fileKey: string; rew
   exercise.fileKey = "";
 }
 
-function isUploading(difficulty: string) {
-  return !!uploadingFiles.value[`${selectedIndex.value}-${difficulty}`];
+function isUploading(difficulty: string, lang: 'de' | 'en') {
+  return !!uploadingFiles.value[`${selectedIndex.value}-${difficulty}-${lang}`];
 }
 
 const isSaving = ref(false);
+
 async function save() {
   isSaving.value = true;
   try {
     await $fetch("/api/emolga/sixvspokeworld/data", {
       method: "POST",
-      body: { challenges: challenges.value },
+      body: {challenges: challenges.value},
     });
-    toast.add({ title: "Erfolgreich gespeichert!", color: "success" });
+    toast.add({title: "Erfolgreich gespeichert!", color: "success"});
   } catch (e: any) {
     toast.add({
       title: "Fehler beim Speichern",
@@ -102,46 +113,46 @@ async function save() {
     <div class="w-80 shrink-0 border-r border-default flex flex-col bg-elevated overflow-hidden">
       <div class="flex items-center justify-between p-4 border-b border-default shrink-0">
         <h2 class="text-lg font-semibold">MSTs</h2>
-        <UButton icon="i-lucide-plus" size="sm" color="primary" variant="soft" @click="addMilestone" />
+        <UButton icon="i-lucide-plus" size="sm" color="primary" variant="soft" @click="addMilestone"/>
       </div>
 
       <div class="flex-1 overflow-auto p-2 min-h-0">
         <div v-if="challenges.length === 0" class="p-4">
-          <UAlert title="Keine MSTs vorhanden" variant="subtle" />
+          <UAlert title="Keine MSTs vorhanden" variant="subtle"/>
         </div>
         <div
-          v-for="(challenge, index) in challenges"
-          :key="index"
-          class="flex items-center justify-between rounded-lg px-3 py-2 cursor-pointer mb-1 transition-colors"
-          :class="selectedIndex === index ? 'bg-accented' : 'hover:bg-muted'"
-          @click="selectedIndex = index"
+            v-for="(challenge, index) in challenges"
+            :key="index"
+            class="flex items-center justify-between rounded-lg px-3 py-2 cursor-pointer mb-1 transition-colors"
+            :class="selectedIndex === index ? 'bg-accented' : 'hover:bg-muted'"
+            @click="selectedIndex = index"
         >
           <span class="truncate">MST {{ index + 1 }}{{ challenge.title ? ` - ${challenge.title}` : '' }}</span>
           <UButton
-            icon="i-lucide-trash-2"
-            size="xs"
-            color="error"
-            variant="ghost"
-            @click.stop="deleteMilestone(index)"
+              icon="i-lucide-trash-2"
+              size="xs"
+              color="error"
+              variant="ghost"
+              @click.stop="deleteMilestone(index)"
           />
         </div>
       </div>
 
       <div class="p-4 border-t border-default shrink-0">
         <UButton
-          label="Speichern"
-          icon="i-lucide-save"
-          color="success"
-          block
-          :loading="isSaving"
-          @click="save"
+            label="Speichern"
+            icon="i-lucide-save"
+            color="success"
+            block
+            :loading="isSaving"
+            @click="save"
         />
       </div>
     </div>
 
     <div class="flex-1 overflow-auto p-6">
       <div v-if="!selectedChallenge" class="flex items-center justify-center h-full">
-        <UAlert title="Wähle oder erstelle einen MST" variant="subtle" icon="i-lucide-info" />
+        <UAlert title="Wähle oder erstelle einen MST" variant="subtle" icon="i-lucide-info"/>
       </div>
 
       <div v-else class="max-w-3xl mx-auto space-y-8">
@@ -153,13 +164,17 @@ async function save() {
           </template>
           <div class="space-y-4">
             <UFormField label="Titel" class="w-full">
-              <UInput v-model="selectedChallenge.title" class="w-full" placeholder="WEG ZUR ARENA 1 Level Cap 11" />
+              <UInput v-model="selectedChallenge.title" class="w-full" placeholder="WEG ZUR ARENA 1 Level Cap 11"/>
             </UFormField>
             <UFormField label="Info" class="w-full">
-              <UTextarea v-model="selectedChallenge.info" class="w-full" autoresize placeholder="Gilt **ab dem Fangtutorial** bis **vor dem Betreten der Arena in Nouvaria City**. " />
+              <UTextarea
+                  v-model="selectedChallenge.info" class="w-full" autoresize
+                  placeholder="Gilt **ab dem Fangtutorial** bis **vor dem Betreten der Arena in Nouvaria City**. "/>
             </UFormField>
             <UFormField label="Info Belohnung" class="w-full">
-              <UTextarea v-model="selectedChallenge.infoReward" class="w-full" autoresize placeholder="Arenaleiterin Viola: etc" />
+              <UTextarea
+                  v-model="selectedChallenge.infoReward" class="w-full" autoresize
+                  placeholder="Arenaleiterin Viola: etc"/>
             </UFormField>
           </div>
         </UCard>
@@ -172,39 +187,76 @@ async function save() {
           </template>
           <div class="space-y-4">
             <UFormField label="Titel" class="w-full">
-              <UInput v-model="selectedChallenge[difficulty].title" class="w-full" placeholder="Die Suche im Wald" />
+              <UInput v-model="selectedChallenge[difficulty].title" class="w-full" placeholder="Die Suche im Wald"/>
             </UFormField>
             <UFormField label="Text" class="w-full">
-              <UTextarea v-model="selectedChallenge[difficulty].text" class="w-full" autoresize placeholder="- Finde das Item Gegengift" />
+              <UTextarea
+                  v-model="selectedChallenge[difficulty].text" class="w-full" autoresize
+                  placeholder="- Finde das Item Gegengift"/>
             </UFormField>
             <UFormField label="Belohnung" class="w-full">
-              <UTextarea v-model="selectedChallenge[difficulty].reward" class="w-full" autoresize placeholder="Kein Item etc" />
+              <UTextarea
+                  v-model="selectedChallenge[difficulty].reward" class="w-full" autoresize
+                  placeholder="Kein Item etc"/>
             </UFormField>
             <UFormField label="Bild der Challenge">
               <div class="space-y-2">
                 <div class="flex items-center gap-2">
                   <input
-                    type="file"
-                    accept="image/*"
-                    :disabled="isUploading(difficulty)"
-                    class="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-accented file:text-default hover:file:bg-muted cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                    @change="handleFileUpload(selectedChallenge[difficulty], difficulty, $event)"
+                      type="file"
+                      accept="image/*"
+                      :disabled="isUploading(difficulty, 'de')"
+                      class="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-accented file:text-default hover:file:bg-muted cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      @change="handleFileUpload(selectedChallenge[difficulty], difficulty, 'de', $event)"
                   />
-                  <UIcon v-if="isUploading(difficulty)" name="i-lucide-loader-circle" class="animate-spin text-lg shrink-0" />
+                  <UIcon
+                      v-if="isUploading(difficulty, 'de')" name="i-lucide-loader-circle"
+                      class="animate-spin text-lg shrink-0"/>
                 </div>
                 <div v-if="selectedChallenge[difficulty].fileKey" class="flex items-center gap-3">
                   <img
-                    :src="imageUrl(selectedChallenge[difficulty].fileKey)"
-                    alt="Preview"
-                    class="max-h-32 rounded-lg border border-default"
+                      :src="imageUrl(selectedChallenge[difficulty].fileKey)"
+                      alt="Preview"
+                      class="max-h-32 rounded-lg border border-default"
                   />
                   <UButton
-                    icon="i-lucide-x"
-                    size="sm"
-                    color="error"
-                    variant="soft"
-                    label="Entfernen"
-                    @click="clearFile(selectedChallenge[difficulty])"
+                      icon="i-lucide-x"
+                      size="sm"
+                      color="error"
+                      variant="soft"
+                      label="Entfernen"
+                      @click="clearFile(selectedChallenge[difficulty])"
+                  />
+                </div>
+              </div>
+            </UFormField>
+            <UFormField label="Bild der Challenge (en)">
+              <div class="space-y-2">
+                <div class="flex items-center gap-2">
+                  <input
+                      type="file"
+                      accept="image/*"
+                      :disabled="isUploading(difficulty, 'en')"
+                      class="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-accented file:text-default hover:file:bg-muted cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      @change="handleFileUpload(selectedChallenge[difficulty], difficulty, 'en', $event)"
+                  />
+                  <UIcon
+                      v-if="isUploading(difficulty, 'en')" name="i-lucide-loader-circle"
+                      class="animate-spin text-lg shrink-0"/>
+                </div>
+                <div v-if="selectedChallenge[difficulty].fileKeyEn" class="flex items-center gap-3">
+                  <img
+                      :src="imageUrl(selectedChallenge[difficulty].fileKeyEn)"
+                      alt="Preview"
+                      class="max-h-32 rounded-lg border border-default"
+                  />
+                  <UButton
+                      icon="i-lucide-x"
+                      size="sm"
+                      color="error"
+                      variant="soft"
+                      label="Entfernen"
+                      @click="clearFile(selectedChallenge[difficulty])"
                   />
                 </div>
               </div>
