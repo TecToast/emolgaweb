@@ -12,30 +12,30 @@
     "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
-    "@nuxt/devtools": "^3.1.0",
-    "@nuxt/eslint": "1.4.1",
-    "@vueuse/core": "^14.0.0",
-    "@vueuse/nuxt": "^14.0.0",
-    "eslint": "^9.39.1",
-    "nuxt": "^4.2.1",
-    "nuxt-auth-utils": "^0.5.25",
-    "nuxt-security": "2.2.0",
-    "typescript": "^5.9.3"
+    "@nuxt/devtools": "^3.2.4",
+    "@nuxt/eslint": "1.15.2",
+    "@vueuse/core": "^14.2.1",
+    "@vueuse/nuxt": "^14.2.1",
+    "eslint": "^10.2.1",
+    "nuxt": "^4.4.2",
+    "nuxt-auth-utils": "^0.5.29",
+    "nuxt-security": "2.5.1",
+    "typescript": "^6.0.3"
   },
   "dependencies": {
-    "@iconify-json/logos": "^1.2.10",
-    "@iconify-json/lucide": "^1.2.73",
+    "@iconify-json/logos": "^1.2.11",
+    "@iconify-json/lucide": "^1.2.102",
     "@iconify-json/mdi": "^1.2.3",
-    "@iconify-json/simple-icons": "^1.2.58",
+    "@iconify-json/simple-icons": "^1.2.78",
     "@nuxt/image": "^2.0.0",
-    "@nuxt/ui": "^4.1.0",
+    "@nuxt/ui": "^4.6.1",
     "@pinia/nuxt": "^0.11.3",
     "pinia": "^3.0.4",
     "vue-advanced-cropper": "^2.8.9",
     "vuedraggable": "^4.1.0",
-    "zod": "^3.25.76"
+    "zod": "^4.3.6"
   },
-  "packageManager": "pnpm@10.4.0+sha512.6b849d0787d97f8f4e1f03a9b8ff8f038e79e153d6f11ae539ae7c435ff9e796df6a862c991502695c7f9e8fac8aeafc1ac5a8dab47e36148d183832d886dd52",
+  "packageManager": "pnpm@10.33.0",
   "pnpm": {
     "onlyBuiltDependencies": [
       "@parcel/watcher",
