@@ -14,7 +14,7 @@ RUN corepack enable
 WORKDIR /app
 
 # Copy package.json and pnpm-lock.yaml files to the working directory
-COPY package.json pnpm-lock.yaml .npmrc /app/
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc /app/
 
 ## Install dependencies
 RUN pnpm install --shamefully-hoist
@@ -22,6 +22,7 @@ RUN pnpm install --shamefully-hoist
 # Copy the rest of the application files to the working directory
 COPY . ./
 
+ENV CI=true
 # Build the application
 RUN pnpm run build
 

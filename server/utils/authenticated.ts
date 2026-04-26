@@ -4,16 +4,21 @@ import type {ConfigValue} from "~/utils/types";
 export const defineEmolgaRoute = <D>(): EventHandler<EventHandlerRequest, D> =>
     defineEventHandler<EventHandlerRequest>(async (event) => {
         const {user} = await requireUserSession(event);
-        const path = `${useRuntimeConfig(event).emolgaBackendUrl}${event.path}`;
-        const body = event.method === "GET" ? undefined : await readBody(event);
-        return await $fetch(path, {
+        const internalUrl = `${useRuntimeConfig(event).emolgaBackendUrl}${event.path}`;
+        return proxyRequest(event, internalUrl, {
+            headers: {
+                'UserID': user.id,
+            }
+        });
+        /*const body = event.method === "GET" ? undefined : await readBody(event);
+        return await $fetch(internalUrl, {
             headers: {
                 "Content-Type": "application/json",
                 UserID: user.id,
             },
             method: event.method,
             body,
-        });
+        });*/
     });
 
 export const defineUnprotectedEmolgaRoute = <D>(): EventHandler<
