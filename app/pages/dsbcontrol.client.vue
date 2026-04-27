@@ -3,6 +3,23 @@ import {type InitialDsbUser, useDsbStore} from '~/stores/dsb';
 
 const store = useDsbStore();
 definePageMeta({layout: 'raw'});
+
+const isCopied = ref(false);
+
+const copyAnswers = async () => {
+  const text = store.users.map(u => {
+    if (!u.answerText) return '';
+    return u.answerText.split('/')[0].trim();
+  }).join('\t');
+  try {
+    await navigator.clipboard.writeText(text);
+    isCopied.value = true;
+    setTimeout(() => isCopied.value = false, 2000);
+  } catch (e) {
+    console.error('Failed to copy answers', e);
+  }
+}
+
 const loadData = async () => {
   const data = await $fetch<{ users: InitialDsbUser[], categories: string[] }>("/api/emolga/dsb/data");
   store.setCategories(data.categories);
@@ -41,7 +58,7 @@ onMounted(async () => {
             <h2 class="text-xl font-semibold text-center">General Controls</h2>
             <div class="flex gap-2">
               <UButton
-                  v-if="store.answerHistory.length > 0" size="sm" color="error" variant="ghost"
+                  v-if="store.answerHistory.length > 0" size="sm" color="neutral" variant="ghost"
                   icon="i-heroicons-trash" @click="store.clearAnswerHistory()">Clear Cache
                 ({{ store.answerHistory.length }})
               </UButton>
@@ -70,13 +87,20 @@ onMounted(async () => {
             <div class="flex gap-2 flex-1 justify-end">
               <div class="flex">
                 <UButton
-                    color="warning" variant="soft" icon="i-heroicons-arrow-left" :disabled="store.categoryIndex === 0"
+                    color="warning" variant="soft" icon="i-heroicons-arrow-left"  :disabled="store.categoryIndex === 0"
                     class="rounded-r-none border-r border-warning-500/20" @click="store.prevQuestion(false)"/>
                 <UButton
                     color="warning" variant="soft" icon="i-heroicons-arrow-right"
                     :disabled="store.categoryIndex >= store.categories.length - 1"
                     class="rounded-l-none" @click="store.nextQuestion(false)"/>
               </div>
+
+              <UButton
+                  :color="isCopied ? 'success' : 'primary'" variant="soft" class="ml-2 font-bold"
+                  :icon="isCopied ? 'i-heroicons-check' : 'i-heroicons-clipboard-document'"
+                  @click="copyAnswers">
+                {{ isCopied ? 'Copied!' : 'Copy answers' }}
+              </UButton>
 
               <UButton
                   color="primary" class="ml-2 font-bold" :disabled="store.categoryIndex >= store.categories.length - 1"
