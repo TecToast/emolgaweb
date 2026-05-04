@@ -8,7 +8,8 @@ const resultid = route.params.resultid;
 const { data, error } = await useFetch<ResultCodeResponse>(
   `/api/emolga/result/${resultid}`
 );
-type PlayerData = { [mon: string]: { k: number; d: number } };
+type PlayerData = { [mon: string]: { kills: number; deaths: number } };
+type FlattenedPlayerData = {name: string; kills: number; deaths: number }[];
 type ResultData = Record<string, PlayerData>;
 const allResultDatas = ref<ResultData[]>([{}, {}, {}]);
 const selectedGame = ref(1);
@@ -28,7 +29,7 @@ function togglePokemonSelection(playerName: string, pokemon: string) {
       delete resultData.value[playerName];
     }
   } else {
-    playerData[pokemon] = { k: 0, d: 0 };
+    playerData[pokemon] = { kills: 0, deaths: 0 };
   }
 }
 
@@ -44,9 +45,9 @@ const invalidIndexes = computed(() => {
           const opponentData: PlayerData = rsData[keys[1 - i] as string]!;
           if(Object.keys(playerData).length > 6) return false;
           return (
-            Object.values(playerData).reduce((sum, mon) => sum + mon.k, 0) ==
+            Object.values(playerData).reduce((sum, mon) => sum + mon.kills, 0) ==
             Object.values(opponentData).reduce(
-              (sum, mon) => sum + (mon.d ? 1 : 0),
+              (sum, mon) => sum + (mon.deaths ? 1 : 0),
               0
             )
           );
@@ -84,7 +85,7 @@ const modalDescription = computed(() => {
           .map(
             ([player, mons]) =>
               `${player}:\n${Object.entries(mons)
-                .map(([mon, data]) => `${mon} ${data.k} ${data.d ? "X" : ""}`)
+                .map(([mon, data]) => `${mon} ${data.kills} ${data.deaths ? "X" : ""}`)
                 .join("\n")}`
           )
           .join("\n\n")
@@ -92,6 +93,10 @@ const modalDescription = computed(() => {
       .join("\n\n===============\n\n")
   );
 });
+
+function toFlattenedPlayerData(data: PlayerData): FlattenedPlayerData {
+  return Object.entries(data).map(([mon, data]) => ({name: mon, ...data}));
+}
 
 function sendResult() {
   const fetchedData = data.value;
@@ -102,7 +107,7 @@ function sendResult() {
     if (Object.keys(resData).length === 0) {
       continue;
     }
-    const payload = fetchedData.data.map((itm) => resData[itm.name]!);
+    const payload = fetchedData.data.map((itm) => toFlattenedPlayerData(resData[itm.name]!));
     payloads.push(payload);
   }
   submitting.value = true;
@@ -217,9 +222,9 @@ function sendResult() {
                         :min="0"
                         :max="6"
                         :model-value="
-                          resultData[pdata.name]?.[mon.tlName]?.k ?? 0
+                          resultData[pdata.name]?.[mon.tlName]?.kills ?? 0
                         "
-                        @update:model-value="(value) => resultData[pdata.name]![mon.tlName]!.k = value"
+                        @update:model-value="(value) => resultData[pdata.name]![mon.tlName]!.kills = value"
                       />
                     </ClientOnly>
                   </div>
@@ -244,8 +249,8 @@ function sendResult() {
                     "
                     size="xl"
                     label="Besiegt?"
-                    :model-value="resultData[pdata.name]?.[mon.tlName]?.d == 1"
-                    @update:model-value="(value) => resultData[pdata.name]![mon.tlName]!.d = value ? 1 : 0"
+                    :model-value="resultData[pdata.name]?.[mon.tlName]?.deaths == 1"
+                    @update:model-value="(value) => resultData[pdata.name]![mon.tlName]!.deaths = value ? 1 : 0"
                   />
                 </div>
               </template>
