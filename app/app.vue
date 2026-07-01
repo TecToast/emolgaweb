@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const { fetchUser } = useUserSession()
+
+await fetchUser()
+</script>
 
 <template>
   <NuxtLoadingIndicator />

@@ -10,6 +10,11 @@ export type UserData = {
   name: string;
   avatar: string;
 };
+export type MeData = {
+    userId: string;
+    displayName: string;
+    avatar: string;
+}
 export type ResultCodeResponse = {
   guildName: string;
   logoUrl: string | null;

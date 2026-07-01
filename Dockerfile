@@ -1,5 +1,5 @@
 ARG NODE_VERSION=22.13.0
-ARG PLATFORM=linux/arm64
+ARG PLATFORM=linux/amd64
 
 # Create build stage
 FROM node:${NODE_VERSION}-slim AS build

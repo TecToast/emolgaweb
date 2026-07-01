@@ -62,7 +62,7 @@ const maxAmount = computed(() => {
               />
               <img
                 :src="`https://play.pokemonshowdown.com/sprites/gen5/${pokemon.spriteName}.png`"
-                :alt="pokemon.name"
+                alt=""
                 class="size-12 object-contain"
               />
               <div class="flex-1 min-w-0">

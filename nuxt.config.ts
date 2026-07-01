@@ -5,7 +5,6 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@nuxt/image",
     "@pinia/nuxt",
-    "nuxt-auth-utils",
     "nuxt-security",
     "@nuxt/eslint",
     "@vueuse/nuxt",
@@ -61,9 +60,9 @@ export default defineNuxtConfig({
     },
   },
   vite: {
-    server: {
-      allowedHosts: [".trycloudflare.com"],
-    },
+    optimizeDeps: {
+      include: []
+    }
   },
   icon: {
     clientBundle: {

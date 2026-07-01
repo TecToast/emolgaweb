@@ -1,4 +1,3 @@
-import type { User } from "#auth-utils";
 export const ALPHA = true;
 export const MY_DISCORD_TAG = "@tectoast";
 export const BOT_INVITE_URL =
@@ -9,8 +8,8 @@ export function convertLeagueIDToName(leagueid: string) {
   return leagueid.replace(/(.+)S(\d+)L?(\d+)?/g, "$1 Saison $2 Liga $3");
 }
 
-export function buildAvatarURLFromUser(user: User) {
-  return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.webp?size=256`;
+export function buildAvatarURLFromUser(user: MeData) {
+  return `https://cdn.discordapp.com/avatars/${user.userId}/${user.avatar}.webp?size=256`;
 }
 
 export function shuffleArray<T>(array: T[]) {
