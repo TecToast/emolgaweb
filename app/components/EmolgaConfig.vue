@@ -7,8 +7,8 @@ const content = reactive(modifiableContent);
 const route = useRoute();
 const path = route.params.path;
 const resolvedPath = (
-  typeof path === "string" ? (path === "" ? [] : [path]) : path
-)!;
+    (typeof path === "string" ? (path === "" ? [] : [path]) : path) ?? []
+);
 const isSaving = ref(false);
 
 function getObjectProperty(obj: any, path: string) {
