@@ -97,7 +97,7 @@ type ExerciseData = {
 }
 
 export type Pokemon = {
-  name: string;
+  showdownId: string;
   tier: string;
   tera: boolean;
   teraTier?: string;
@@ -111,6 +111,7 @@ export type TransactionData = {
   monMaxPoints?: number;
   transactionPoints: number;
   maxTransactionPoints: number;
+  displayNames: { [key: string]: string };
 };
 
 export type TransactionSubmission = {

@@ -8,7 +8,11 @@ const transactionid = route.params.transactionid as string;
 const { data, error, status } = useFetch<TransactionData>(
   `/api/emolga/transaction/${transactionid}`
 );
-
+const displayNames = computed(() => {
+  const dataValue = data.value;
+  if (!dataValue) return {};
+  return dataValue.displayNames
+})
 const selectedDrops = ref<Set<string>>(new Set());
 const selectedPicks = ref<Set<string>>(new Set());
 const selectedTera = ref<Set<string>>(
@@ -17,7 +21,7 @@ const selectedTera = ref<Set<string>>(
 watchOnce(data, (val) => {
   if (!val) return;
   selectedTera.value = new Set(
-    val.picked.filter((p) => p.tera).map((p) => p.name)
+    val.picked.filter((p) => p.tera).map((p) => p.showdownId)
   );
 });
 const submitting = ref(false);
@@ -29,20 +33,20 @@ const availablePokemon = computed(() => data.value?.available ?? []);
 const requiredTeraCount = computed(() => data.value?.teraCount ?? 2);
 
 const filteredAvailable = computed(() => {
-  const q = searchQuery.value.toLowerCase().trim();
+  const q = searchQuery.value.toLowerCase().trim().replaceAll(/[^a-zA-Z\\d]/g, '');
   if(q.length <= 2) return [];
   return availablePokemon.value.filter(
     (p) =>
-      p.name.toLowerCase().includes(q)
+      p.showdownId.includes(q)
   );
 });
 
 const futureTeam = computed(() => {
   const kept = currentPicked.value.filter(
-    (p) => !selectedDrops.value.has(p.name)
+    (p) => !selectedDrops.value.has(p.showdownId)
   );
   const added = availablePokemon.value.filter((p) =>
-    selectedPicks.value.has(p.name)
+    selectedPicks.value.has(p.showdownId)
   );
   return [...kept, ...added];
 });
@@ -53,7 +57,7 @@ const monMaxPoints = computed(() => data.value?.monMaxPoints);
 const monPointsSum = computed(() => {
   if (monMaxPoints.value == null) return 0;
   return futureTeam.value.reduce((sum, p) => {
-    const tier = selectedTera.value.has(p.name) && p.teraTier ? p.teraTier : p.tier;
+    const tier = selectedTera.value.has(p.showdownId) && p.teraTier ? p.teraTier : p.tier;
     return sum + Number(tier);
   }, 0);
 });
@@ -62,10 +66,10 @@ const monPointsValid = computed(() =>
   monMaxPoints.value == null || monPointsSum.value <= monMaxPoints.value
 );
 
-function wouldExceedMonPoints(name: string) {
+function wouldExceedMonPoints(showdownId: string) {
   if (monMaxPoints.value == null) return false;
-  if (selectedPicks.value.has(name)) return false;
-  const pokemon = availablePokemon.value.find((p) => p.name === name);
+  if (selectedPicks.value.has(showdownId)) return false;
+  const pokemon = availablePokemon.value.find((p) => p.showdownId === showdownId);
   if (!pokemon) return false;
   const cost = Number(pokemon.tier);
   return monPointsSum.value + cost > monMaxPoints.value;
@@ -74,21 +78,21 @@ function wouldExceedMonPoints(name: string) {
 const teraPointsSum = computed(() => {
   if (teraMaxPoints.value == null) return 0;
   return futureTeam.value
-    .filter((p) => selectedTera.value.has(p.name))
+    .filter((p) => selectedTera.value.has(p.showdownId))
     .reduce((sum, p) => sum + Number(p.teraTier ?? p.tier), 0);
 });
 
-function wouldExceedTeraPoints(name: string) {
+function wouldExceedTeraPoints(showdownId: string) {
   if (teraMaxPoints.value == null) return false;
-  if (selectedTera.value.has(name)) return false;
-  const pokemon = futureTeam.value.find((p) => p.name === name);
+  if (selectedTera.value.has(showdownId)) return false;
+  const pokemon = futureTeam.value.find((p) => p.showdownId === showdownId);
   if (!pokemon) return false;
   return teraPointsSum.value + Number(pokemon.teraTier ?? pokemon.tier) > teraMaxPoints.value;
 }
 
-function wouldExceedTransactionPoints(name: string) {
-  if (selectedTera.value.has(name)) return false;
-  if (initialTera.value.has(name)) return false;
+function wouldExceedTransactionPoints(showdownId: string) {
+  if (selectedTera.value.has(showdownId)) return false;
+  if (initialTera.value.has(showdownId)) return false;
   // Check if this new tera would be offset by a dropped tera
   const currentNewTera = newTeraCount.value;
   // Adding this would increase newTeraCount by 1 only if not already offset
@@ -113,19 +117,19 @@ const teraValid = computed(
 );
 
 const initialTera = computed(() =>
-  new Set(data.value?.picked.filter((p) => p.tera).map((p) => p.name) ?? [])
+  new Set(data.value?.picked.filter((p) => p.tera).map((p) => p.showdownId) ?? [])
 );
 
 const droppedTeraCount = computed(() =>
   currentPicked.value.filter(
-    (p) => p.tera && selectedDrops.value.has(p.name)
+    (p) => p.tera && selectedDrops.value.has(p.showdownId)
   ).length
 );
 
 const newTeraCount = computed(() => {
   let count = 0;
-  for (const name of selectedTera.value) {
-    if (!initialTera.value.has(name)) count++;
+  for (const showdownId of selectedTera.value) {
+    if (!initialTera.value.has(showdownId)) count++;
   }
   return Math.max(0, count - droppedTeraCount.value);
 });
@@ -142,8 +146,8 @@ const canAfford = computed(() => remainingPoints.value >= 0);
 
 const teraChanged = computed(() => {
   if (selectedTera.value.size !== initialTera.value.size) return true;
-  for (const name of selectedTera.value) {
-    if (!initialTera.value.has(name)) return true;
+  for (const showdownId of selectedTera.value) {
+    if (!initialTera.value.has(showdownId)) return true;
   }
   return false;
 });
@@ -158,32 +162,32 @@ const canSubmit = computed(
     !submitting.value
 );
 
-function toggleDrop(name: string) {
+function toggleDrop(showdownId: string) {
   const s = new Set(selectedDrops.value);
-  if (s.has(name)) {
-    s.delete(name);
+  if (s.has(showdownId)) {
+    s.delete(showdownId);
   } else {
-    s.add(name);
+    s.add(showdownId);
   }
   selectedDrops.value = s;
   nextTick(() => cleanupTera());
 }
 
-function togglePick(name: string) {
+function togglePick(showdownId: string) {
   const s = new Set(selectedPicks.value);
-  if (s.has(name)) {
-    s.delete(name);
+  if (s.has(showdownId)) {
+    s.delete(showdownId);
   } else {
-    s.add(name);
+    s.add(showdownId);
   }
   selectedPicks.value = s;
   nextTick(() => cleanupTera());
 }
 
-function toggleTera(name: string) {
+function toggleTera(showdownId: string) {
   const s = new Set(selectedTera.value);
-  if (s.has(name)) {
-    s.delete(name);
+  if (s.has(showdownId)) {
+    s.delete(showdownId);
   } else {
     if (s.size >= requiredTeraCount.value) {
       toast.add({
@@ -193,24 +197,24 @@ function toggleTera(name: string) {
       });
       return;
     }
-    s.add(name);
+    s.add(showdownId);
   }
   selectedTera.value = s;
 }
 
 function cleanupTera() {
-  const futureNames = new Set(futureTeam.value.map((p) => p.name));
+  const futureShowdownIds = new Set(futureTeam.value.map((p) => p.showdownId));
   const s = new Set(selectedTera.value);
   // Remove tera selections for pokemon no longer in future team
-  for (const name of s) {
-    if (!futureNames.has(name)) {
-      s.delete(name);
+  for (const showdownId of s) {
+    if (!futureShowdownIds.has(showdownId)) {
+      s.delete(showdownId);
     }
   }
   // Restore original tera users that are back in the future team
-  for (const name of initialTera.value) {
-    if (futureNames.has(name) && !s.has(name)) {
-      s.add(name);
+  for (const showdownId of initialTera.value) {
+    if (futureShowdownIds.has(showdownId) && !s.has(showdownId)) {
+      s.add(showdownId);
     }
   }
   selectedTera.value = s;
@@ -358,26 +362,26 @@ async function submit() {
             <div class="flex flex-col gap-2">
               <UCard
                 v-for="pokemon in currentPicked"
-                :key="pokemon.name"
+                :key="pokemon.showdownId"
                 :class="[
                   'cursor-pointer transition-all',
-                  selectedDrops.has(pokemon.name)
+                  selectedDrops.has(pokemon.showdownId)
                     ? 'ring-2 ring-red-500 opacity-60'
                     : 'hover:ring-2 hover:ring-red-300',
                 ]"
-                @click="toggleDrop(pokemon.name)"
+                @click="toggleDrop(pokemon.showdownId)"
               >
                 <div class="flex items-center gap-3">
                   <UCheckbox
-                    :model-value="selectedDrops.has(pokemon.name)"
+                    :model-value="selectedDrops.has(pokemon.showdownId)"
                     color="error"
                     @click.stop
-                    @change="toggleDrop(pokemon.name)"
+                    @change="toggleDrop(pokemon.showdownId)"
                   />
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center justify-between">
                       <span class="font-semibold truncate">{{
-                        pokemon.name
+                        displayNames[pokemon.showdownId]
                       }}</span>
                       <UBadge variant="subtle" :color="pokemon.tera ? 'info' : 'neutral'" size="sm">
                         {{ pokemon.tera ? pokemon.teraTier : pokemon.tier }}
@@ -385,7 +389,7 @@ async function submit() {
                     </div>
                   </div>
                   <UIcon
-                    v-if="selectedDrops.has(pokemon.name)"
+                    v-if="selectedDrops.has(pokemon.showdownId)"
                     name="i-lucide-x-circle"
                     class="text-red-500 text-lg shrink-0"
                   />
@@ -419,25 +423,25 @@ async function submit() {
               <UCard
                 v-for="pokemon in filteredAvailable"
                 v-else
-                :key="pokemon.name"
+                :key="pokemon.showdownId"
                 :class="[
                   'transition-all',
                   'shrink-0',
-                  pokemon.picked || wouldExceedMonPoints(pokemon.name)
+                  pokemon.picked || wouldExceedMonPoints(pokemon.showdownId)
                     ? 'opacity-40 cursor-not-allowed'
-                    : selectedPicks.has(pokemon.name)
+                    : selectedPicks.has(pokemon.showdownId)
                       ? 'cursor-pointer ring-2 ring-green-500'
                       : 'cursor-pointer hover:ring-2 hover:ring-green-300',
                 ]"
-                @click="!pokemon.picked && !wouldExceedMonPoints(pokemon.name) && togglePick(pokemon.name)"
+                @click="!pokemon.picked && !wouldExceedMonPoints(pokemon.showdownId) && togglePick(pokemon.showdownId)"
               >
                 <div class="flex items-center gap-3">
                   <UCheckbox
-                    :model-value="selectedPicks.has(pokemon.name)"
-                    :disabled="!!pokemon.picked || wouldExceedMonPoints(pokemon.name)"
+                    :model-value="selectedPicks.has(pokemon.showdownId)"
+                    :disabled="!!pokemon.picked || wouldExceedMonPoints(pokemon.showdownId)"
                     color="success"
                     @click.stop
-                    @change="togglePick(pokemon.name)"
+                    @change="togglePick(pokemon.showdownId)"
                   />
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center justify-between">
@@ -448,7 +452,7 @@ async function submit() {
                             'line-through': pokemon.picked,
                           }"
                         >
-                          {{ pokemon.name }}
+                          {{ displayNames[pokemon.showdownId] }}
                         </span>
                         <UBadge
                           v-if="pokemon.picked"
@@ -467,7 +471,7 @@ async function submit() {
                     </div>
                   </div>
                   <UIcon
-                    v-if="selectedPicks.has(pokemon.name)"
+                    v-if="selectedPicks.has(pokemon.showdownId)"
                     name="i-lucide-check-circle"
                     class="text-green-500 text-lg shrink-0"
                   />
@@ -500,17 +504,17 @@ async function submit() {
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
             <UCard
               v-for="pokemon in futureTeam"
-              :key="pokemon.name"
+              :key="pokemon.showdownId"
             >
               <div class="flex items-center gap-3">
                 <UIcon
                   :name="
-                    selectedPicks.has(pokemon.name)
+                    selectedPicks.has(pokemon.showdownId)
                       ? 'i-lucide-plus-circle'
                       : 'i-lucide-circle'
                   "
                   :class="
-                    selectedPicks.has(pokemon.name)
+                    selectedPicks.has(pokemon.showdownId)
                       ? 'text-green-500'
                       : 'text-dimmed'
                   "
@@ -518,23 +522,23 @@ async function submit() {
                 <div class="flex-1 min-w-0">
                   <div class="flex items-center justify-between">
                     <span class="font-semibold truncate">{{
-                      pokemon.name
+                      displayNames[pokemon.showdownId]
                     }}</span>
                     <UBadge
                       variant="subtle"
-                      :color="selectedTera.has(pokemon.name) ? 'info' : 'neutral'"
+                      :color="selectedTera.has(pokemon.showdownId) ? 'info' : 'neutral'"
                       size="sm"
                     >
-                      {{ selectedTera.has(pokemon.name) && pokemon.teraTier ? pokemon.teraTier : pokemon.tier }}
+                      {{ selectedTera.has(pokemon.showdownId) && pokemon.teraTier ? pokemon.teraTier : pokemon.tier }}
                     </UBadge>
                   </div>
                 </div>
                 <UCheckbox
-                  :model-value="selectedTera.has(pokemon.name)"
-                  :disabled="!pokemon.teraTier || (teraValid && !selectedTera.has(pokemon.name)) || wouldExceedTeraPoints(pokemon.name) || wouldExceedTransactionPoints(pokemon.name)"
+                  :model-value="selectedTera.has(pokemon.showdownId)"
+                  :disabled="!pokemon.teraTier || (teraValid && !selectedTera.has(pokemon.showdownId)) || wouldExceedTeraPoints(pokemon.showdownId) || wouldExceedTransactionPoints(pokemon.showdownId)"
                   color="info"
                   @click.stop
-                  @change="toggleTera(pokemon.name)"
+                  @change="toggleTera(pokemon.showdownId)"
                 />
               </div>
             </UCard>
