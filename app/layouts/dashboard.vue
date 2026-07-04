@@ -49,7 +49,7 @@ const linksInServer: Ref<NavigationMenuItem[]> = computed(() => {
       icon: "i-lucide-image",
       to: `/dashboard/${guild.id}/teamgraphics`,
     }] : []),
-    ...(user.value?.id === "175910318608744448"
+    ...(user.value?.userId === "175910318608744448"
       ? [
           {
             label: "Anmeldung",

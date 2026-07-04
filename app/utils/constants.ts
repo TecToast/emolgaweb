@@ -9,6 +9,7 @@ export function convertLeagueIDToName(leagueid: string) {
 }
 
 export function buildAvatarURLFromUser(user: MeData) {
+  if(!user.avatar) return "";
   return `https://cdn.discordapp.com/avatars/${user.userId}/${user.avatar}.webp?size=256`;
 }
 

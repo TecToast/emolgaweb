@@ -29,6 +29,13 @@ const dropdownItems = [
 ];
 
 const { user } = useUserSession();
+const avatarData = computed(() => {
+  const userData = user.value
+  if(!userData) return undefined;
+  const avatarUrl = buildAvatarURLFromUser(userData)
+  if(!avatarUrl) return undefined;
+  return { src: avatarUrl }
+})
 </script>
 
 <template>
@@ -53,7 +60,7 @@ const { user } = useUserSession();
       <template #right>
         <UDropdownMenu v-if="user" :items="dropdownItems">
           <UButton
-            :avatar="{ src: buildAvatarURLFromUser(user) }"
+            :avatar="avatarData"
             :label="user.displayName"
             variant="subtle"
             color="neutral"
