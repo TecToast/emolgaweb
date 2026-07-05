@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const { fetchUser } = useUserSession()
+const { fetchIfRequired } = useUserSession()
 
-await fetchUser()
+await fetchIfRequired()
 </script>
 
 <template>

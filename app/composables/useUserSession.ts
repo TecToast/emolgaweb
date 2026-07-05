@@ -3,7 +3,7 @@ import type {MeData} from "~/utils/types";
 export default function() {
     // Global state to hold the user. Null means unauthenticated.
     const user = useState<MeData | null>('auth-user', () => null)
-    const alreadyFetched = ref(false)
+    const alreadyFetched = useState<boolean>('auth-fetched', () => false)
 
     // Function to fetch the user from Ktor
     const fetchUser = async () => {
