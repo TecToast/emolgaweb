@@ -5,7 +5,7 @@ definePageMeta({
 });
 const route = useRoute();
 const toast = useToast();
-const { data: participantsStored } = await useFetch(
+const { data: participantsStored } = await useFetch<{ conferences: string[], data: ParticipantData[] }>(
   `/api/emolga/${route.params.guild}/signup/participants`
 );
 const uncategorized = ref<ParticipantData[]>([]);
@@ -78,20 +78,22 @@ function dataToDescription(pData: ParticipantData) {
     .join(", ");
 }
 async function saveToServer() {
-  const data: (string | null)[][] = [];
+  const data: { [key: string]: { conf: string | null; order: number } } = {};
   for (const [conf, participants] of Object.entries(conferences.value)) {
-    participants.forEach((p) => {
-      data.push([p.users[0]!.id, conf]);
-    });
+    let order = 0;
+    for(const p of participants) {
+      data[p.id.toString()] = {conf, order};
+      order++;
+    }
   }
   uncategorized.value.forEach((p) => {
-    data.push([p.users[0]!.id, null]);
+    data[p.id.toString()] = { conf: null, order: 0 }
   });
   await $fetch(`/api/emolga/${route.params.guild}/signup/participants`, {
     method: "POST",
     body: {
       conferences: Object.keys(conferences.value),
-      data: Object.fromEntries(data),
+      data,
     },
   });
   toast.add({
@@ -141,7 +143,7 @@ async function saveToServer() {
       </UPageList>
       <SignupConferenceModal
         class="hidden lg:inline-flex"
-        @new="(name) => {
+        @new="(name: string) => {
           if(conferences[name]) {
             toast.add({ title: 'Diese Conference existiert bereits!', color: 'error' });
             return;

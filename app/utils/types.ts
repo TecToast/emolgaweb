@@ -1,5 +1,7 @@
 export type GuildMeta = { id: string; name: string; icon: string; runningSignup: boolean; teamgraphicsShape?: "CIRCLE" | "PENTAGON" };
 export type ParticipantData = {
+  id: number;
+  order: number;
   users: UserData[];
   data: Record<string, string>;
   hasLogo: boolean;

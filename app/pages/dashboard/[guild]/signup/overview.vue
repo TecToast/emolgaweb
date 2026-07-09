@@ -6,7 +6,7 @@ definePageMeta({
   layout: "dashboard",
 });
 const route = useRoute();
-const {data: participantsStored, refresh, status } = await useFetch(
+const {data: participantsStored, refresh, status } = await useFetch<{ conferences: string[], data: ParticipantData[] }>(
     `/api/emolga/${route.params.guild}/signup/participants`
 );
 type TableParticipant = {
