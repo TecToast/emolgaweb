@@ -15,7 +15,7 @@ const props = defineProps<{
 const open = ref(false);
 </script>
 <template>
-  <UModal :title :open="open">
+  <UModal :title :open="open" :close="false">
     <UTooltip :disabled="!errorMsg" :text="errorMsg ?? ''">
       <UButton
           :color="props.btnColor"
