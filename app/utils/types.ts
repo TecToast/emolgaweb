@@ -28,6 +28,7 @@ export type ResultCodeResponse = {
     picks: {
       tlName: string;
       spriteName: string;
+      showdownId: string;
     }[];
   }[];
 };

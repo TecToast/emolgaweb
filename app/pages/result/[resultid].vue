@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ResultCodeResponse } from "~/utils/types";
+import type {ResultCodeResponse} from "~/utils/types";
 
 const route = useRoute();
 const router = useRouter();
@@ -71,6 +71,11 @@ const errorMsg = computed(() => {
   }
   return null;
 });
+const tlLookup = computed(() => {
+  const response = data.value
+  if(!response) return {}
+  return Object.fromEntries(response.data.flatMap(u => u.picks.map(p => [p.showdownId, p.tlName])))
+})
 const modalDescription = computed(() => {
   const error = errorMsg.value;
   if (error) {
@@ -85,7 +90,7 @@ const modalDescription = computed(() => {
           .map(
             ([player, mons]) =>
               `${player}:\n${Object.entries(mons)
-                .map(([mon, data]) => `${mon} ${data.kills} ${data.deaths ? "X" : ""}`)
+                .map(([mon, data]) => `${tlLookup.value[mon] ?? mon} ${data.kills} ${data.deaths ? "X" : ""}`)
                 .join("\n")}`
           )
           .join("\n\n")
@@ -205,12 +210,12 @@ function sendResult() {
           <div class="flex gap-2 flex-col">
             <h2 class="text-lg font-semibold text-center">Kader</h2>
             <div class="flex flex-col gap-2 px-2 xl:px-0">
-              <template v-for="mon of pdata.picks" :key="mon.tlName">
+              <template v-for="mon of pdata.picks" :key="mon.showdownId">
                 <div class="w-full flex items-center gap-4">
                   <div
                     class="flex flex-col xl:flex-row items-center gap-2"
                     :class="
-                      resultData[pdata.name]?.[mon.tlName]
+                      resultData[pdata.name]?.[mon.showdownId]
                         ? 'visible'
                         : 'invisible'
                     "
@@ -222,18 +227,18 @@ function sendResult() {
                         :min="0"
                         :max="6"
                         :model-value="
-                          resultData[pdata.name]?.[mon.tlName]?.kills ?? 0
+                          resultData[pdata.name]?.[mon.showdownId]?.kills ?? 0
                         "
-                        @update:model-value="(value) => resultData[pdata.name]![mon.tlName]!.kills = value"
+                        @update:model-value="(value) => resultData[pdata.name]![mon.showdownId]!.kills = value"
                       />
                     </ClientOnly>
                   </div>
                   <div
                     class="rounded-lg ring ring-default p-2 flex flex-col xl:flex-row gap-2 items-center cursor-pointer w-full"
                     :class="{
-                      'bg-primary-900': resultData[pdata.name]?.[mon.tlName],
+                      'bg-primary-900': resultData[pdata.name]?.[mon.showdownId],
                     }"
-                    @click="togglePokemonSelection(pdata.name, mon.tlName)"
+                    @click="togglePokemonSelection(pdata.name, mon.showdownId)"
                   >
                     <img
                       :src="`https://play.pokemonshowdown.com/sprites/gen5/${mon.spriteName}.png`"
@@ -243,14 +248,14 @@ function sendResult() {
                   </div>
                   <UCheckbox
                     :class="
-                      resultData[pdata.name]?.[mon.tlName]
+                      resultData[pdata.name]?.[mon.showdownId]
                         ? 'visible'
                         : 'invisible'
                     "
                     size="xl"
                     label="Besiegt?"
-                    :model-value="resultData[pdata.name]?.[mon.tlName]?.deaths == 1"
-                    @update:model-value="(value) => resultData[pdata.name]![mon.tlName]!.deaths = value ? 1 : 0"
+                    :model-value="resultData[pdata.name]?.[mon.showdownId]?.deaths == 1"
+                    @update:model-value="(value) => resultData[pdata.name]![mon.showdownId]!.deaths = value ? 1 : 0"
                   />
                 </div>
               </template>
