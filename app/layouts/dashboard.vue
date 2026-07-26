@@ -44,7 +44,7 @@ const linksInServer: Ref<NavigationMenuItem[]> = computed(() => {
       avatar: { src: guild.icon },
       to: `/dashboard/${guild.id}`,
     },
-      ...(guild.teamgraphicsShape ? [{
+      ...(guild.teamgraphicShape ? [{
       label: "Kadergrafik",
       icon: "i-lucide-image",
       to: `/dashboard/${guild.id}/teamgraphics`,

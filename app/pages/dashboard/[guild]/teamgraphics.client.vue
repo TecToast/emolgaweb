@@ -74,7 +74,7 @@ const flip = () => {
 }
 
 const selectedGuild: Ref<GuildMeta | null> = inject("selectedGuild", ref(null));
-const shape = computed(() => selectedGuild.value?.teamgraphicsShape);
+const shape = computed(() => selectedGuild.value?.teamgraphicShape);
 const finished = ref(false);
 const loading = ref(true);
 const done = ref(0);
