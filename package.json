@@ -16,18 +16,18 @@
     "@nuxt/eslint": "1.15.2",
     "@vueuse/core": "^14.3.0",
     "@vueuse/nuxt": "^14.3.0",
-    "eslint": "^10.6.0",
-    "nuxt": "^4.4.8",
+    "eslint": "^10.8.0",
+    "nuxt": "^4.5.0",
     "nuxt-security": "2.5.1",
     "typescript": "^6.0.3"
   },
   "dependencies": {
     "@iconify-json/logos": "^1.2.11",
-    "@iconify-json/lucide": "^1.2.115",
+    "@iconify-json/lucide": "^1.2.120",
     "@iconify-json/mdi": "^1.2.3",
-    "@iconify-json/simple-icons": "^1.2.88",
+    "@iconify-json/simple-icons": "^1.2.92",
     "@nuxt/image": "^2.0.0",
-    "@nuxt/ui": "^4.9.0",
+    "@nuxt/ui": "^4.10.0",
     "@pinia/nuxt": "^0.11.3",
     "pinia": "^3.0.4",
     "pinia-shared-state": "^2.0.1",
@@ -42,9 +42,6 @@
       "esbuild",
       "sharp",
       "vue-demi"
-    ],
-    "overrides": {
-      "vite": "npm:rolldown-vite@latest"
-    }
+    ]
   }
 }
