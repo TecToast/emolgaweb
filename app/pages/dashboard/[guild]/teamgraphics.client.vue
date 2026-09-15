@@ -16,10 +16,11 @@
 
     <template #body>
       <h1 class="text-3xl text-center font-bold">
-        {{ currentMon?.tlName ?? "" }}
+        {{ currentMon?.displayName ?? "" }}
       </h1>
       <div v-if="shape" class="h-3/4">
         <Cropper
+            class="h-full pixelated"
             ref="cropper"
             :src="imageSrc"
             :stencil-component="shape === 'PENTAGON' ? PentagonStencil : CircleStencil"
@@ -30,7 +31,7 @@
             aspectRatio: shape === 'PENTAGON' ? 1.12 : 1.0,
           }"
             :resize-image="{ adjustStencil: false }"
-            image-class="opacity-20"
+            image-class="opacity-20 pixelated"
             image-restriction="stencil"
             @change="onChange"
         />
@@ -81,7 +82,7 @@ const done = ref(0);
 const total = ref(0);
 
 const currentMon = ref<
-    { tlName: string; official: string; path: string; done: number; total: number } | undefined
+    { displayName: string; official: string; path: string; done: number; total: number } | undefined
 >(undefined);
 watch(
     currentMon,
@@ -137,7 +138,7 @@ const onClick = async () => {
       {
         method: "POST",
         body: {
-          official: currentMon.value?.official,
+          showdownId: currentMon.value?.official,
           flipped: flipped.value,
           ...currentCoordinates.value,
         },
@@ -146,3 +147,10 @@ const onClick = async () => {
   currentMon.value = undefined;
 };
 </script>
+<style>
+.pixelated {
+  image-rendering: crisp-edges;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+</style>
