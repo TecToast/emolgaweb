@@ -20,7 +20,8 @@
       </h1>
       <div v-if="shape" class="h-3/4">
         <Cropper
-            class="h-full pixelated"
+            class="h-full"
+            :class="pixelated ? 'pixelated' : ''"
             ref="cropper"
             :src="imageSrc"
             :stencil-component="shape === 'PENTAGON' ? PentagonStencil : CircleStencil"
@@ -76,6 +77,7 @@ const flip = () => {
 
 const selectedGuild: Ref<GuildMeta | null> = inject("selectedGuild", ref(null));
 const shape = computed(() => selectedGuild.value?.teamgraphicShape);
+const pixelated = computed(() => !!selectedGuild.value?.teamgraphicPixelated);
 const finished = ref(false);
 const loading = ref(true);
 const done = ref(0);

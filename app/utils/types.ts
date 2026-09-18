@@ -1,4 +1,4 @@
-export type GuildMeta = { id: string; name: string; icon: string; runningSignup: boolean; teamgraphicShape?: "CIRCLE" | "PENTAGON" };
+export type GuildMeta = { id: string; name: string; icon: string; runningSignup: boolean; teamgraphicShape?: "CIRCLE" | "PENTAGON"; teamgraphicPixelated?: boolean };
 export type ParticipantData = {
   id: number;
   order: number;
