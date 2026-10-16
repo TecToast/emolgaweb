@@ -61,7 +61,12 @@ export default defineNuxtConfig({
   },
   vite: {
     optimizeDeps: {
-      include: []
+      include: [
+        'pinia-shared-state',
+        'vue-advanced-cropper',
+        'vuedraggable',
+        'zod',
+      ]
     }
   },
   icon: {
