@@ -1,4 +1,4 @@
-ARG NODE_VERSION=22.13.0
+ARG NODE_VERSION=26.12.1
 ARG PLATFORM=linux/amd64
 
 # Create build stage
